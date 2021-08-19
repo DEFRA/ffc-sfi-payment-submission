@@ -1,12 +1,12 @@
 version: '3.8'
 
 services:
-  ffc-template-node:
+  ffc-sfi-payment-submission:
     build:
       context: .
       target: production
-    image: ffc-template-node
-    container_name: ffc-template-node
+    image: ffc-sfi-payment-submission
+    container_name: ffc-sfi-payment-submission
     environment:
-      APPINSIGHTS_CLOUDROLE: ffc-template-node-local
+      APPINSIGHTS_CLOUDROLE: ffc-sfi-payment-submission-local
       APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
