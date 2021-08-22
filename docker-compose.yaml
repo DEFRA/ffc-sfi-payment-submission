@@ -7,6 +7,26 @@ services:
       target: production
     image: ffc-sfi-payment-submission
     container_name: ffc-sfi-payment-submission
+    depends_on: 
+      - ffc-sfi-payment-submission-postgres
     environment:
       APPINSIGHTS_CLOUDROLE: ffc-sfi-payment-submission-local
       APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
+      MESSAGE_QUEUE_HOST: ${MESSAGE_QUEUE_HOST:-notset}
+      MESSAGE_QUEUE_PASSWORD: ${MESSAGE_QUEUE_PASSWORD:-notset}
+      MESSAGE_QUEUE_USER: ${MESSAGE_QUEUE_USER:-notset}
+      PAYMENTSUBMIT_TOPIC_ADDRESS: ${PAYMENTSUBMIT_TOPIC_ADDRESS:-notset}
+      PAYMENTSUBMIT_SUBSCRIPTION_ADDRESS: ${PAYMENTSUBMIT_SUBSCRIPTION_ADDRESS:-notset}
+      POSTGRES_DB: ffc_sfi_payments
+      POSTGRES_HOST: ${POSTGRES_HOST:-ffc-sfi-payment-submission-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_SCHEMA_PASSWORD:-ppp}
+      POSTGRES_PORT: 5432
+      POSTGRES_SCHEMA_NAME: ${POSTGRES_SCHEMA_NAME:-public}
+      POSTGRES_USERNAME: ${POSTGRES_SCHEMA_USERNAME:-postgres}
+  
+  ffc-sfi-payment-submission-postgres:
+    image: postgres:11.4-alpine
+    environment:
+      POSTGRES_DB: ffc_sfi_payment_submission
+      POSTGRES_PASSWORD: ppp
+      POSTGRES_USERNAME: postgres
