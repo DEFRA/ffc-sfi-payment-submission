@@ -1,7 +1,6 @@
 jest.mock('ffc-messaging')
-jest.mock('../../app/data')
-jest.useFakeTimers()
-const messageService = require('../../app/messaging')
+jest.mock('../../../app/data')
+const messageService = require('../../../app/messaging')
 
 describe('messaging', () => {
   afterAll(async () => {
