@@ -7,7 +7,7 @@ const savePaymentRequest = async (paymentRequest) => {
   try {
     const existingPaymentRequest = await getExistingPaymentRequest(paymentRequest.invoiceNumber, transaction)
     if (existingPaymentRequest) {
-      console.info('Duplicate payment request received, skipping.')
+      console.info(`Duplicate payment request received, skipping ${existingPaymentRequest.invoiceNumber}`)
       await transaction.rollback()
     } else {
       const savedPaymentRequest = await db.paymentRequest.create(paymentRequest, { transaction })
@@ -20,6 +20,4 @@ const savePaymentRequest = async (paymentRequest) => {
   }
 }
 
-module.exports = {
-  savePaymentRequest
-}
+module.exports = savePaymentRequest

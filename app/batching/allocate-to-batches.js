@@ -46,7 +46,7 @@ const getPendingPaymentRequests = async (ledger, transaction) => {
 
 const allocateToBatch = async (schemes, ledger, created, transaction) => {
   for (const scheme of schemes) {
-    if (scheme.completedPaymentRequests.length) {
+    if (scheme.paymentRequests.length) {
       const sequence = await getAndIncrementSequence(scheme.schemeId, ledger, transaction)
       const batch = await createNewBatch(scheme.schemeId, ledger, sequence, created, transaction)
       await updatePaymentRequests(scheme, batch.batchId, transaction)

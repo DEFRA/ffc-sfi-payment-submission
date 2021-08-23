@@ -13,7 +13,7 @@ const mqSchema = joi.object({
     name: joi.string(),
     address: joi.string(),
     topic: joi.string(),
-    numberOfReceivers: joi.number().default(1)
+    numberOfReceivers: joi.number().default(3)
   }
 })
 const mqConfig = {

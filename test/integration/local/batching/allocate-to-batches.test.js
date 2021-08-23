@@ -138,7 +138,6 @@ describe('allocate to batch', () => {
     await db.scheme.create(scheme)
     await db.sequence.create(sequence)
     await db.paymentRequest.create(paymentRequest)
-    await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
     await allocateToBatch()
     const sequenceResult = await db.sequence.findByPk(sequence.schemeId)

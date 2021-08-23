@@ -5,7 +5,7 @@ const dbConfig = require('./db-config')
 // Define config schema
 const schema = Joi.object({
   env: Joi.string().valid('development', 'test', 'production').default('development'),
-  batchGenerationInterval: Joi.number().default(60000),
+  batchGenerationInterval: Joi.number().default(10000),
   batchSize: Joi.number().default(10000),
   batchCap: Joi.number().default(1)
 })

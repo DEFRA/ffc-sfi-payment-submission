@@ -53,7 +53,6 @@
       <column name="ledger" type="VARCHAR(2)" />
       <column name="agreementNumber" type="VARCHAR(20)" />
       <column name="contractNumber" type="VARCHAR(10)" />
-      <column name="paymentRequestNumber" type="INTEGER" />
       <column name="currency" type="VARCHAR(3)" />
       <column name="schedule" type="VARCHAR(3)" />
       <column name="dueDate" type="VARCHAR(10)" />
