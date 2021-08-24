@@ -23,6 +23,8 @@ services:
       POSTGRES_PORT: 5432
       POSTGRES_SCHEMA_NAME: ${POSTGRES_SCHEMA_NAME:-public}
       POSTGRES_USERNAME: ${POSTGRES_SCHEMA_USERNAME:-postgres}
+      AZURE_STORAGE_ACCOUNT_NAME: ${AZURE_STORAGE_ACCOUNT_NAME:-devstoreaccount1}
+      AZURE_STORAGE_USE_CONNECTION_STRING: "true"
   
   ffc-sfi-payment-submission-postgres:
     image: postgres:11.4-alpine
@@ -30,3 +32,8 @@ services:
       POSTGRES_DB: ffc_sfi_payment_submission
       POSTGRES_PASSWORD: ppp
       POSTGRES_USERNAME: postgres
+
+  ffc-sfi-payment-submission-azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
+    container_name: ffc-sfi-payment-submission-azurite
+    command: "azurite-blob --loose --blobHost 0.0.0.0"
