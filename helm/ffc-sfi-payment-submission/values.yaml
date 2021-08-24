@@ -36,6 +36,9 @@ container:
   messageQueueHost: namespace.servicebus.windows.net
   paymentSubmitTopicAddress: ffc-sfi-payment-submit
   paymentSubmitSubscriptionAddress: ffc-sfi-payment-submit-submission
+  azureStorageAccountName: sfipayments
+  azureStorageConnectionString: dummy
+  azureStorageUseConnectionString: false
 
 postgresService:
   postgresDb: ffc_sfi_payment_submission
