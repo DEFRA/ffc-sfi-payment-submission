@@ -32,6 +32,8 @@ and
 | ---| --- |
 | MESSAGE_QUEUE_HOST | Azure Service Bus hostname, e.g. `myservicebus.servicebus.windows.net` |
 | MESSAGE_QUEUE_PASSWORD | Azure Service Bus SAS policy key |
+| PAYMENTSUBMIT_TOPIC_ADDRESS | Inbound payment requests for batching |
+| PAYMENTSUBMIT_SUBSCRIPTION_ADDRESS | Inbound payment requests for batching |
 
 
 ## Running the application
