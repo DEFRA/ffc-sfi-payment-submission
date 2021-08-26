@@ -24,14 +24,16 @@ When deployed into an appropriately configured AKS
 cluster (where [AAD Pod Identity](https://github.com/Azure/aad-pod-identity) is
 configured) the microservice will use AAD Pod Identity through the manifests
 for
-[azure-identity](./helm/ffc-sfi-agreement-api/templates/azure-identity.yaml)
+[azure-identity](./helm/ffc-sfi-payment-submission/templates/azure-identity.yaml)
 and
-[azure-identity-binding](./helm/ffc-sfi-agreement-api/templates/azure-identity-binding.yaml).
+[azure-identity-binding](./helm/ffc-sfi-payment-submission/templates/azure-identity-binding.yaml).
 
 | Name | Description |
 | ---| --- |
 | MESSAGE_QUEUE_HOST | Azure Service Bus hostname, e.g. `myservicebus.servicebus.windows.net` |
 | MESSAGE_QUEUE_PASSWORD | Azure Service Bus SAS policy key |
+| PAYMENTSUBMIT_TOPIC_ADDRESS | Inbound payment requests for batching |
+| PAYMENTSUBMIT_SUBSCRIPTION_ADDRESS | Inbound payment requests for batching |
 
 
 ## Running the application

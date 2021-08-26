@@ -10,8 +10,17 @@ services:
     image: ffc-sfi-payment-submission-development
     container_name: ffc-sfi-payment-submission-development
     ports:
-      - "3013:3013"
       - "9242:9229"
     volumes:
       - ./app/:/home/node/app/
       - ./package.json:/home/node/package.json
+
+  ffc-sfi-payment-submission-postgres:
+    ports:
+      - "5438:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data: {}
+

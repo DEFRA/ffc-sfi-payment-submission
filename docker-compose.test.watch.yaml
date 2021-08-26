@@ -4,3 +4,5 @@ services:
   ffc-sfi-payment-submission:
     command: >
       sh -c "npm run test:watch"
+    volumes:
+      - ./.git:/home/node/.git
