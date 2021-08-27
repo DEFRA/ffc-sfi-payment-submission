@@ -5,7 +5,6 @@ const publishBatch = async (filename, content) => {
   const body = await stringifyContent(content)
   const outboundBlobClient = await getOutboundBlobClient(filename)
   await outboundBlobClient.upload(body, body.length)
-
   console.info(`Published ${filename}`)
 }
 
