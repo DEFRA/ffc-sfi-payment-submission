@@ -8,6 +8,7 @@ services:
     image: ffc-sfi-payment-submission
     container_name: ffc-sfi-payment-submission
     depends_on: 
+      - ffc-sfi-payment-submission-azurite
       - ffc-sfi-payment-submission-postgres
     environment:
       APPINSIGHTS_CLOUDROLE: ffc-sfi-payment-submission-local
@@ -35,5 +36,4 @@ services:
 
   ffc-sfi-payment-submission-azurite:
     image: mcr.microsoft.com/azure-storage/azurite
-    container_name: ffc-sfi-payment-submission-azurite
     command: "azurite-blob --loose --blobHost 0.0.0.0"
