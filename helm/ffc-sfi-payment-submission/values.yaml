@@ -39,6 +39,9 @@ container:
   azureStorageAccountName: sfipayments
   azureStorageConnectionString: dummy
   azureStorageUseConnectionString: false
+  outboundContainer: ffc-sfi-payment-submission-outbound
+  archiveContainer: ffc-sfi-payment-submission-archive
+  quarantineContainer: ffc-sfi-payment-submission-quarantine
 
 postgresService:
   postgresDb: ffc_sfi_payment_submission

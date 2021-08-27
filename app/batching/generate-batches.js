@@ -11,7 +11,7 @@ const generateBatches = async () => {
   for (const batch of batches) {
     const filename = getFileName(batch)
     const content = getContent(batch)
-    await publishBatch(batch, filename, content)
+    await publishBatch(filename, content)
     await completeBatch(batch.batchId)
   }
 }
