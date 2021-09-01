@@ -10,7 +10,7 @@ services:
     image: ffc-sfi-payment-submission-development
     container_name: ffc-sfi-payment-submission-development
     ports:
-      - "9242:9229"
+      - "9243:9229"
     volumes:
       - ./app/:/home/node/app/
       - ./package.json:/home/node/package.json
