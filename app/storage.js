@@ -15,14 +15,10 @@ if (config.useConnectionStr) {
 }
 
 const outboundContainer = blobServiceClient.getContainerClient(config.outboundContainer)
-const archiveContainer = blobServiceClient.getContainerClient(config.archiveContainer)
-const quarantineContainer = blobServiceClient.getContainerClient(config.quarantineContainer)
 
 const initialiseContainers = async () => {
   console.log('Making sure blob containers exist')
   await outboundContainer.createIfNotExists()
-  await archiveContainer.createIfNotExists()
-  await quarantineContainer.createIfNotExists()
   containersInitialised = true
 }
 
