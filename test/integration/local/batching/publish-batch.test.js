@@ -1,7 +1,6 @@
 const publishBatch = require('../../../../app/batching/publish-batch')
 const { BlobServiceClient } = require('@azure/storage-blob')
 const config = require('../../../../app/config').storageConfig
-const streamToBuffer = require('../../../stream-to-buffer')
 let blobServiceClient
 let outboundContainer
 
@@ -29,8 +28,7 @@ describe('publish batch', () => {
     await publishBatch(filename, content)
 
     const blobClient = outboundContainer.getBlobClient(filename)
-    const downloadResponse = await blobClient.download()
-    const downloaded = await streamToBuffer(downloadResponse.readableStreamBody)
+    const downloaded = await blobClient.downloadToBuffer()
     const downloadedContent = downloaded.toString()
 
     expect(downloadedContent).toContain('Vendor')
