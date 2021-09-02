@@ -10,10 +10,12 @@ services:
     image: ffc-sfi-payment-submission-development
     container_name: ffc-sfi-payment-submission-development
     ports:
-      - "9242:9229"
+      - "9243:9229"
     volumes:
       - ./app/:/home/node/app/
       - ./package.json:/home/node/package.json
+    environment:
+      AZURE_STORAGE_CONNECTION_STRING: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://ffc-sfi-payment-submission-azurite:10000/devstoreaccount1;
 
   ffc-sfi-payment-submission-postgres:
     ports:
@@ -21,6 +23,13 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  ffc-sfi-payment-submission-azurite:
+    volumes:
+      - azurite_data:/data
+    ports:
+      - "10001:10000"
+
 volumes:
-  postgres_data: {}
+  azurite_data:
+  postgres_data:
 
