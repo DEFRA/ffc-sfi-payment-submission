@@ -15,4 +15,23 @@ ignore:
     - ffc-messaging > @azure/identity > @azure/msal-node > axios:
         reason: No fix
         expires: '2021-10-02T09:34:00.175Z'
+  SNYK-JS-ANSIREGEX-1583908:
+    - '@azure/identity > keytar > prebuild-install > npmlog > gauge > strip-ansi > ansi-regex':
+        reason: No fix
+        expires: '2021-10-22T16:14:40.735Z'
+    - '@azure/identity > keytar > prebuild-install > npmlog > gauge > string-width > strip-ansi > ansi-regex':
+        reason: No fix
+        expires: '2021-10-22T16:14:40.735Z'
+    - ffc-messaging > @azure/identity > keytar > prebuild-install > npmlog > gauge > strip-ansi > ansi-regex:
+        reason: No fix
+        expires: '2021-10-22T16:14:40.736Z'
+    - ffc-messaging > @azure/identity > keytar > prebuild-install > npmlog > gauge > string-width > strip-ansi > ansi-regex:
+        reason: No fix
+        expires: '2021-10-22T16:14:40.736Z'
+    - '@azure/identity > keytar > prebuild-install > npmlog > gauge > wide-align > string-width > strip-ansi > ansi-regex':
+        reason: No fix
+        expires: '2021-10-22T16:14:40.736Z'
+    - ffc-messaging > @azure/identity > keytar > prebuild-install > npmlog > gauge > wide-align > string-width > strip-ansi > ansi-regex:
+        reason: No fix
+        expires: '2021-10-22T16:14:40.736Z'
 patch: {}
