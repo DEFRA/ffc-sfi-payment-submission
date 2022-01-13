@@ -1,4 +1,4 @@
 version: '3.8'
 services:
-  ffc-sfi-payment-submission:
+  ffc-pay-submission:
     command: npm run start:debug

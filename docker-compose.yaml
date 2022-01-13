@@ -1,17 +1,17 @@
 version: '3.8'
 
 services:
-  ffc-sfi-payment-submission:
+  ffc-pay-submission:
     build:
       context: .
       target: production
-    image: ffc-sfi-payment-submission
-    container_name: ffc-sfi-payment-submission
+    image: ffc-pay-submission
+    container_name: ffc-pay-submission
     depends_on: 
-      - ffc-sfi-payment-submission-azurite
-      - ffc-sfi-payment-submission-postgres
+      - ffc-pay-submission-azurite
+      - ffc-pay-submission-postgres
     environment:
-      APPINSIGHTS_CLOUDROLE: ffc-sfi-payment-submission-local
+      APPINSIGHTS_CLOUDROLE: ffc-pay-submission-local
       APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
       MESSAGE_QUEUE_HOST: ${MESSAGE_QUEUE_HOST:-notset}
       MESSAGE_QUEUE_PASSWORD: ${MESSAGE_QUEUE_PASSWORD:-notset}
@@ -19,7 +19,7 @@ services:
       PAYMENTSUBMIT_TOPIC_ADDRESS: ${PAYMENTSUBMIT_TOPIC_ADDRESS:-notset}
       PAYMENTSUBMIT_SUBSCRIPTION_ADDRESS: ${PAYMENTSUBMIT_SUBSCRIPTION_ADDRESS:-notset}
       POSTGRES_DB: ffc_sfi_payment_submission
-      POSTGRES_HOST: ${POSTGRES_HOST:-ffc-sfi-payment-submission-postgres}
+      POSTGRES_HOST: ${POSTGRES_HOST:-ffc-pay-submission-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_SCHEMA_PASSWORD:-ppp}
       POSTGRES_PORT: 5432
       POSTGRES_SCHEMA_NAME: ${POSTGRES_SCHEMA_NAME:-public}
@@ -27,13 +27,13 @@ services:
       AZURE_STORAGE_ACCOUNT_NAME: ${AZURE_STORAGE_ACCOUNT_NAME:-devstoreaccount1}
       AZURE_STORAGE_USE_CONNECTION_STRING: "true"
   
-  ffc-sfi-payment-submission-postgres:
+  ffc-pay-submission-postgres:
     image: postgres:11.4-alpine
     environment:
       POSTGRES_DB: ffc_sfi_payment_submission
       POSTGRES_PASSWORD: ppp
       POSTGRES_USERNAME: postgres
 
-  ffc-sfi-payment-submission-azurite:
+  ffc-pay-submission-azurite:
     image: mcr.microsoft.com/azure-storage/azurite
     command: "azurite-blob --loose --blobHost 0.0.0.0"

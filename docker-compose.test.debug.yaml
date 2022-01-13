@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  ffc-sfi-payment-submission:
+  ffc-pay-submission:
     command: npm run test:debug
     ports:
       - "9242:9229"

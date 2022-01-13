@@ -1,8 +1,8 @@
 environment: development
-name: ffc-sfi-payment-submission
+name: ffc-pay-submission
 namespace: ffc-sfi
 workstream: ffc-sfi
-image: ffc-sfi-payment-submission
+image: ffc-pay-submission
 
 labels:
   component: service
@@ -11,10 +11,10 @@ appInsights:
   key:
 
 containerConfigMap:
-  name: ffc-sfi-payment-submission-config-map
+  name: ffc-pay-submission-config-map
 
 containerSecret:
-  name: ffc-sfi-payment-submission-container-secret
+  name: ffc-pay-submission-container-secret
   type: Opaque
 
 deployment:
@@ -34,8 +34,8 @@ container:
   limitMemory: 180Mi
   limitCpu: 120m
   messageQueueHost: namespace.servicebus.windows.net
-  paymentSubmitTopicAddress: ffc-sfi-payment-submit
-  paymentSubmitSubscriptionAddress: ffc-sfi-payment-submit-submission
+  paymentSubmitTopicAddress: ffc-pay-submit
+  paymentSubmitSubscriptionAddress: ffc-pay-submit-submission
   azureStorageAccountName: sfipayments
   azureStorageConnectionString: dummy
   azureStorageUseConnectionString: false
@@ -47,7 +47,7 @@ postgresService:
   # requests should be forwarded. If empty, PostgreSQL is assumed to be
   # within the cluster and accessible via postgresHost
   postgresExternalName:
-  postgresHost: ffc-sfi-payment-submission-postgres
+  postgresHost: ffc-pay-submission-postgres
   postgresPort: 5432
   postgresSchema: public
   postgresUser: postgres
