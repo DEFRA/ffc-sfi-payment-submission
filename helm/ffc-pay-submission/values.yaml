@@ -1,7 +1,7 @@
 environment: development
 name: ffc-pay-submission
-namespace: ffc-sfi
-workstream: ffc-sfi
+namespace: ffc-pay
+workstream: ffc-pay
 image: ffc-pay-submission
 
 labels:
@@ -36,13 +36,13 @@ container:
   messageQueueHost: namespace.servicebus.windows.net
   paymentSubmitTopicAddress: ffc-pay-submit
   paymentSubmitSubscriptionAddress: ffc-pay-submit-submission
-  azureStorageAccountName: sfipayments
+  azureStorageAccountName: payments
   azureStorageConnectionString: dummy
   azureStorageUseConnectionString: false
   outboundContainer: payment-submission-outbound
 
 postgresService:
-  postgresDb: ffc_sfi_payment_submission
+  postgresDb: ffc_pay_submission
   # postgresExternalName is the external host name to which PostgreSQL
   # requests should be forwarded. If empty, PostgreSQL is assumed to be
   # within the cluster and accessible via postgresHost

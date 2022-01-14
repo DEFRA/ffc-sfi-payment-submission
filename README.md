@@ -1,6 +1,6 @@
-# FFC SFI Payment Submission 
+# FFC Payment Submission 
 
-FFC service to submit payment requests to Dynamics 365 for the Sustainable Farming Incentive (SFI).
+FFC service to submit payment requests to Dynamics 365.
 
 ## Prerequisites
 

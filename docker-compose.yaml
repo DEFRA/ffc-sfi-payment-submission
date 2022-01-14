@@ -18,7 +18,7 @@ services:
       MESSAGE_QUEUE_USER: ${MESSAGE_QUEUE_USER:-notset}
       PAYMENTSUBMIT_TOPIC_ADDRESS: ${PAYMENTSUBMIT_TOPIC_ADDRESS:-notset}
       PAYMENTSUBMIT_SUBSCRIPTION_ADDRESS: ${PAYMENTSUBMIT_SUBSCRIPTION_ADDRESS:-notset}
-      POSTGRES_DB: ffc_sfi_payment_submission
+      POSTGRES_DB: ffc_pay_submission
       POSTGRES_HOST: ${POSTGRES_HOST:-ffc-pay-submission-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_SCHEMA_PASSWORD:-ppp}
       POSTGRES_PORT: 5432
@@ -30,7 +30,7 @@ services:
   ffc-pay-submission-postgres:
     image: postgres:11.4-alpine
     environment:
-      POSTGRES_DB: ffc_sfi_payment_submission
+      POSTGRES_DB: ffc_pay_submission
       POSTGRES_PASSWORD: ppp
       POSTGRES_USERNAME: postgres
 
