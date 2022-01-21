@@ -7,17 +7,11 @@ channels:
     subscribe:
       message:
         $ref: '#/components/messages/PaymentRequest'
-    publish:
-      message:
-        $ref: '#/components/messages/PaymentRequest'
 
 components:
   messages:
     PaymentRequest:
       contentType: application/json
-      headers:
-        type: object
-        properties:
       payload:
         type: object
         properties:
