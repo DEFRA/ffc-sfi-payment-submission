@@ -1,8 +1,0 @@
-{{- include "ffc-helm-library.deployment" (list . "ffc-sfi-payment-submission.deployment") -}}
-{{- define "ffc-sfi-payment-submission.deployment" -}}
-spec:
-  template:
-    spec:
-      containers:
-      - {{ include "ffc-helm-library.container" (list . "ffc-sfi-payment-submission.container") }}
-{{- end -}}

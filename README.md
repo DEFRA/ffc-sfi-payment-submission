@@ -1,6 +1,6 @@
-# FFC SFI Payment Submission 
+# FFC Payment Submission 
 
-FFC service to submit payment requests to Dynamics 365 for the Sustainable Farming Incentive (SFI).
+FFC service to submit payment requests to Dynamics 365.
 
 ## Prerequisites
 
@@ -24,16 +24,16 @@ When deployed into an appropriately configured AKS
 cluster (where [AAD Pod Identity](https://github.com/Azure/aad-pod-identity) is
 configured) the microservice will use AAD Pod Identity through the manifests
 for
-[azure-identity](./helm/ffc-sfi-payment-submission/templates/azure-identity.yaml)
+[azure-identity](./helm/ffc-pay-submission/templates/azure-identity.yaml)
 and
-[azure-identity-binding](./helm/ffc-sfi-payment-submission/templates/azure-identity-binding.yaml).
+[azure-identity-binding](./helm/ffc-pay-submission/templates/azure-identity-binding.yaml).
 
 | Name | Description |
 | ---| --- |
 | MESSAGE_QUEUE_HOST | Azure Service Bus hostname, e.g. `myservicebus.servicebus.windows.net` |
 | MESSAGE_QUEUE_PASSWORD | Azure Service Bus SAS policy key |
-| PAYMENTSUBMIT_TOPIC_ADDRESS | Inbound payment requests for batching |
-| PAYMENTSUBMIT_SUBSCRIPTION_ADDRESS | Inbound payment requests for batching |
+| MESSAGE_QUEUE_USER     | Azure Service Bus SAS policy name, e.g. `RootManageSharedAccessKey` |
+| MESSAGE_QUEUE_SUFFIX | Developer initials |
 
 ### Example inbound payment request
 
