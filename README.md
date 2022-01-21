@@ -2,6 +2,35 @@
 
 FFC service to submit payment requests to Dynamics 365 for the Sustainable Farming Incentive (SFI).
 
+### Example inbound payment request
+
+```
+{
+  "sourceSystem": "SFIP",
+  "sbi": 123456789,
+  "frn": 1234567890
+  "marketingYear": 2022,
+  "paymentRequestNumber": 1,
+  "invoiceNumber": "SFI12345678",
+  "agreementNumber": "SFI12345",
+  "contractNumber": "SFI12345",
+  "currency": 'GBP",
+  "schedule": "Q4",
+  "dueDate": "09/11/2022",
+  "value": 100000,
+  "schemeId": "SFI",
+  "ledger": "AP",
+  "deliveryBody": "RP00"
+  "invoiceLines": [{
+    "standardCode": "sfi-arable-soil",
+    "description": "G00 - Gross value of claim",
+    "value": 100000,
+    "schemeCode": "80001",
+    "fundCode": "DOM00"
+  }]
+}
+```
+
 ## Prerequisites
 
 - Access to an instance of an
