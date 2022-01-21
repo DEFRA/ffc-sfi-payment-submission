@@ -4,26 +4,26 @@ version: '3.8'
 # to provide dependencies and expose ports for local testing
 
 services:
-  ffc-sfi-payment-submission:
+  ffc-pay-submission:
     build:
       target: development
-    image: ffc-sfi-payment-submission-development
-    container_name: ffc-sfi-payment-submission-development
+    image: ffc-pay-submission-development
+    container_name: ffc-pay-submission-development
     ports:
       - "9243:9229"
     volumes:
       - ./app:/home/node/app
       - ./package.json:/home/node/package.json
     environment:
-      AZURE_STORAGE_CONNECTION_STRING: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://ffc-sfi-payment-submission-azurite:10000/devstoreaccount1;
+      AZURE_STORAGE_CONNECTION_STRING: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://ffc-pay-submission-azurite:10000/devstoreaccount1;
 
-  ffc-sfi-payment-submission-postgres:
+  ffc-pay-submission-postgres:
     ports:
       - "5438:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  ffc-sfi-payment-submission-azurite:
+  ffc-pay-submission-azurite:
     volumes:
       - azurite_data:/data
     ports:

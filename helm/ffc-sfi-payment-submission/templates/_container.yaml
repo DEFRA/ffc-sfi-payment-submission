@@ -1,2 +1,0 @@
-{{- define "ffc-sfi-payment-submission.container" -}}
-{{- end -}}
