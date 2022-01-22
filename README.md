@@ -51,7 +51,7 @@ and
   "schedule": "Q4",
   "dueDate": "09/11/2022",
   "value": 100000,
-  "schemeId": "SFI",
+  "schemeId": 1,
   "ledger": "AP",
   "deliveryBody": "RP00"
   "invoiceLines": [{
