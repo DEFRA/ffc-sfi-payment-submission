@@ -5,13 +5,16 @@ const { AP, AR } = require('../ledgers')
 const allocateToBatches = async (created = new Date()) => {
   const transaction = await db.sequelize.transaction()
   try {
-    const apPaymentRequests = await getPendingPaymentRequests(AP, transaction)
-    const arPaymentRequests = await getPendingPaymentRequests(AR, transaction)
-    if (apPaymentRequests.length) {
-      await allocateToBatch(apPaymentRequests, AP, created, transaction)
-    }
-    if (arPaymentRequests.length) {
-      await allocateToBatch(arPaymentRequests, AR, created, transaction)
+    const schemes = await getSchemes()
+    for (const scheme of schemes) {
+      const apPaymentRequests = await getPendingPaymentRequests(scheme.schemeId, AP, transaction)
+      const arPaymentRequests = await getPendingPaymentRequests(scheme.schemeId, AR, transaction)
+      if (apPaymentRequests.length) {
+        await allocateToBatch(scheme.schemeId, apPaymentRequests, AP, created, transaction)
+      }
+      if (arPaymentRequests.length) {
+        await allocateToBatch(scheme.schemeId, arPaymentRequests, AR, created, transaction)
+      }
     }
     await transaction.commit()
   } catch (error) {
@@ -20,37 +23,35 @@ const allocateToBatches = async (created = new Date()) => {
   }
 }
 
-const getPendingPaymentRequests = async (ledger, transaction) => {
-  return db.scheme.findAll({
+const getSchemes = async () => {
+  return db.scheme.findAll({ where: { active: true } })
+}
+
+const getPendingPaymentRequests = async (schemeId, ledger, transaction) => {
+  return db.paymentRequest.findAll({
     transaction,
     lock: true,
     skipLocked: true,
     include: [{
-      model: db.paymentRequest,
-      as: 'paymentRequests',
-      required: true,
-      include: [{
-        model: db.invoiceLine,
-        as: 'invoiceLines',
-        required: true
-      }],
-      where: {
-        ledger,
-        batchId: null
-      },
-      order: ['paymentRequestId'],
-      limit: config.batchSize
-    }]
+      model: db.invoiceLine,
+      as: 'invoiceLines',
+      required: true
+    }],
+    where: {
+      ledger,
+      batchId: null,
+      schemeId
+    },
+    order: ['paymentRequestId'],
+    limit: config.batchSize
   })
 }
 
-const allocateToBatch = async (schemes, ledger, created, transaction) => {
-  for (const scheme of schemes) {
-    if (scheme.paymentRequests.length) {
-      const sequence = await getAndIncrementSequence(scheme.schemeId, ledger, transaction)
-      const batch = await createNewBatch(scheme.schemeId, ledger, sequence, created, transaction)
-      await updatePaymentRequests(scheme, batch.batchId, transaction)
-    }
+const allocateToBatch = async (schemeId, paymentRequests, ledger, created, transaction) => {
+  if (paymentRequests.length) {
+    const sequence = await getAndIncrementSequence(schemeId, ledger, transaction)
+    const batch = await createNewBatch(schemeId, ledger, sequence, created, transaction)
+    await updatePaymentRequests(paymentRequests, batch.batchId, transaction)
   }
 }
 
@@ -87,8 +88,8 @@ const createNewBatch = async (schemeId, ledger, sequence, created, transaction) 
   return db.batch.create({ schemeId, ledger, sequence, created }, { transaction })
 }
 
-const updatePaymentRequests = async (scheme, batchId, transaction) => {
-  for (const paymentRequest of scheme.paymentRequests) {
+const updatePaymentRequests = async (paymentRequests, batchId, transaction) => {
+  for (const paymentRequest of paymentRequests) {
     await db.paymentRequest.update({ batchId }, {
       where: {
         paymentRequestId: paymentRequest.paymentRequestId
