@@ -41,19 +41,19 @@ and
 {
   "sourceSystem": "SFIP",
   "sbi": 123456789,
-  "frn": 1234567890
+  "frn": 1234567890,
   "marketingYear": 2022,
   "paymentRequestNumber": 1,
   "invoiceNumber": "S123456789A123456V001",
   "agreementNumber": "SFI12345",
   "contractNumber": "SFI12345",
-  "currency": 'GBP",
+  "currency": "GBP",
   "schedule": "Q4",
   "dueDate": "09/11/2022",
   "value": 100000,
   "schemeId": 1,
   "ledger": "AP",
-  "deliveryBody": "RP00"
+  "deliveryBody": "RP00",
   "invoiceLines": [{
     "standardCode": "sfi-arable-soil",
     "description": "G00 - Gross value of claim",
