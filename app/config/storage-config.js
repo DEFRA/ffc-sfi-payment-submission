@@ -4,7 +4,7 @@ const Joi = require('joi')
 const schema = Joi.object({
   connectionStr: Joi.string().when('useConnectionStr', { is: true, then: Joi.required(), otherwise: Joi.allow('').optional() }),
   storageAccount: Joi.string().required(),
-  outboundContainer: Joi.string().default('payment-submission-outbound'),
+  outboundContainer: Joi.string().default('dax-outbound'),
   useConnectionStr: Joi.boolean().default(false)
 })
 

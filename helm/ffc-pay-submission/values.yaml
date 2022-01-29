@@ -39,7 +39,7 @@ container:
   azureStorageAccountName: ffcpay
   azureStorageConnectionString: dummy
   azureStorageUseConnectionString: false
-  outboundContainer: payment-submission-outbound
+  outboundContainer: dax-outbound
 
 postgresService:
   postgresDb: ffc_pay_submission
