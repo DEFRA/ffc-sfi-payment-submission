@@ -13,17 +13,24 @@ if (config.useConnectionStr) {
   blobServiceClient = new BlobServiceClient(uri, new DefaultAzureCredential())
 }
 
-const outboundContainer = blobServiceClient.getContainerClient(config.outboundContainer)
+const container = blobServiceClient.getContainerClient(config.container)
 
 const initialiseContainers = async () => {
   console.log('Making sure blob containers exist')
-  await outboundContainer.createIfNotExists()
+  await container.createIfNotExists()
+  await initialiseFolders()
   containersInitialised = true
+}
+
+async function initialiseFolders () {
+  const placeHolderText = 'Placeholder'
+  const client = container.getBlockBlobClient(`${config.folder}/default.txt`)
+  await client.upload(placeHolderText, placeHolderText.length)
 }
 
 const getOutboundBlobClient = async (filename) => {
   containersInitialised ?? await initialiseContainers()
-  return outboundContainer.getBlockBlobClient(filename)
+  return container.getBlockBlobClient(`${config.folder}/${filename}`)
 }
 
 module.exports = {

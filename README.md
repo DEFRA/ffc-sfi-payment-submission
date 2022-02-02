@@ -64,6 +64,14 @@ and
 }
 ```
 
+## Azure Storage
+
+This repository writes files to Azure Blob Storage within a `dax` container.
+
+The following directory is automatically created within this container:
+
+- `outbound` - files ready for DAX
+
 ## Running the application
 
 The application is designed to run in containerised environments, using Docker Compose in development and Kubernetes in production.
