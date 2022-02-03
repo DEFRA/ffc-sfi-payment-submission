@@ -9,11 +9,9 @@ const getContent = (batch) => {
     for (const vendorGroup of vendorGroups) {
       const vendor = batch.ledger === AP ? getVendorLineAP(paymentRequest, vendorGroup, batch) : getVendorLineAR(paymentRequest, vendorGroup, batch)
       rows.push(vendor)
-      let lineId = 1
-      for (const invoiceLine of vendorGroup.invoiceLines) {
-        const ledger = batch.ledger === AP ? getLedgerLineAP(invoiceLine, paymentRequest, lineId) : getLedgerLineAR(invoiceLine, paymentRequest, lineId)
+      for (const [lineId, invoiceLine] of vendorGroup.invoiceLines.entries()) {
+        const ledger = batch.ledger === AP ? getLedgerLineAP(invoiceLine, paymentRequest, lineId + 1) : getLedgerLineAR(invoiceLine, paymentRequest, lineId + 1)
         rows.push(ledger)
-        lineId++
       }
     }
   }
