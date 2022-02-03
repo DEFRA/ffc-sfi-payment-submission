@@ -55,11 +55,12 @@ and
   "ledger": "AP",
   "deliveryBody": "RP00",
   "invoiceLines": [{
-    "standardCode": "sfi-arable-soil",
+    "schemeCode": "80001",
     "description": "G00 - Gross value of claim",
     "value": 100000,
     "schemeCode": "80001",
-    "fundCode": "DOM00"
+    "fundCode": "DOM00",
+    "accountCode": "SOS100"
   }]
 }
 ```
