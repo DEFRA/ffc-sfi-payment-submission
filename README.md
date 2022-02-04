@@ -40,7 +40,6 @@ and
 ```
 {
   "sourceSystem": "SFIP",
-  "sbi": 123456789,
   "frn": 1234567890,
   "marketingYear": 2022,
   "paymentRequestNumber": 1,
