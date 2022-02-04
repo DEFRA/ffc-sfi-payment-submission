@@ -1,6 +1,6 @@
 const { convertToPounds } = require('../currency-convert')
 
-const getLedgerLineAP = (invoiceLine, paymentRequest) => {
+const getLedgerLineAP = (invoiceLine, paymentRequest, lineId) => {
   return [
     'Ledger',
     invoiceLine.accountCode,
@@ -16,7 +16,7 @@ const getLedgerLineAP = (invoiceLine, paymentRequest) => {
     '',
     '',
     '',
-    '',
+    lineId,
     '',
     '',
     invoiceLine.description,
@@ -35,8 +35,8 @@ const getLedgerLineAP = (invoiceLine, paymentRequest) => {
   ]
 }
 
-const getLedgerLineAR = (invoiceLine, paymentRequest) => {
-  return getLedgerLineAP(invoiceLine, paymentRequest)
+const getLedgerLineAR = (invoiceLine, paymentRequest, lineId) => {
+  return getLedgerLineAP(invoiceLine, paymentRequest, lineId)
 }
 
 module.exports = {
