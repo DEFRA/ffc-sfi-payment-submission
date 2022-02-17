@@ -5,13 +5,22 @@ const { AP } = require('../ledgers')
 const getContent = (batch) => {
   const rows = []
   for (const paymentRequest of batch.paymentRequests) {
-    const vendorGroups = getVendorGroups(paymentRequest.invoiceLines)
-    for (const vendorGroup of vendorGroups) {
-      const vendor = batch.ledger === AP ? getVendorLineAP(paymentRequest, vendorGroup, batch) : getVendorLineAR(paymentRequest, vendorGroup, batch)
+    if (batch.ledger === AP) {
+      const vendor = getVendorLineAP(paymentRequest, batch)
       rows.push(vendor)
-      for (const [lineId, invoiceLine] of vendorGroup.invoiceLines.entries()) {
-        const ledger = batch.ledger === AP ? getLedgerLineAP(invoiceLine, paymentRequest, lineId + 1) : getLedgerLineAR(invoiceLine, paymentRequest, lineId + 1)
+      for (const [lineId, invoiceLine] of paymentRequest.invoiceLines.entries()) {
+        const ledger = getLedgerLineAP(invoiceLine, paymentRequest, lineId + 1)
         rows.push(ledger)
+      }
+    } else {
+      const vendorGroups = getVendorGroups(paymentRequest.invoiceLines)
+      for (const vendorGroup of vendorGroups) {
+        const vendor = getVendorLineAR(paymentRequest, vendorGroup, batch)
+        rows.push(vendor)
+        for (const [lineId, invoiceLine] of vendorGroup.invoiceLines.entries()) {
+          const ledger = getLedgerLineAR(invoiceLine, paymentRequest, lineId + 1)
+          rows.push(ledger)
+        }
       }
     }
   }

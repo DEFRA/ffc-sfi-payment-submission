@@ -31,13 +31,13 @@ describe('get content', () => {
           fundCode: 'DRD10',
           schemeCode: '80009',
           accountCode: 'SOS710',
-          description: 'G00 - Gross value of payment',
+          description: 'G00 - Gross value of claim',
           value: 500000
         }, {
           fundCode: 'DRD10',
           schemeCode: '80005',
           accountCode: 'SOS710',
-          description: 'G00 - Gross value of payment',
+          description: 'G00 - Gross value of claim',
           value: 106700
         }, {
           fundCode: 'DRD10',
@@ -49,7 +49,7 @@ describe('get content', () => {
           fundCode: 'DRD10',
           schemeCode: '80003',
           accountCode: 'SOS710',
-          description: 'G00 - Gross value of payment',
+          description: 'G00 - Gross value of claim',
           value: 12000
         }, {
           fundCode: 'DRD10',
@@ -120,7 +120,7 @@ describe('get content', () => {
         1,
         '',
         '',
-        'G00 - Gross value of payment',
+        'G00 - Gross value of claim',
         '',
         '',
         '',
@@ -181,7 +181,7 @@ describe('get content', () => {
         '',
         '',
         '',
-        1,
+        3,
         '',
         '',
         'P24 - Over declaration reduction',
@@ -213,10 +213,10 @@ describe('get content', () => {
         '',
         '',
         '',
-        1,
+        4,
         '',
         '',
-        'G00 - Gross value of payment',
+        'G00 - Gross value of claim',
         '',
         '',
         '',
@@ -245,7 +245,7 @@ describe('get content', () => {
         '',
         '',
         '',
-        2,
+        5,
         '',
         '',
         'P24 - Over declaration reduction',
@@ -295,7 +295,7 @@ describe('get content', () => {
       ],
       [
         'L',
-        'G00 - Gross value of payment',
+        'G00 - Gross value of claim',
         'SOS710',
         '5000.00',
         '',
@@ -336,7 +336,7 @@ describe('get content', () => {
       ],
       [
         'L',
-        'G00 - Gross value of payment',
+        'G00 - Gross value of claim',
         'SOS710',
         '1067.00',
         '',
@@ -393,7 +393,7 @@ describe('get content', () => {
       ],
       [
         'L',
-        'G00 - Gross value of payment',
+        'G00 - Gross value of claim',
         'SOS710',
         '120.00',
         '',

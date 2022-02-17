@@ -1,16 +1,16 @@
 const { convertToPounds } = require('../currency-convert')
 
-const getVendorLineAP = (paymentRequest, vendorGroup, batch) => {
+const getVendorLineAP = (paymentRequest, batch) => {
   return [
     'Vendor',
     paymentRequest.frn,
     '',
-    vendorGroup.fundCode,
-    vendorGroup.schemeCode,
+    paymentRequest.invoiceLines[0].fundCode,
+    paymentRequest.invoiceLines[0].schemeCode,
     paymentRequest.marketingYear,
     paymentRequest.deliveryBody,
     paymentRequest.invoiceNumber,
-    convertToPounds(vendorGroup.value),
+    convertToPounds((paymentRequest.value * -1)),
     paymentRequest.currency,
     'legacy',
     '',
