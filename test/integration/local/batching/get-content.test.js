@@ -1,10 +1,12 @@
 const getContent = require('../../../../app/batching/get-content')
+const { AP, AR } = require('../../../../app/ledgers')
 let batch
 
 describe('get content', () => {
   beforeEach(async () => {
     batch = {
       sequence: 1,
+      ledger: AP,
       scheme: {
         batchProperties: {
           source: 'SitiELM'
@@ -20,6 +22,10 @@ describe('get content', () => {
         contractNumber: 'SIP123456',
         dueDate: '02/08/2021',
         schedule: 'M12',
+        originalInvoiceNumber: 'SFI12345678',
+        invoiceCorrectionReference: 'SFI87654321',
+        recoveryDate: '03/08/2021',
+        debtType: 'irr',
         invoiceLines: [{
           fundCode: 'DRD10',
           schemeCode: '80001',
@@ -60,7 +66,7 @@ describe('get content', () => {
     expect(Array.isArray(content)).toBeTruthy()
   })
 
-  test('should include correct content', async () => {
+  test('should include correct content for AP', async () => {
     const content = await getContent(batch)
     expect(content).toStrictEqual([
       [
@@ -315,6 +321,169 @@ describe('get content', () => {
         '',
         '',
         'SFI12345678',
+        '',
+        'END'
+      ]
+    ])
+  })
+
+  test('should include correct content for AR', async () => {
+    batch.ledger = AR
+    const content = await getContent(batch)
+    expect(content).toStrictEqual([
+      [
+        'H',
+        1234567890,
+        '',
+        'GBP',
+        'No',
+        'SFI12345678',
+        'None',
+        '',
+        'SitiELM',
+        '',
+        'SFI12345678',
+        'SFI87654321',
+        'No',
+        1234567890,
+        '',
+        'GBP',
+        '',
+        'DRD10',
+        '80001',
+        2022,
+        'RP00',
+        'END'
+      ],
+      [
+        'L',
+        'G00 - Gross value of payment',
+        'SOS273',
+        '100.21',
+        '',
+        '02/08/2021',
+        '03/08/2021',
+        '',
+        '',
+        'DRD10',
+        '80001',
+        2022,
+        'RP00',
+        '',
+        'END'
+      ],
+      [
+        'L',
+        'P02 - Over declaration penalty',
+        'SOS273',
+        '-20.05',
+        '',
+        '02/08/2021',
+        '03/08/2021',
+        '',
+        '',
+        'DRD10',
+        '80001',
+        2022,
+        'RP00',
+        '',
+        'END'
+      ],
+      [
+        'H',
+        1234567890,
+        '',
+        'GBP',
+        'No',
+        'SFI12345678',
+        'None',
+        '',
+        'SitiELM',
+        '',
+        'SFI12345678',
+        'SFI87654321',
+        'No',
+        1234567890,
+        '',
+        'GBP',
+        '',
+        'DRD10',
+        '80002',
+        2022,
+        'RP00',
+        'END'
+      ],
+      [
+        'L',
+        'G00 - Gross value of payment',
+        'SOS274',
+        '100.00',
+        '',
+        '02/08/2021',
+        '03/08/2021',
+        '',
+        '',
+        'DRD10',
+        '80002',
+        2022,
+        'RP00',
+        '',
+        'END'
+      ], [
+        'H',
+        1234567890,
+        '',
+        'GBP',
+        'No',
+        'SFI12345678',
+        'None',
+        '',
+        'SitiELM',
+        '',
+        'SFI12345678',
+        'SFI87654321',
+        'No',
+        1234567890,
+        '',
+        'GBP',
+        '',
+        'DRD10',
+        '80003',
+        2022,
+        'RP00',
+        'END'
+      ],
+      [
+        'L',
+        'G00 - Gross value of payment',
+        'SOS277',
+        '0.20',
+        '',
+        '02/08/2021',
+        '03/08/2021',
+        '',
+        '',
+        'DRD10',
+        '80003',
+        2022,
+        'RP00',
+        '',
+        'END'
+      ],
+      [
+        'L',
+        'P02 - Over declaration penalty',
+        'SOS275',
+        '-0.10',
+        '',
+        '02/08/2021',
+        '03/08/2021',
+        '',
+        '',
+        'DRD10',
+        '80003',
+        2022,
+        'RP00',
         '',
         'END'
       ]

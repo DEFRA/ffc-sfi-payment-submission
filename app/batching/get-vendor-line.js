@@ -36,7 +36,30 @@ const getVendorLineAP = (paymentRequest, vendorGroup, batch) => {
 }
 
 const getVendorLineAR = (paymentRequest, vendorGroup, batch) => {
-  return getVendorLineAP(paymentRequest, vendorGroup, batch)
+  return [
+    'H',
+    paymentRequest.frn,
+    '',
+    paymentRequest.currency,
+    'No',
+    paymentRequest.invoiceNumber,
+    'None',
+    '',
+    batch.scheme.batchProperties.source,
+    '',
+    paymentRequest.originalInvoiceNumber,
+    paymentRequest.invoiceCorrectionReference,
+    'No',
+    paymentRequest.frn,
+    '',
+    paymentRequest.currency,
+    '',
+    vendorGroup.fundCode,
+    vendorGroup.schemeCode,
+    paymentRequest.marketingYear,
+    paymentRequest.deliveryBody,
+    'END'
+  ]
 }
 
 module.exports = {
