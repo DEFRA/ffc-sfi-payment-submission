@@ -15,4 +15,7 @@ data:
   AZURE_STORAGE_USE_CONNECTION_STRING: {{ quote .Values.container.azureStorageUseConnectionString }}
   AZURE_STORAGE_CONTAINER: {{ quote .Values.container.storageContainer }}
   AZURE_STORAGE_FOLDER: {{ quote .Values.container.storageFolder }}
+  BATCH_INTERVAL: {{ quote .Values.container.batchGenerationInterval }}
+  BATCH_SIZE: {{ quote .Values.container.batchSize }}
+  BATCH_CAP: {{ quote .Values.container.batchCap }}
 {{- end -}}
