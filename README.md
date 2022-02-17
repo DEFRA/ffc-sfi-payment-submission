@@ -78,8 +78,7 @@ Ledger,SOS275,,DRD10,80003,2022,RP00,SFI12345678,-0.10,GBP,legacy,,,,2,,,P02 - O
 ```
 
 ##### Specification
-
-###### Vendor line
+##### Vendor line
 
 | Name | Description |
 | ---- | ----------- |
@@ -114,7 +113,7 @@ Ledger,SOS275,,DRD10,80003,2022,RP00,SFI12345678,-0.10,GBP,legacy,,,,2,,,P02 - O
 | Payment schedule | Schedule to split payment value over, eg `Q4` for quarterly payments |
 | Line end | Always `END` |
 
-###### Ledger line
+##### Ledger line
 
 | Name | Description |
 | ---- | ----------- |
@@ -160,6 +159,54 @@ H,1234567890,,GBP,No,SFI12345678,None,,SitiELM,,SFI12345678,SFI87654321,No,12345
 L,G00 - Gross value of payment,SOS277,0.20,,02/08/2021,03/08/2021,,,DRD10,80003,2022,RP00,,END
 L,P02 - Over declaration penalty,SOS275,-0.10,,02/08/2021,03/08/2021,,,DRD10,80003,2022,RP00,,END
 ```
+
+##### Specification
+###### Vendor line
+
+| Name | Description |
+| ---- | ----------- |
+| Line type | Always `H` |
+| FRN | Firm Reference Number |
+| Empty value | Not used |
+| Currency | Currency of request, eg `GBP` |
+| Unknown | Always `No` |
+| Invoice number | Unique identifier for request |
+| Unknown | Always `None` |
+| Empty value | Not used |
+| Source system | Service payment request originated from, eg `SitiELM` |
+| Empty value | Not used |
+| Original invoice number | Original invoice number if invoice split |
+| Invoice correction reference | Invoice number of AR correction request if AR correction |
+| Unknown | Always `No` |
+| FRN | Firm Reference Number |
+| Empty value | Not used |
+| Currency | Currency of request, eg `GBP` |
+| Empty value | Not used |
+| Fund code | Fund code, eg `DRD10` |
+| Scheme code | Scheme code, eg `80001` |
+| Marketing year | Scheme year for agreement |
+| Delivery body | Delivery body delivering payment, eg `RP00` |
+| Line end | Always `END` |
+
+###### Ledger line
+
+| Name | Description |
+| ---- | ----------- |
+| Line type | Always `L` |
+| Line description | Description of invoice line, eg `G00 - Gross value of payment` |
+| Account code | Account code eg. `SOS270` |
+| Value | Total value of invoice line in decimal |
+| Empty value | Not used |
+| Due date | Earliest date to make payment in format `DD/MM/YYYY` |
+| Recovery date | Date overpayment identified in format `DD/MM/YYYY` |
+| Empty value | Not used |
+| Empty value | Not used |
+| Fund code | Fund code, eg `DRD10` |
+| Scheme code | Scheme code, eg `80001` |
+| Marketing year | Scheme year for agreement |
+| Delivery body | Delivery body delivering payment, eg `RP00` |
+| Empty value | Not used |
+| Line end | Always `END` |
 
 ## Azure Storage
 
