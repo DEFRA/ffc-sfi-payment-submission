@@ -3,28 +3,32 @@ const { getVendorLineAP, getVendorLineAR } = require('./get-vendor-line')
 const { AP } = require('../ledgers')
 
 const getContent = (batch) => {
-  const rows = []
+  let rows = []
   for (const paymentRequest of batch.paymentRequests) {
-    if (batch.ledger === AP) {
-      const vendor = getVendorLineAP(paymentRequest, batch)
-      rows.push(vendor)
-      for (const [lineId, invoiceLine] of paymentRequest.invoiceLines.entries()) {
-        const ledger = getLedgerLineAP(invoiceLine, paymentRequest, lineId + 1)
-        rows.push(ledger)
-      }
-    } else {
-      const vendorGroups = getVendorGroups(paymentRequest.invoiceLines)
-      for (const vendorGroup of vendorGroups) {
-        const vendor = getVendorLineAR(paymentRequest, vendorGroup, batch)
-        rows.push(vendor)
-        for (const [lineId, invoiceLine] of vendorGroup.invoiceLines.entries()) {
-          const ledger = getLedgerLineAR(invoiceLine, paymentRequest, lineId + 1)
-          rows.push(ledger)
-        }
-      }
+    const content = batch.ledger === AP ? getAPContent(paymentRequest, batch) : getARContent(paymentRequest, batch)
+    rows = rows.concat(content)
+  }
+  return rows
+}
+
+const getAPContent = (paymentRequest, batch) => {
+  const rows = []
+  rows.push(getVendorLineAP(paymentRequest, batch))
+  for (const [lineId, invoiceLine] of paymentRequest.invoiceLines.entries()) {
+    rows.push(getLedgerLineAP(invoiceLine, paymentRequest, lineId + 1))
+  }
+  return rows
+}
+
+const getARContent = (paymentRequest, batch) => {
+  const rows = []
+  const vendorGroups = getVendorGroups(paymentRequest.invoiceLines)
+  for (const vendorGroup of vendorGroups) {
+    rows.push(getVendorLineAR(paymentRequest, vendorGroup, batch))
+    for (const [lineId, invoiceLine] of vendorGroup.invoiceLines.entries()) {
+      rows.push(getLedgerLineAR(invoiceLine, paymentRequest, lineId + 1))
     }
   }
-
   return rows
 }
 
