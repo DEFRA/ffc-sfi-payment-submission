@@ -41,7 +41,7 @@ container:
   azureStorageUseConnectionString: false
   storageContainer: dax
   storageFolder: outbound
-  batchGenerationInterval: 600000
+  batchGenerationInterval: 60000
   batchSize: 10000
   batchCap: 1
 
