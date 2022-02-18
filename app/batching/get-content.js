@@ -12,8 +12,9 @@ const getContent = (batch) => {
 }
 
 const getAPContent = (paymentRequest, batch) => {
+  const highestValueLine = getHighestValueLine(paymentRequest.invoiceLines)
   const rows = []
-  rows.push(getVendorLineAP(paymentRequest, batch))
+  rows.push(getVendorLineAP(paymentRequest, batch, highestValueLine))
   for (const [lineId, invoiceLine] of paymentRequest.invoiceLines.entries()) {
     rows.push(getLedgerLineAP(invoiceLine, paymentRequest, lineId + 1))
   }
@@ -30,6 +31,10 @@ const getARContent = (paymentRequest, batch) => {
     }
   }
   return rows
+}
+
+const getHighestValueLine = (invoiceLines) => {
+  return invoiceLines.reduce((prev, current) => (+prev.value > +current.value) ? prev : current)
 }
 
 const getVendorGroups = (invoiceLines) => {

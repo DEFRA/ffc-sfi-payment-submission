@@ -1,12 +1,12 @@
 const { convertToPounds } = require('../currency-convert')
 
-const getVendorLineAP = (paymentRequest, batch) => {
+const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
   return [
     'Vendor',
     paymentRequest.frn,
     '',
-    paymentRequest.invoiceLines[0].fundCode,
-    paymentRequest.invoiceLines[0].schemeCode,
+    highestValueLine.fundCode,
+    highestValueLine.schemeCode,
     paymentRequest.marketingYear,
     paymentRequest.deliveryBody,
     paymentRequest.invoiceNumber,
