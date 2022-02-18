@@ -63,6 +63,151 @@ and
 }
 ```
 
+## DAX file specification
+### SFI Pilot
+#### Example AP file
+```
+Vendor,1234567890,,DRD10,80001,2022,RP00,SFI12345678,80.16,GBP,legacy,,SIP123456,0,,1,,,,BACS_GBP,SitiELM,,0001,,02/08/2021,GBP,,,M12,END
+Ledger,SOS273,,DRD10,80001,2022,RP00,SFI12345678,100.21,GBP,legacy,,,,1,,,G00 - Gross value of payment,,,,,,,,,,SFI12345678,,END
+Ledger,SOS273,,DRD10,80001,2022,RP00,SFI12345678,-20.05,GBP,legacy,,,,2,,,P02 - Over declaration penalty,,,,,,,,,,SFI12345678,,END
+Vendor,1234567890,,DRD10,80002,2022,RP00,SFI12345678,100.00,GBP,legacy,,SIP123456,0,,1,,,,BACS_GBP,SitiELM,,0001,,02/08/2021,GBP,,,M12,END
+Ledger,SOS274,,DRD10,80002,2022,RP00,SFI12345678,100.00,GBP,legacy,,,,1,,,G00 - Gross value of payment,,,,,,,,,,SFI12345678,,END
+Vendor,1234567890,,DRD10,80003,2022,RP00,SFI12345678,0.10,GBP,legacy,,SIP123456,0,,1,,,,BACS_GBP,SitiELM,,0001,,02/08/2021,GBP,,,M12,END
+Ledger,SOS277,,DRD10,80003,2022,RP00,SFI12345678,0.20,GBP,legacy,,,,1,,,G00 - Gross value of payment,,,,,,,,,,SFI12345678,,END
+Ledger,SOS275,,DRD10,80003,2022,RP00,SFI12345678,-0.10,GBP,legacy,,,,2,,,P02 - Over declaration penalty,,,,,,,,,,SFI12345678,,END
+```
+
+##### Specification
+##### Vendor line
+
+| Name | Description |
+| ---- | ----------- |
+| Line type | Always `Vendor` |
+| FRN | Firm Reference Number |
+| Empty value | Not used |
+| Fund code | Fund code, eg `DRD10` |
+| Scheme code | Scheme code, eg `80001` |
+| Marketing year | Scheme year for agreement |
+| Delivery body | Delivery body delivering payment, eg `RP00` |
+| Invoice number | Unique identifier for request |
+| Value | Total value for funding group in decimal |
+| Currency | Currency of request, eg `GBP` |
+| Legacy farmer account | Always `legacy` |
+| Empty value | Not used |
+| Contract number | Unique contract number for agreement |
+| Advance payment | `0` for `true`, `1` for `false`, always `0` |
+| Empty value | Not used |
+| Approved | `0` for `false`, `1` for `true` |
+| Empty value | Not used |
+| Empty value | Not used |
+| Empty value | Not used |
+| Payment method and currency | Format, `METHOD_CURRENCY`, eg. `BACS_GBP` |
+| Source system | Service payment request originated from, eg `SitiELM` |
+| Empty value | Not used |
+| Batch sequence number | Unique identifier of batch file for ledger, eg `0001` |
+| Empty value | Not used |
+| Due date | Earliest date to make payment in format `DD/MM/YYYY` |
+| Currency | Currency of request, eg `GBP` |
+| Empty value | Not used |
+| Empty value | Not used |
+| Payment schedule | Schedule to split payment value over, eg `Q4` for quarterly payments |
+| Line end | Always `END` |
+
+##### Ledger line
+
+| Name | Description |
+| ---- | ----------- |
+| Line type | Always `Ledger` |
+| Account code | Account code eg. `SOS270` |
+| Empty value | Not used |
+| Fund code | Fund code, eg `DRD10` |
+| Scheme code | Scheme code, eg `80001` |
+| Marketing year | Scheme year for agreement |
+| Delivery body | Delivery body delivering payment, eg `RP00` |
+| Invoice number | Unique identifier for request |
+| Value | Total value of invoice line in decimal |
+| Currency | Currency of request, eg `GBP` |
+| Legacy farmer account | Always `legacy` |
+| Empty value | Not used |
+| Empty value | Not used |
+| Empty value | Not used |
+| Line number | Incremental identifier for invoice line |
+| Empty value | Not used |
+| Empty value | Not used |
+| Line description | Description of invoice line, eg `G00 - Gross value of payment` |
+| Empty value | Not used |
+| Empty value | Not used |
+| Empty value | Not used |
+| Empty value | Not used |
+| Empty value | Not used |
+| Empty value | Not used |
+| Empty value | Not used |
+| Empty value | Not used |
+| Empty value | Not used |
+| Invoice number | Unique identifier for request |
+| Empty value | Not used |
+| Line end | Always `END` |
+
+#### Example AR file
+```
+H,1234567890,,GBP,No,SFI12345678,None,,SitiELM,,SFI12345678,SFI87654321,No,1234567890,,GBP,,DRD10,80001,2022,RP00,END
+L,G00 - Gross value of payment,SOS273,100.21,,02/08/2021,03/08/2021,,,DRD10,80001,2022,RP00,,END
+L,P02 - Over declaration penalty,SOS273,-20.05,,02/08/2021,03/08/2021,,,DRD10,80001,2022,RP00,,END
+H,1234567890,,GBP,No,SFI12345678,None,,SitiELM,,SFI12345678,SFI87654321,No,1234567890,,GBP,,DRD10,80002,2022,RP00,END
+L,G00 - Gross value of payment,SOS274,100.00,,02/08/2021,03/08/2021,,,DRD10,80002,2022,RP00,,END
+H,1234567890,,GBP,No,SFI12345678,None,,SitiELM,,SFI12345678,SFI87654321,No,1234567890,,GBP,,DRD10,80003,2022,RP00,END
+L,G00 - Gross value of payment,SOS277,0.20,,02/08/2021,03/08/2021,,,DRD10,80003,2022,RP00,,END
+L,P02 - Over declaration penalty,SOS275,-0.10,,02/08/2021,03/08/2021,,,DRD10,80003,2022,RP00,,END
+```
+
+##### Specification
+###### Vendor line
+
+| Name | Description |
+| ---- | ----------- |
+| Line type | Always `H` |
+| FRN | Firm Reference Number |
+| Empty value | Not used |
+| Currency | Currency of request, eg `GBP` |
+| Unknown | Always `No` |
+| Invoice number | Unique identifier for request |
+| Unknown | Always `None` |
+| Empty value | Not used |
+| Source system | Service payment request originated from, eg `SitiELM` |
+| Empty value | Not used |
+| Original invoice number | Original invoice number if invoice split |
+| Invoice correction reference | Invoice number of AR correction request if AR correction |
+| Unknown | Always `No` |
+| FRN | Firm Reference Number |
+| Empty value | Not used |
+| Currency | Currency of request, eg `GBP` |
+| Empty value | Not used |
+| Fund code | Fund code, eg `DRD10` |
+| Scheme code | Scheme code, eg `80001` |
+| Marketing year | Scheme year for agreement |
+| Delivery body | Delivery body delivering payment, eg `RP00` |
+| Line end | Always `END` |
+
+###### Ledger line
+
+| Name | Description |
+| ---- | ----------- |
+| Line type | Always `L` |
+| Line description | Description of invoice line, eg `G00 - Gross value of payment` |
+| Account code | Account code eg. `SOS270` |
+| Value | Total value of invoice line in decimal |
+| Empty value | Not used |
+| Due date | Earliest date to make payment in format `DD/MM/YYYY` |
+| Recovery date | Date overpayment identified in format `DD/MM/YYYY` |
+| Empty value | Not used |
+| Empty value | Not used |
+| Fund code | Fund code, eg `DRD10` |
+| Scheme code | Scheme code, eg `80001` |
+| Marketing year | Scheme year for agreement |
+| Delivery body | Delivery body delivering payment, eg `RP00` |
+| Empty value | Not used |
+| Line end | Always `END` |
+
 ## Azure Storage
 
 This repository writes files to Azure Blob Storage within a `dax` container.

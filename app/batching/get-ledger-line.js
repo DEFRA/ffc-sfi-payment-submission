@@ -36,7 +36,23 @@ const getLedgerLineAP = (invoiceLine, paymentRequest, lineId) => {
 }
 
 const getLedgerLineAR = (invoiceLine, paymentRequest, lineId) => {
-  return getLedgerLineAP(invoiceLine, paymentRequest, lineId)
+  return [
+    'L',
+    invoiceLine.description,
+    invoiceLine.accountCode,
+    convertToPounds(invoiceLine.value),
+    '',
+    paymentRequest.dueDate,
+    paymentRequest.recoveryDate,
+    '',
+    '',
+    invoiceLine.fundCode,
+    invoiceLine.schemeCode,
+    paymentRequest.marketingYear,
+    paymentRequest.deliveryBody,
+    '',
+    'END'
+  ]
 }
 
 module.exports = {
