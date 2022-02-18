@@ -5,8 +5,7 @@ const completeBatch = async (batchId) => {
   try {
     const batch = await db.batch.findByPk(batchId, {
       transaction,
-      lock: true,
-      skipLocked: true
+      lock: true
     })
     // Check if completed already in case of duplicate processing
     if (batch.published === null) {
