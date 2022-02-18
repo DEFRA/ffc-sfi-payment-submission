@@ -34,7 +34,7 @@ const getARContent = (paymentRequest, batch) => {
 }
 
 const getHighestValueLine = (invoiceLines) => {
-  return invoiceLines.reduce((prev, current) => (+prev.value > +current.value) ? prev : current)
+  return invoiceLines.reduce((prev, current) => (prev.value > current.value) ? prev : current)
 }
 
 const getVendorGroups = (invoiceLines) => {
