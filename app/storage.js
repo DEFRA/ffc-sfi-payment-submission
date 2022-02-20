@@ -16,8 +16,10 @@ if (config.useConnectionStr) {
 const container = blobServiceClient.getContainerClient(config.container)
 
 const initialiseContainers = async () => {
-  console.log('Making sure blob containers exist')
-  await container.createIfNotExists()
+  if (config.createContainers) {
+    console.log('Making sure blob containers exist')
+    await container.createIfNotExists()
+  }
   await initialiseFolders()
   containersInitialised = true
 }

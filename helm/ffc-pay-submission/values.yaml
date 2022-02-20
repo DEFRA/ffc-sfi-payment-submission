@@ -39,6 +39,7 @@ container:
   azureStorageAccountName: ffcpay
   azureStorageConnectionString: dummy
   azureStorageUseConnectionString: false
+  azureStorageCreateContainers: false
   storageContainer: dax
   storageFolder: outbound
   batchGenerationInterval: 60000
