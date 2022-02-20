@@ -1,6 +1,7 @@
 const db = require('../data')
 const config = require('../config')
 const { AP, AR } = require('../ledgers')
+const MAX_BATCH_SEQUENCE = 9999
 
 const allocateToBatches = async (created = new Date()) => {
   const transaction = await db.sequelize.transaction()
@@ -60,12 +61,12 @@ const getAndIncrementSequence = async (schemeId, ledger, transaction) => {
   let nextSequence
   if (ledger === AP) {
     nextSequence = sequence.nextAP
-    sequence.nextAP = sequence.nextAP + 1
+    sequence.nextAP = incrementSequence(sequence.nextAP)
     await updateSequence(sequence, transaction)
     return nextSequence
   }
   nextSequence = sequence.nextAR
-  sequence.nextAR = sequence.nextAR + 1
+  sequence.nextAR = incrementSequence(sequence.nextAR)
   await updateSequence(sequence, transaction)
   return nextSequence
 }
@@ -75,6 +76,11 @@ const getSequence = async (schemeId, transaction) => {
     transaction,
     lock: true
   })
+}
+
+const incrementSequence = (currentSequence) => {
+  // if sequence is already at maximum, then restart from 1
+  return currentSequence < MAX_BATCH_SEQUENCE ? currentSequence + 1 : 1
 }
 
 const updateSequence = async (sequence, transaction) => {
