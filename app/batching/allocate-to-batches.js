@@ -71,7 +71,10 @@ const getAndIncrementSequence = async (schemeId, ledger, transaction) => {
 }
 
 const getSequence = async (schemeId, transaction) => {
-  return db.sequence.findByPk(schemeId, { transaction })
+  return db.sequence.findByPk(schemeId, {
+    transaction,
+    lock: true
+  })
 }
 
 const updateSequence = async (sequence, transaction) => {
