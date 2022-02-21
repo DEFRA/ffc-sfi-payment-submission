@@ -181,4 +181,27 @@ describe('allocate to batch', () => {
     expect(batch.started).toBeNull()
     expect(batch.published).toBeNull()
   })
+
+  test('should reset sequence for AP payment requests to 1 after 9999', async () => {
+    sequence.nextAP = 9999
+    await db.scheme.create(scheme)
+    await db.sequence.create(sequence)
+    await db.paymentRequest.create(paymentRequest)
+    await db.invoiceLine.create(invoiceLine)
+    await allocateToBatch()
+    const sequenceResult = await db.sequence.findByPk(sequence.schemeId)
+    expect(sequenceResult.nextAP).toBe(1)
+  })
+
+  test('should increase sequence for AR payment requests to 1 after 9999', async () => {
+    sequence.nextAR = 9999
+    paymentRequest.ledger = AR
+    await db.scheme.create(scheme)
+    await db.sequence.create(sequence)
+    await db.paymentRequest.create(paymentRequest)
+    await db.invoiceLine.create(invoiceLine)
+    await allocateToBatch()
+    const sequenceResult = await db.sequence.findByPk(sequence.schemeId)
+    expect(sequenceResult.nextAR).toBe(1)
+  })
 })
