@@ -6,7 +6,8 @@ const schema = Joi.object({
   storageAccount: Joi.string().required(),
   container: Joi.string().default('dax'),
   folder: Joi.string().default('outbound'),
-  useConnectionStr: Joi.boolean().default(false)
+  useConnectionStr: Joi.boolean().default(false),
+  createContainers: Joi.boolean().default(true)
 })
 
 // Build config
@@ -15,7 +16,8 @@ const config = {
   storageAccount: process.env.AZURE_STORAGE_ACCOUNT_NAME,
   container: process.env.AZURE_STORAGE_CONTAINER,
   folder: process.env.AZURE_STORAGE_FOLDER,
-  useConnectionStr: process.env.AZURE_STORAGE_USE_CONNECTION_STRING === 'true'
+  useConnectionStr: process.env.AZURE_STORAGE_USE_CONNECTION_STRING,
+  createContainers: process.env.AZURE_STORAGE_CREATE_CONTAINERS
 }
 
 // Validate config
