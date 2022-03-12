@@ -4,6 +4,7 @@ const getFileName = require('./get-filename')
 const getContent = require('./get-content')
 const publishBatch = require('./publish-batch')
 const completeBatch = require('./complete-batch')
+const sendFileTransferMessage = require('../messaging/send-file-transfer-message')
 
 const generateBatches = async () => {
   await allocateToBatches()
@@ -12,6 +13,7 @@ const generateBatches = async () => {
     const filename = getFileName(batch)
     const content = getContent(batch)
     await publishBatch(filename, content)
+    await sendFileTransferMessage(filename, batch.ledger)
     await completeBatch(batch.batchId)
   }
 }
