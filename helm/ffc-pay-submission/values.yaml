@@ -36,7 +36,7 @@ container:
   messageQueueHost: namespace.servicebus.windows.net
   paymentSubmitTopicAddress: ffc-pay-submit
   paymentSubmitSubscriptionAddress: ffc-pay-submission
-  sendTopicAddress: ffc-pay-file-send
+  fileSendTopicAddress: ffc-pay-file-send
   azureStorageAccountName: ffcpay
   azureStorageConnectionString: dummy
   azureStorageUseConnectionString: false

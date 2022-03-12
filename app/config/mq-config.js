@@ -33,7 +33,7 @@ const mqConfig = {
     numberOfReceivers: process.env.PAYMENTSUBMIT_SUBSCRIPTION_RECEIVERS
   },
   sendTopic: {
-    address: process.env.SEND_TOPIC_ADDRESS
+    address: process.env.FILESEND_TOPIC_ADDRESS
   }
 }
 
