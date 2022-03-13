@@ -1,8 +1,8 @@
-function createMessage (filename, target) {
+function createMessage (filename, ledger) {
   return {
     body: {
       filename,
-      target
+      ledger
     },
     type: 'uk.gov.pay.file.send',
     source: 'ffc-pay-submission'

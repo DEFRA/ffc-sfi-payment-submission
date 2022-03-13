@@ -80,7 +80,7 @@ describe('generate batches', () => {
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
     await generateBatches()
-    expect(mockSendMessage.mock.calls[0][0].body.target).toBe(AP)
+    expect(mockSendMessage.mock.calls[0][0].body.ledger).toBe(AP)
     expect(mockSendMessage.mock.calls[0][0].body.filename).toBeDefined()
   })
 })
