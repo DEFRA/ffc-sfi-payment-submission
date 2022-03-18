@@ -1,3 +1,14 @@
+const mockSendMessage = jest.fn()
+jest.mock('ffc-messaging', () => {
+  return {
+    MessageSender: jest.fn().mockImplementation(() => {
+      return {
+        sendMessage: mockSendMessage,
+        closeConnection: jest.fn()
+      }
+    })
+  }
+})
 const db = require('../../../../app/data')
 const generateBatches = require('../../../../app/batching/generate-batches')
 const { AP } = require('../../../../app/ledgers')
@@ -60,5 +71,16 @@ describe('generate batches', () => {
     await generateBatches()
     const batchResult = await db.batch.findByPk(batch.batchId)
     expect(batchResult.published).not.toBeNull()
+  })
+
+  test('should send message for file transfer', async () => {
+    await db.scheme.create(scheme)
+    await db.batchProperties.create(batchProperties)
+    await db.batch.create(batch)
+    await db.paymentRequest.create(paymentRequest)
+    await db.invoiceLine.create(invoiceLine)
+    await generateBatches()
+    expect(mockSendMessage.mock.calls[0][0].body.ledger).toBe(AP)
+    expect(mockSendMessage.mock.calls[0][0].body.filename).toBeDefined()
   })
 })

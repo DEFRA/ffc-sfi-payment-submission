@@ -10,10 +10,12 @@ const mqSchema = joi.object({
     appInsights: joi.object()
   },
   submitSubscription: {
-    name: joi.string(),
     address: joi.string(),
     topic: joi.string(),
     numberOfReceivers: joi.number().default(3)
+  },
+  sendTopic: {
+    address: joi.string()
   }
 })
 const mqConfig = {
@@ -26,10 +28,12 @@ const mqConfig = {
     appInsights: process.env.NODE_ENV === 'production' ? require('applicationinsights') : undefined
   },
   submitSubscription: {
-    name: process.env.PAYMENTSUBMIT_SUBSCRIPTION_NAME,
     address: process.env.PAYMENTSUBMIT_SUBSCRIPTION_ADDRESS,
     topic: process.env.PAYMENTSUBMIT_TOPIC_ADDRESS,
     numberOfReceivers: process.env.PAYMENTSUBMIT_SUBSCRIPTION_RECEIVERS
+  },
+  sendTopic: {
+    address: process.env.FILESEND_TOPIC_ADDRESS
   }
 }
 
@@ -43,7 +47,9 @@ if (mqResult.error) {
 }
 
 const submitSubscription = { ...mqResult.value.messageQueue, ...mqResult.value.submitSubscription }
+const sendTopic = { ...mqResult.value.messageQueue, ...mqResult.value.sendTopic }
 
 module.exports = {
-  submitSubscription
+  submitSubscription,
+  sendTopic
 }

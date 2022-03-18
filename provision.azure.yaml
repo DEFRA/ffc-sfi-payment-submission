@@ -1,3 +1,4 @@
 resources:
   topics:
-    - name: paymentsubmit
+    - name: paymentSubmit
+    - name: fileSend
