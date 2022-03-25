@@ -62,6 +62,7 @@ and
   }]
 }
 ```
+Note that duplicate message detection is based on a `referenceId` property which must be a `UUID`.  If this property is not provided then the `invoiceNumber` property is used instead.
 
 ## DAX file specification
 ### SFI Pilot

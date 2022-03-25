@@ -1,3 +1,4 @@
+const { uuid } = require('uuidv4')
 const db = require('../../../../app/data')
 const savePaymentRequest = require('../../../../app/inbound')
 let scheme
@@ -93,7 +94,7 @@ describe('save payment requests', () => {
     expect(parseFloat(invoiceLinesRows[1].value)).toBe(-10000)
   })
 
-  test('should only insert the first payment request', async () => {
+  test('should only insert the first payment request based on invoice number', async () => {
     await savePaymentRequest(paymentRequest)
     await savePaymentRequest(paymentRequest)
 
@@ -104,6 +105,34 @@ describe('save payment requests', () => {
     })
 
     expect(paymentRequestRow.length).toBe(1)
+  })
+
+  test('should only insert the first payment request based on reference Id', async () => {
+    paymentRequest.referenceId = uuid()
+    await savePaymentRequest(paymentRequest)
+    await savePaymentRequest(paymentRequest)
+
+    const paymentRequestRow = await db.paymentRequest.findAll({
+      where: {
+        invoiceNumber: 'S00000001SFIP000001V001'
+      }
+    })
+
+    expect(paymentRequestRow.length).toBe(1)
+  })
+
+  test('should both payment requests if second has reference Id', async () => {
+    await savePaymentRequest(paymentRequest)
+    paymentRequest.referenceId = uuid()
+    await savePaymentRequest(paymentRequest)
+
+    const paymentRequestRow = await db.paymentRequest.findAll({
+      where: {
+        invoiceNumber: 'S00000001SFIP000001V001'
+      }
+    })
+
+    expect(paymentRequestRow.length).toBe(2)
   })
 
   test('should error for empty payment request', async () => {
