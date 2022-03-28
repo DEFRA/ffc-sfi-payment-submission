@@ -121,7 +121,7 @@ describe('save payment requests', () => {
     expect(paymentRequestRow.length).toBe(1)
   })
 
-  test('should both payment requests if second has reference Id', async () => {
+  test('should insert both payment requests if second payment request has reference Id', async () => {
     await savePaymentRequest(paymentRequest)
     paymentRequest.referenceId = uuidv4()
     await savePaymentRequest(paymentRequest)
