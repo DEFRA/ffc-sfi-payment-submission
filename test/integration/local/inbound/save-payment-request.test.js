@@ -94,6 +94,32 @@ describe('save payment requests', () => {
     expect(parseFloat(invoiceLinesRows[1].value)).toBe(-10000)
   })
 
+  test('should save referenceId if provided', async () => {
+    paymentRequest.referenceId = uuidv4()
+    await savePaymentRequest(paymentRequest)
+
+    const paymentRequestRow = await db.paymentRequest.findAll({
+      where: {
+        referenceId: paymentRequest.referenceId
+      }
+    })
+
+    expect(paymentRequestRow.length).toBe(1)
+  })
+
+  test('should not save referenceId if not provided', async () => {
+    await savePaymentRequest(paymentRequest)
+
+    const paymentRequestRow = await db.paymentRequest.findAll({
+      where: {
+        invoiceNumber: 'S00000001SFIP000001V001'
+      }
+    })
+
+    expect(paymentRequestRow.length).toBe(1)
+    expect(paymentRequestRow[0].requestId).toBeUndefined()
+  })
+
   test('should only insert the first payment request based on invoice number', async () => {
     await savePaymentRequest(paymentRequest)
     await savePaymentRequest(paymentRequest)
