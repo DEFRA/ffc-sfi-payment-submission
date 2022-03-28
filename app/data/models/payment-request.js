@@ -21,7 +21,8 @@ module.exports = (sequelize, DataTypes) => {
     originalInvoiceNumber: DataTypes.STRING,
     invoiceCorrectionReference: DataTypes.STRING,
     value: DataTypes.INTEGER,
-    received: DataTypes.DATE
+    received: DataTypes.DATE,
+    referenceId: DataTypes.UUID
   },
   {
     tableName: 'paymentRequests',

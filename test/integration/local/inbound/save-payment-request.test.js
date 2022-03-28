@@ -1,3 +1,4 @@
+const { v4: uuidv4 } = require('uuid')
 const db = require('../../../../app/data')
 const savePaymentRequest = require('../../../../app/inbound')
 let scheme
@@ -93,7 +94,33 @@ describe('save payment requests', () => {
     expect(parseFloat(invoiceLinesRows[1].value)).toBe(-10000)
   })
 
-  test('should only insert the first payment request', async () => {
+  test('should save referenceId if provided', async () => {
+    paymentRequest.referenceId = uuidv4()
+    await savePaymentRequest(paymentRequest)
+
+    const paymentRequestRow = await db.paymentRequest.findAll({
+      where: {
+        referenceId: paymentRequest.referenceId
+      }
+    })
+
+    expect(paymentRequestRow.length).toBe(1)
+  })
+
+  test('should not save referenceId if not provided', async () => {
+    await savePaymentRequest(paymentRequest)
+
+    const paymentRequestRow = await db.paymentRequest.findAll({
+      where: {
+        invoiceNumber: 'S00000001SFIP000001V001'
+      }
+    })
+
+    expect(paymentRequestRow.length).toBe(1)
+    expect(paymentRequestRow[0].requestId).toBeUndefined()
+  })
+
+  test('should only insert the first payment request based on invoice number', async () => {
     await savePaymentRequest(paymentRequest)
     await savePaymentRequest(paymentRequest)
 
@@ -104,6 +131,34 @@ describe('save payment requests', () => {
     })
 
     expect(paymentRequestRow.length).toBe(1)
+  })
+
+  test('should only insert the first payment request based on reference Id', async () => {
+    paymentRequest.referenceId = uuidv4()
+    await savePaymentRequest(paymentRequest)
+    await savePaymentRequest(paymentRequest)
+
+    const paymentRequestRow = await db.paymentRequest.findAll({
+      where: {
+        invoiceNumber: 'S00000001SFIP000001V001'
+      }
+    })
+
+    expect(paymentRequestRow.length).toBe(1)
+  })
+
+  test('should insert both payment requests if second payment request has reference Id', async () => {
+    await savePaymentRequest(paymentRequest)
+    paymentRequest.referenceId = uuidv4()
+    await savePaymentRequest(paymentRequest)
+
+    const paymentRequestRow = await db.paymentRequest.findAll({
+      where: {
+        invoiceNumber: 'S00000001SFIP000001V001'
+      }
+    })
+
+    expect(paymentRequestRow.length).toBe(2)
   })
 
   test('should error for empty payment request', async () => {
