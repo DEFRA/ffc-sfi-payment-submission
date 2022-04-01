@@ -10,9 +10,9 @@ const sendSubmissionBatchEvent = async (batch, fileName) => {
     const agreementNumber = paymentRequest?.agreementNumber ?? null
     const event = {
       id: correlationId,
-      name: 'payment-request-submission-batch-event',
+      name: 'payment-request-submission-batch',
       type: 'submission',
-      message: 'Publish payment request batch',
+      message: 'Publish payment request batch for DAX',
       data: {
         batchId,
         fileName,

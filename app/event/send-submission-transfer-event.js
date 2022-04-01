@@ -8,7 +8,7 @@ const sendSubmissionTransferEvent = async (filename, batch) => {
     const correlationId = paymentRequest?.correlationId ?? uuidv4()
     const event = {
       id: correlationId,
-      name: 'payment-request-submission-file-transfer-event',
+      name: 'payment-request-submission-file-transfer',
       type: 'info',
       message: 'Transfer file for payment request',
       data: { batchId, filename, ledger }
