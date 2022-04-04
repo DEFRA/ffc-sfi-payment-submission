@@ -12,7 +12,7 @@ const sendSubmissionBatchEvent = async (batch, fileName) => {
       id: correlationId,
       name: 'payment-request-submission-batch',
       type: 'submission',
-      message: 'Publish payment request batch for DAX',
+      message: 'Published batch file for DAX',
       data: {
         batchId,
         fileName,
