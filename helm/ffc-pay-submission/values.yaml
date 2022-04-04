@@ -46,6 +46,7 @@ container:
   batchGenerationInterval: 60000
   batchSize: 10000
   batchCap: 1
+  eventTopicAddress: ffc-pay-event
 
 postgresService:
   postgresDb: ffc_pay_submission

@@ -9,6 +9,15 @@ jest.mock('ffc-messaging', () => {
     })
   }
 })
+jest.mock('ffc-pay-event-publisher', () => {
+  return {
+    PublishEvent: jest.fn().mockImplementation(() => {
+      return {
+        sendEvent: jest.fn()
+      }
+    })
+  }
+})
 const db = require('../../../../app/data')
 const generateBatches = require('../../../../app/batching/generate-batches')
 const { AP } = require('../../../../app/ledgers')

@@ -22,7 +22,9 @@ module.exports = (sequelize, DataTypes) => {
     invoiceCorrectionReference: DataTypes.STRING,
     value: DataTypes.INTEGER,
     received: DataTypes.DATE,
-    referenceId: DataTypes.UUID
+    referenceId: DataTypes.UUID,
+    correlationId: DataTypes.STRING,
+    paymentRequestNumber: DataTypes.INTEGER
   },
   {
     tableName: 'paymentRequests',
