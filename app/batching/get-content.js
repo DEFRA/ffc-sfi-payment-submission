@@ -22,9 +22,9 @@ const getAPContent = (paymentRequest, batch) => {
 }
 
 const getARContent = (paymentRequest, batch) => {
-  const lowestValueLine = getLowestValueLine(paymentRequest.invoiceLines)
+  const valueLine = paymentRequest.value > 0 ? getHighestValueLine(paymentRequest.invoiceLines) : getLowestValueLine(paymentRequest.invoiceLines)
   const rows = []
-  rows.push(getVendorLineAR(paymentRequest, batch, lowestValueLine))
+  rows.push(getVendorLineAR(paymentRequest, batch, valueLine))
   for (const [lineId, invoiceLine] of paymentRequest.invoiceLines.entries()) {
     rows.push(getLedgerLineAR(invoiceLine, paymentRequest, lineId + 1))
   }
