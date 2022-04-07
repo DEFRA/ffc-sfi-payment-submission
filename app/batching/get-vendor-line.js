@@ -35,7 +35,7 @@ const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
   ]
 }
 
-const getVendorLineAR = (paymentRequest, vendorGroup, batch) => {
+const getVendorLineAR = (paymentRequest, batch, lowestValueLine) => {
   return [
     'H',
     paymentRequest.frn,
@@ -54,8 +54,8 @@ const getVendorLineAR = (paymentRequest, vendorGroup, batch) => {
     '',
     '',
     '',
-    vendorGroup.fundCode,
-    vendorGroup.schemeCode,
+    lowestValueLine.fundCode,
+    lowestValueLine.schemeCode,
     paymentRequest.marketingYear,
     paymentRequest.deliveryBody,
     'END'
