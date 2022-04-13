@@ -2,17 +2,10 @@ const db = require('../data')
 const moment = require('moment')
 const config = require('../config')
 
-const getBatches = async (started = new Date()) => {
-  const transaction = await db.sequelize.transaction()
-  try {
-    const batches = await getPendingBatches(started, transaction)
-    await updateStarted(batches, started, transaction)
-    await transaction.commit()
-    return batches
-  } catch (error) {
-    await transaction.rollback()
-    throw (error)
-  }
+const getBatches = async (transaction, started = new Date()) => {
+  const batches = await getPendingBatches(started, transaction)
+  await updateStarted(batches, started, transaction)
+  return batches
 }
 
 const getPendingBatches = async (started, transaction) => {
