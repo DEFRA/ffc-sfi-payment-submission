@@ -22,7 +22,7 @@ deployment:
   priorityClassName: default
   replicas: 1
   minReplicas: 1
-  maxReplicas: 2
+  maxReplicas: 1
   cpuThreshold: 80
   memoryThreshold: 80
   minReadySeconds: 0
@@ -31,8 +31,8 @@ container:
   imagePullPolicy: IfNotPresent
   requestMemory: 180Mi
   requestCpu: 120m
-  limitMemory: 180Mi
-  limitCpu: 120m
+  limitMemory: 300Mi
+  limitCpu: 300m
   messageQueueHost: namespace.servicebus.windows.net
   paymentSubmitTopicAddress: ffc-pay-submit
   paymentSubmitSubscriptionAddress: ffc-pay-submission
@@ -43,7 +43,7 @@ container:
   azureStorageCreateContainers: false
   storageContainer: dax
   storageFolder: outbound
-  batchGenerationInterval: 60000
+  batchGenerationInterval: 120000
   batchSize: 10000
   batchCap: 1
   eventTopicAddress: ffc-pay-event
