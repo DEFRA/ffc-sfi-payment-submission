@@ -9,8 +9,8 @@ const { sendSubmissionBatchEvent } = require('../event')
 const db = require('../data')
 
 const generateBatches = async () => {
+  await allocateToBatches()
   const transaction = await db.sequelize.transaction()
-  await allocateToBatches(transaction)
   try {
     const batches = await getBatches(transaction)
     for (const batch of batches) {

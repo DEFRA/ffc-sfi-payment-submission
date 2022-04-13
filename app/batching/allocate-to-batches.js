@@ -3,17 +3,24 @@ const config = require('../config')
 const { AP, AR } = require('../ledgers')
 const MAX_BATCH_SEQUENCE = 9999
 
-const allocateToBatches = async (transaction, created = new Date()) => {
-  const schemes = await getSchemes()
-  for (const scheme of schemes) {
-    const apPaymentRequests = await getPendingPaymentRequests(scheme.schemeId, AP, transaction)
-    const arPaymentRequests = await getPendingPaymentRequests(scheme.schemeId, AR, transaction)
-    if (apPaymentRequests.length) {
-      await allocateToBatch(scheme.schemeId, apPaymentRequests, AP, created, transaction)
+const allocateToBatches = async (created = new Date()) => {
+  const transaction = await db.sequelize.transaction()
+  try {
+    const schemes = await getSchemes()
+    for (const scheme of schemes) {
+      const apPaymentRequests = await getPendingPaymentRequests(scheme.schemeId, AP, transaction)
+      const arPaymentRequests = await getPendingPaymentRequests(scheme.schemeId, AR, transaction)
+      if (apPaymentRequests.length) {
+        await allocateToBatch(scheme.schemeId, apPaymentRequests, AP, created, transaction)
+      }
+      if (arPaymentRequests.length) {
+        await allocateToBatch(scheme.schemeId, arPaymentRequests, AR, created, transaction)
+      }
     }
-    if (arPaymentRequests.length) {
-      await allocateToBatch(scheme.schemeId, arPaymentRequests, AR, created, transaction)
-    }
+    await transaction.commit()
+  } catch (error) {
+    await transaction.rollback()
+    throw (error)
   }
 }
 
