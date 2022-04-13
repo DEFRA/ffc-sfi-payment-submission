@@ -1,29 +1,22 @@
-const raiseEvent = require('./raise-event')
+const raiseEvents = require('./raise-events')
 const { v4: uuidv4 } = require('uuid')
 
 const sendSubmissionBatchEvent = async (batch, fileName) => {
-  const batchId = batch.batchId
-  for (const paymentRequest of batch.paymentRequests) {
-    const correlationId = paymentRequest?.correlationId ?? uuidv4()
-    const frn = paymentRequest?.frn ?? null
-    const paymentRequestNumber = paymentRequest?.paymentRequestNumber ?? null
-    const agreementNumber = paymentRequest?.agreementNumber ?? null
-    const event = {
-      id: correlationId,
-      name: 'payment-request-submission-batch',
-      type: 'submission',
-      message: 'Published batch file for DAX',
-      data: {
-        batchId,
-        fileName,
-        paymentRequestNumber,
-        agreementNumber,
-        frn,
-        paymentRequest
-      }
+  const events = batch.paymentRequests.map(paymentRequest => ({
+    id: paymentRequest.correlationId ?? uuidv4(),
+    name: 'payment-request-submission-batch',
+    type: 'submission',
+    message: 'Published batch file for DAX',
+    data: {
+      batchId: batch.batchId,
+      fileName,
+      paymentRequestNumber: paymentRequest.paymentRequestNumber,
+      agreementNumber: paymentRequest.agreementNumber,
+      frn: paymentRequest.frn,
+      paymentRequest
     }
-    await raiseEvent(event)
-  }
+  }))
+  await raiseEvents(events)
 }
 
 module.exports = sendSubmissionBatchEvent
