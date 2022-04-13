@@ -30,7 +30,6 @@ const getSchemes = async () => {
 
 const getPendingPaymentRequests = async (schemeId, ledger, transaction) => {
   return db.paymentRequest.findAll({
-    transaction,
     lock: true,
     skipLocked: true,
     include: [{
@@ -45,7 +44,7 @@ const getPendingPaymentRequests = async (schemeId, ledger, transaction) => {
     },
     order: ['paymentRequestId'],
     limit: config.batchSize
-  })
+  }, { transaction })
 }
 
 const allocateToBatch = async (schemeId, paymentRequests, ledger, created, transaction) => {
@@ -73,9 +72,8 @@ const getAndIncrementSequence = async (schemeId, ledger, transaction) => {
 
 const getSequence = async (schemeId, transaction) => {
   return db.sequence.findByPk(schemeId, {
-    transaction,
     lock: true
-  })
+  }, { transaction })
 }
 
 const incrementSequence = (currentSequence) => {

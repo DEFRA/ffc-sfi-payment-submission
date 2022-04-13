@@ -17,7 +17,6 @@ const getBatches = async (started = new Date()) => {
 
 const getPendingBatches = async (started, transaction) => {
   const batches = await db.batch.findAll({
-    transaction,
     lock: true,
     skipLocked: true,
     limit: config.batchCap,
@@ -49,7 +48,7 @@ const getPendingBatches = async (started, transaction) => {
         started: { [db.Sequelize.Op.lte]: moment(started).subtract(5, 'minutes').toDate() }
       }]
     }
-  })
+  }, { transaction })
 
   return batches.map(x => x.get({ plain: true }))
 }
