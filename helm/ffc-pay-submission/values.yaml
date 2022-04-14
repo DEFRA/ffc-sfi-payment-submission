@@ -29,10 +29,10 @@ deployment:
 
 container:
   imagePullPolicy: IfNotPresent
-  requestMemory: 180Mi
+  requestMemory: 150Mi
   requestCpu: 120m
-  limitMemory: 300Mi
-  limitCpu: 300m
+  limitMemory: 150Mi
+  limitCpu: 180m
   messageQueueHost: namespace.servicebus.windows.net
   paymentSubmitTopicAddress: ffc-pay-submit
   paymentSubmitSubscriptionAddress: ffc-pay-submission
