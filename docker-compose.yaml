@@ -38,5 +38,5 @@ services:
       POSTGRES_USERNAME: postgres
 
   ffc-pay-submission-azurite:
-    image: mcr.microsoft.com/azure-storage/azurite
+    image: mcr.microsoft.com/azure-storage/azurite:3.17.1
     command: "azurite-blob --loose --blobHost 0.0.0.0"
