@@ -4,10 +4,16 @@ data:
   NODE_ENV: {{ quote .Values.environment }}
   APPINSIGHTS_CLOUDROLE: {{ quote .Values.name }}
   MESSAGE_QUEUE_HOST: {{ quote .Values.container.messageQueueHost }}
+  {{- if and (.Values.environmentCode) (not .Values.pr) }}
+  PAYMENTSUBMIT_TOPIC_ADDRESS: {{ .Values.container.paymentSubmitTopicAddress }}-{{ .Values.environmentCode }}
+  EVENT_TOPIC_ADDRESS: {{ .Values.container.eventTopicAddress }}-{{ .Values.environmentCode }}
+  FILESEND_TOPIC_ADDRESS: {{ .Values.container.fileSendTopicAddress }}-{{ .Values.environmentCode }}
+  {{ else }}
   PAYMENTSUBMIT_TOPIC_ADDRESS: {{ quote .Values.container.paymentSubmitTopicAddress }}
-  PAYMENTSUBMIT_SUBSCRIPTION_ADDRESS: {{ quote .Values.container.paymentSubmitSubscriptionAddress }}
   EVENT_TOPIC_ADDRESS: {{ quote .Values.container.eventTopicAddress }}
   FILESEND_TOPIC_ADDRESS: {{ quote .Values.container.fileSendTopicAddress }}
+  {{- end }}
+  PAYMENTSUBMIT_SUBSCRIPTION_ADDRESS: {{ quote .Values.container.paymentSubmitSubscriptionAddress }}
   POSTGRES_DB: {{ quote .Values.postgresService.postgresDb }}
   POSTGRES_HOST: {{ quote .Values.postgresService.postgresHost }}
   POSTGRES_PORT: {{ quote .Values.postgresService.postgresPort }}
