@@ -5,6 +5,7 @@
   </changeSet>
   <changeSet author="John Watson" id="2">
     <modifyDataType columnName="name" newDataType="VARCHAR(30)" tableName="schemes" />
+    <modifyDataType columnName="suffix" newDataType="VARCHAR(20)" tableName="batchProperties" />
   </changeSet>
   <changeSet author="John Watson" id="3">
     <insert tableName="schemes">
