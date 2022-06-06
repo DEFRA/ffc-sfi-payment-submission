@@ -11,14 +11,17 @@
     <insert tableName="schemes">
       <column name="schemeId" value="3" />
       <column name="name" value="Lump Sums" />
+      <column name="active" value="true" />
     </insert>
     <insert tableName="schemes">
       <column name="schemeId" value="4" />
       <column name="name" value="Vets Visits" />
+      <column name="active" value="true" />
     </insert>
     <insert tableName="schemes">
       <column name="schemeId" value="5" />
       <column name="name" value="LNR" />
+      <column name="active" value="true" />
     </insert>
     <insert tableName="sequences">
       <column name="schemeId" value="3" />
