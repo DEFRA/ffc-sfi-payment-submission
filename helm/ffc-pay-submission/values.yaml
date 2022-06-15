@@ -51,10 +51,6 @@ container:
 
 postgresService:
   postgresDb: ffc_pay_submission
-  # postgresExternalName is the external host name to which PostgreSQL
-  # requests should be forwarded. If empty, PostgreSQL is assumed to be
-  # within the cluster and accessible via postgresHost
-  postgresExternalName:
   postgresHost: ffc-pay-submission-postgres
   postgresPort: 5432
   postgresSchema: public
