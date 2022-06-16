@@ -51,7 +51,7 @@ container:
 
 postgresService:
   postgresDb: ffc_pay_submission
-  postgresHost: ffc-pay-submission-postgres
+  postgresqlHost: ffc-pay-submission-postgres
   postgresPort: 5432
   postgresSchema: public
   postgresUser: postgres
