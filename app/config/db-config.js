@@ -26,6 +26,9 @@ const retry = {
 const dbConfig = {
   database: process.env.POSTGRES_DB || 'ffc_pay_submission',
   dialect: 'postgres',
+  dialectOptions: {
+    ssl: isProd()
+  },
   hooks,
   host: process.env.POSTGRES_HOST || 'ffc-pay-submission-postgres',
   password: process.env.POSTGRES_PASSWORD,
