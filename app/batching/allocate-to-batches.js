@@ -25,7 +25,7 @@ const allocateToBatches = async (created = new Date()) => {
 }
 
 const getSchemes = async () => {
-  return db.scheme.findAll({ where: { active: true } })
+  return db.scheme.findAll()
 }
 
 const getPendingPaymentRequests = async (schemeId, ledger, transaction) => {
