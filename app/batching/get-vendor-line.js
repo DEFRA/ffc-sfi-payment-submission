@@ -30,7 +30,7 @@ const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
     paymentRequest.currency,
     '',
     '',
-    paymentRequest.schedule,
+    paymentRequest.schedule ?? '',
     'END'
   ]
 }
