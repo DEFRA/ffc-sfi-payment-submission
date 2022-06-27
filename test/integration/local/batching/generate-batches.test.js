@@ -38,8 +38,7 @@ describe('generate batches', () => {
 
     scheme = {
       schemeId: 1,
-      name: 'SFI',
-      active: true
+      name: 'SFI'
     }
 
     batchProperties = {

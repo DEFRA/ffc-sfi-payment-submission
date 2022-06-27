@@ -12,8 +12,7 @@ describe('allocate to batch', () => {
 
     scheme = {
       schemeId: 1,
-      name: 'SFI',
-      active: true
+      name: 'SFI'
     }
 
     paymentRequest = {
