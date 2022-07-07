@@ -370,7 +370,6 @@ const unscheduledAPRequest = [
     '',
     '',
     'SIP000001233488',
-    '',
     'END'
   ],
   [
@@ -402,7 +401,6 @@ const unscheduledAPRequest = [
     '',
     '',
     'SIP000001233488',
-    '',
     'END'
   ],
   [
@@ -434,7 +432,6 @@ const unscheduledAPRequest = [
     '',
     '',
     'SIP000001233488',
-    '',
     'END'
   ],
   [
@@ -466,7 +463,6 @@ const unscheduledAPRequest = [
     '',
     '',
     'SIP000001233488',
-    '',
     'END'
   ],
   [
@@ -498,7 +494,6 @@ const unscheduledAPRequest = [
     '',
     '',
     'SIP000001233488',
-    '',
     'END'
   ]
 ]
