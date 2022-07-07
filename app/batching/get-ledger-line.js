@@ -1,7 +1,7 @@
 const { convertToPounds } = require('../currency-convert')
 
 const getLedgerLineAP = (invoiceLine, paymentRequest, lineId) => {
-  return [
+  const line = [
     'Ledger',
     invoiceLine.accountCode,
     '',
@@ -33,6 +33,12 @@ const getLedgerLineAP = (invoiceLine, paymentRequest, lineId) => {
     '',
     'END'
   ]
+
+  if (!paymentRequest.schedule) {
+    line.splice(28, 1)
+  }
+
+  return line
 }
 
 const getLedgerLineAR = (invoiceLine, paymentRequest, lineId) => {
