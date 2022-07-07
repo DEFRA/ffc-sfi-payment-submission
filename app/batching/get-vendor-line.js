@@ -1,7 +1,7 @@
 const { convertToPounds } = require('../currency-convert')
 
 const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
-  return [
+  const line = [
     'Vendor',
     paymentRequest.frn,
     '',
@@ -30,9 +30,15 @@ const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
     paymentRequest.currency,
     '',
     '',
-    paymentRequest.schedule ?? '',
+    paymentRequest.schedule,
     'END'
   ]
+
+  if (!paymentRequest.schedule) {
+    line.splice(28, 1)
+  }
+
+  return line
 }
 
 const getVendorLineAR = (paymentRequest, batch, lowestValueLine) => {
