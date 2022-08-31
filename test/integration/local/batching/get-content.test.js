@@ -1,5 +1,6 @@
 const getContent = require('../../../../app/batching/get-content')
 const { AP, AR } = require('../../../../app/ledgers')
+const { SFI_PILOT, SFI } = require('../../../../app/schemes')
 let batch
 
 const arRequest = [
@@ -596,5 +597,17 @@ describe('get content', () => {
     batch.paymentRequests[0].schedule = ''
     const content = await getContent(batch)
     expect(content).toStrictEqual(unscheduledAPRequest)
+  })
+
+  test('should include agreement number on every ledger line if not SFI', async () => {
+    batch.paymentRequests[0].schemeId = SFI_PILOT
+    const content = await getContent(batch)
+    expect(content.filter(x => x[0] === 'Ledger').every(x => x[28] === scheduledAPRequest[1][28])).toBeTruthy()
+  })
+
+  test('should not include agreement number on any ledger line if SFI', async () => {
+    batch.paymentRequests[0].schemeId = SFI
+    const content = await getContent(batch)
+    expect(content.filter(x => x[0] === 'Ledger').every(x => x[28] === '')).toBeTruthy()
   })
 })

@@ -1,4 +1,5 @@
 const { convertToPounds } = require('../currency-convert')
+const { SFI } = require('../schemes')
 
 const getLedgerLineAP = (invoiceLine, paymentRequest, lineId) => {
   const line = [
@@ -29,7 +30,7 @@ const getLedgerLineAP = (invoiceLine, paymentRequest, lineId) => {
     '',
     '',
     '',
-    paymentRequest.agreementNumber,
+    paymentRequest.schemeId === SFI ? '' : paymentRequest.agreementNumber,
     '',
     'END'
   ]
@@ -56,7 +57,7 @@ const getLedgerLineAR = (invoiceLine, paymentRequest, lineId) => {
     invoiceLine.schemeCode,
     paymentRequest.marketingYear,
     paymentRequest.deliveryBody,
-    paymentRequest.agreementNumber,
+    paymentRequest.schemeId === SFI ? '' : paymentRequest.agreementNumber,
     'END'
   ]
 }
