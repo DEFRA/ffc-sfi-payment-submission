@@ -44,7 +44,8 @@ describe('generate batches', () => {
     batchProperties = {
       schemeId: 1,
       prefix: 'PFELM',
-      suffix: ' (SITI)'
+      suffix: ' (SITI)',
+      source: 'SitiELM'
     }
 
     batch = {
