@@ -1,5 +1,6 @@
 const getContent = require('../../../../app/batching/get-content')
 const { AP, AR } = require('../../../../app/ledgers')
+const AGREEMENT_NUMBER_INDEX = 28
 let batch
 
 const arRequest = [
@@ -601,54 +602,54 @@ describe('get content', () => {
   test('should include agreement number on every ledger line if source does not begin with Siti', async () => {
     batch.scheme.batchProperties.source = 'NOT_SITI'
     const content = await getContent(batch)
-    expect(content.filter(x => x[0] === 'Ledger').every(x => x[28] === scheduledAPRequest[1][28])).toBeTruthy()
+    expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === scheduledAPRequest[1][AGREEMENT_NUMBER_INDEX])).toBeTruthy()
   })
 
   test('should include agreement number on every ledger line if source is SitiELM', async () => {
     batch.scheme.batchProperties.source = 'SitiELM'
     const content = await getContent(batch)
-    expect(content.filter(x => x[0] === 'Ledger').every(x => x[28] === scheduledAPRequest[1][28])).toBeTruthy()
+    expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === scheduledAPRequest[1][AGREEMENT_NUMBER_INDEX])).toBeTruthy()
   })
 
   test('should include agreement number on every ledger line if source is SITICS', async () => {
     batch.scheme.batchProperties.source = 'SITICS'
     const content = await getContent(batch)
-    expect(content.filter(x => x[0] === 'Ledger').every(x => x[28] === scheduledAPRequest[1][28])).toBeTruthy()
+    expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === scheduledAPRequest[1][AGREEMENT_NUMBER_INDEX])).toBeTruthy()
   })
 
   test('should not include agreement number on any ledger line if source begins with SITI and is not SitiELM or SITICS', async () => {
     batch.scheme.batchProperties.source = 'SITI_SOMETHING'
     const content = await getContent(batch)
-    expect(content.filter(x => x[0] === 'Ledger').every(x => x[28] === '')).toBeTruthy()
+    expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === '')).toBeTruthy()
   })
 
   test('should not include agreement number on any ledger line if source begins with Siti and is not SitiELM or SITICS', async () => {
     batch.scheme.batchProperties.source = 'Siti_SOMETHING'
     const content = await getContent(batch)
-    expect(content.filter(x => x[0] === 'Ledger').every(x => x[28] === '')).toBeTruthy()
+    expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === '')).toBeTruthy()
   })
 
   test('should not include agreement number on any ledger line if source begins with siti and is not SitiELM or SITICS', async () => {
     batch.scheme.batchProperties.source = 'siti_SOMETHING'
     const content = await getContent(batch)
-    expect(content.filter(x => x[0] === 'Ledger').every(x => x[28] === '')).toBeTruthy()
+    expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === '')).toBeTruthy()
   })
 
   test('should not include agreement number on any ledger line if source begins is Siti', async () => {
     batch.scheme.batchProperties.source = 'Siti'
     const content = await getContent(batch)
-    expect(content.filter(x => x[0] === 'Ledger').every(x => x[28] === '')).toBeTruthy()
+    expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === '')).toBeTruthy()
   })
 
   test('should not include agreement number on any ledger line if source begins is SITI', async () => {
     batch.scheme.batchProperties.source = 'SITI'
     const content = await getContent(batch)
-    expect(content.filter(x => x[0] === 'Ledger').every(x => x[28] === '')).toBeTruthy()
+    expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === '')).toBeTruthy()
   })
 
   test('should not include agreement number on any ledger line if source begins is siti', async () => {
     batch.scheme.batchProperties.source = 'siti'
     const content = await getContent(batch)
-    expect(content.filter(x => x[0] === 'Ledger').every(x => x[28] === '')).toBeTruthy()
+    expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === '')).toBeTruthy()
   })
 })
