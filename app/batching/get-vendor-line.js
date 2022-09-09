@@ -1,4 +1,5 @@
 const { convertToPounds } = require('../currency-convert')
+const AGREEMENT_NUMBER_INDEX = 28
 
 const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
   const line = [
@@ -35,7 +36,7 @@ const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
   ]
 
   if (!paymentRequest.schedule) {
-    line.splice(28, 1)
+    line.splice(AGREEMENT_NUMBER_INDEX, 1)
   }
 
   return line

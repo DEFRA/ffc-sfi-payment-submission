@@ -1,6 +1,7 @@
 const { convertToPounds } = require('../currency-convert')
+const AGREEMENT_NUMBER_INDEX = 28
 
-const getLedgerLineAP = (invoiceLine, paymentRequest, lineId) => {
+const getLedgerLineAP = (invoiceLine, paymentRequest, lineId, source) => {
   const line = [
     'Ledger',
     invoiceLine.accountCode,
@@ -29,19 +30,19 @@ const getLedgerLineAP = (invoiceLine, paymentRequest, lineId) => {
     '',
     '',
     '',
-    paymentRequest.agreementNumber,
+    getAgreementReference(source, paymentRequest.agreementNumber),
     '',
     'END'
   ]
 
   if (!paymentRequest.schedule) {
-    line.splice(28, 1)
+    line.splice(AGREEMENT_NUMBER_INDEX, 1)
   }
 
   return line
 }
 
-const getLedgerLineAR = (invoiceLine, paymentRequest, lineId) => {
+const getLedgerLineAR = (invoiceLine, paymentRequest, lineId, source) => {
   return [
     'L',
     invoiceLine.description,
@@ -56,9 +57,15 @@ const getLedgerLineAR = (invoiceLine, paymentRequest, lineId) => {
     invoiceLine.schemeCode,
     paymentRequest.marketingYear,
     paymentRequest.deliveryBody,
-    paymentRequest.agreementNumber,
+    getAgreementReference(source, paymentRequest.agreementNumber),
     'END'
   ]
+}
+
+const getAgreementReference = (source, agreementNumber) => {
+  // With the exception of SitiELM and SITICS, for sources beginning with Siti, DAX will populate the remittance advice with an invalid reference
+  // This can be avoided by not passing the agreement number on ledger lines
+  return !source.toLowerCase().startsWith('siti') || source === 'SitiELM' || source === 'SITICS' ? agreementNumber : ''
 }
 
 module.exports = {
