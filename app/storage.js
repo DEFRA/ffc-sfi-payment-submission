@@ -30,7 +30,6 @@ async function initialiseFolders () {
   const placeHolderText = 'Placeholder'
   const client = container.getBlockBlobClient(`${config.folder}/default.txt`)
   await client.upload(placeHolderText, placeHolderText.length)
-  console.log('Folders ready')
 }
 
 const getOutboundBlobClient = async (filename) => {
