@@ -22,6 +22,10 @@ services:
   ffc-pay-submission-postgres:
     volumes:
       - postgres_data:/var/lib/postgresql/data
+  
+  ffc-pay-dax-azurite:
+    labels:
+      com.docker.compose.pay.role: test
 
 volumes:
   postgres_data:
