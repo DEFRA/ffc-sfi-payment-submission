@@ -1,19 +1,24 @@
 # FFC Payment Submission 
 
-FFC service to submit payment requests to Dynamics 365.
+## Description
+FFC microservice to submit payment requests to Microsoft Dynamics 365.
+
+For how the repo fits into the architecture and what components or dependencies it interacts with please refer to the following diagram: [ffc-pay.drawio](https://github.com/DEFRA/ffc-diagrams/blob/main/Payments/ffc-pay.drawio)
 
 ## Prerequisites
 
-- Access to an instance of an
-[Azure Service Bus](https://docs.microsoft.com/en-us/azure/service-bus-messaging/)(ASB).
-- Docker
-- Docker Compose
+### Software required
+- Access to an instance of
+[Azure Service Bus](https://docs.microsoft.com/en-us/azure/service-bus-messaging/)
+- [Docker](https://docs.docker.com)
+- [Docker Compose](https://docs.docker.com/compose/)
 
 Optional:
-- Kubernetes
-- Helm
+- [Kubernetes](https://kubernetes.io/docs/home/)
+- [Helm](https://helm.sh/docs/)
 
-## Azure Service Bus
+## Configuration
+### Azure Service Bus
 
 This service depends on a valid Azure Service Bus connection string for
 asynchronous communication.  The following environment variables need to be set
