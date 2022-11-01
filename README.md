@@ -40,7 +40,67 @@ and
 | MESSAGE_QUEUE_USER     | Azure Service Bus SAS policy name, e.g. `RootManageSharedAccessKey` |
 | MESSAGE_QUEUE_SUFFIX | Developer initials |
 
-### Example inbound payment request
+### Azure Storage
+
+This repository writes files to Azure Blob Storage within a `dax` container.
+
+The following directory is automatically created within this container:
+
+- `outbound` - files ready for DAX
+
+## Setup
+
+The application is designed to run in containerised environments, using Docker Compose in development and Kubernetes in production.
+
+- A Helm chart is provided for deployments to Kubernetes.
+
+### Build container image
+
+By default, the start script will build (or rebuild) images so there will
+rarely be a need to build images manually. However, this can be achieved
+through the Docker Compose
+[build](https://docs.docker.com/compose/reference/build/) command:
+
+```
+docker-compose build
+```
+
+## How to start FFC-Pay-Submission
+
+The service can be started using the convenience script:
+```
+./scripts/start
+```
+
+The service uses [Liquibase](https://www.liquibase.org/) to manage database migrations. To ensure the appropriate migrations have been run the utility script `scripts/start` may be run to execute the migrations, then the application.
+
+Alternatively use Docker Compose to run the service locally using the following steps:
+* run migrations
+  * `docker-compose -f docker-compose.migrate.yaml run --rm database-up`
+* start
+  * `docker-compose up`
+* stop
+  * `docker-compose down` or CTRL-C
+
+Additional Docker Compose files are provided for scenarios such as linking to other running services.
+
+Link to other services:
+```
+docker-compose -f docker-compose.yaml -f docker-compose.link.yaml up
+```
+
+
+
+## How to get an output
+
+
+
+## Example files
+
+### Batch sequencing
+
+Both Accounts Payable (AP) and Accounts Receivable (AR) output files include an integer sequence number.  This number is incremented on each batch generation.  As the maximum number DAX can accept is `9999`, subsequent batches will restart from `1`.
+#### Example inbound payment request
 
 ```
 {
@@ -215,89 +275,59 @@ L,P02 - Over declaration penalty,SOS275,-0.10,,02/08/2021,03/08/2021,,,DRD10,800
 | Empty value | Not used |
 | Line end | Always `END` |
 
-## Azure Storage
 
-This repository writes files to Azure Blob Storage within a `dax` container.
+## How to stop FFC Pay Submission
 
-The following directory is automatically created within this container:
+The service can be stopped in different ways:
+- [Bring the service down](#bring-the-service-down)
+- [Bring the service down and clear its data](#bring-the-service-down-and-clear-its-data)
 
-- `outbound` - files ready for DAX
-
-## Running the application
-
-The application is designed to run in containerised environments, using Docker Compose in development and Kubernetes in production.
-
-- A Helm chart is provided for production deployments to Kubernetes.
-
-### Build container image
-
-Container images are built using Docker Compose, with the same images used to run the service with either Docker Compose or Kubernetes.
-
-When using the Docker Compose files in development the local `app` folder will
-be mounted on top of the `app` folder within the Docker container, hiding the CSS files that were generated during the Docker build.  For the site to render correctly locally `npm run build` must be run on the host system.
-
-
-By default, the start script will build (or rebuild) images so there will
-rarely be a need to build images manually. However, this can be achieved
-through the Docker Compose
-[build](https://docs.docker.com/compose/reference/build/) command:
-
+### Bring the service down  
 ```
-# Build container images
-docker-compose build
+docker-compose down
+```
+### Bring the service down and clear its data  
+```
+docker-compose down -v
 ```
 
-### Start
+## How to test FFC Pay Submission
 
-Use Docker Compose to run service locally.
-
-The service uses [Liquibase](https://www.liquibase.org/) to manage database migrations. To ensure the appropriate migrations have been run the utility script `scripts/start` may be run to execute the migrations, then the application.
-
-Alternatively the steps can be run manually:
-* run migrations
-  * `docker-compose -f docker-compose.migrate.yaml run --rm database-up`
-* start
-  * `docker-compose up`
-* stop
-  * `docker-compose down` or CTRL-C
-
-Additional Docker Compose files are provided for scenarios such as linking to other running services.
-
-Link to other services:
-```
-docker-compose -f docker-compose.yaml -f docker-compose.link.yaml up
-```
-
-## Test structure
+### Test structure
 
 The tests have been structured into subfolders of `./test` as per the
 [Microservice test approach and repository structure](https://eaflood.atlassian.net/wiki/spaces/FPS/pages/1845396477/Microservice+test+approach+and+repository+structure)
 
 ### Running tests
-
-A convenience script is provided to run automated tests in a containerised
+Convenience scripts are provided to run automated tests in a containerised
 environment. This will rebuild images before running tests via docker-compose,
 using a combination of `docker-compose.yaml` and `docker-compose.test.yaml`.
 The command given to `docker-compose run` may be customised by passing
 arguments to the test script.
 
-Examples:
+Tests can be run in several modes
+- [Run tests and exit](#run-tests-and-exit)
+- [Run tests with file watch](#run-tests-with-file-watch)
+- [Run tests with debugger attachable](#run-tests-with-debugger-attachable)
 
+## Run tests and exit
 ```
-# Run all tests
 scripts/test
+```
 
-# Run tests with file watch
+## Run tests with file watch
+```
 scripts/test -w
+```
+
+## Run tests with debugger attachable
+```
+scripts/test -d
 ```
 
 ## CI pipeline
 
 This service uses the [FFC CI pipeline](https://github.com/DEFRA/ffc-jenkins-pipeline-library)
-
-## Batch sequencing
-
-Both Accounts Payable (AP) and Accounts Receivable (AR) output files include an integer sequence number.  This number is incremented on each batch generation.  As the maximum number DAX can accept is `9999`, subsequent batches will restart from `1`.
 
 ## Licence
 
