@@ -3,11 +3,20 @@
 ## Description
 FFC microservice to submit payment requests to Microsoft Dynamics 365.
 
-For how the repo fits into the architecture and what components or dependencies it interacts with please refer to the following diagram: [ffc-pay.drawio](https://github.com/DEFRA/ffc-diagrams/blob/main/Payments/ffc-pay.drawio)
+This service is part of the [Strategic Payment Service](https://github.com/DEFRA/ffc-pay-core).
 
+```mermaid
+flowchart LR
+ffc-pay-submission(Kubernetes - ffc-pay-submission)
+topic-submit[Azure Service Bus Topic - ffc-pay-submit]
+topic-file-send[Azure Service Bus Topic - ffc-pay-file-send]
+blob-storage[Azure Blob Storage - outbound]
+topic-submit ==> ffc-pay-submission
+ffc-pay-submission ==> topic-file-send
+ffc-pay-submission ==> blob-storage
+```
 ## Prerequisites
 
-### Software required
 - Access to an instance of
 [Azure Service Bus](https://docs.microsoft.com/en-us/azure/service-bus-messaging/)
 - [Docker](https://docs.docker.com)
@@ -17,7 +26,6 @@ Optional:
 - [Kubernetes](https://kubernetes.io/docs/home/)
 - [Helm](https://helm.sh/docs/)
 
-## Configuration
 ### Azure Service Bus
 
 This service depends on a valid Azure Service Bus connection string for
@@ -38,8 +46,13 @@ and
 | MESSAGE_QUEUE_HOST | Azure Service Bus hostname, e.g. `myservicebus.servicebus.windows.net` |
 | MESSAGE_QUEUE_PASSWORD | Azure Service Bus SAS policy key |
 | MESSAGE_QUEUE_USER     | Azure Service Bus SAS policy name, e.g. `RootManageSharedAccessKey` |
-| MESSAGE_QUEUE_SUFFIX | Developer initials |
+| MESSAGE_QUEUE_SUFFIX | Developer initials, eg `-sd`|
+| FILESEND_TOPIC_ADDRESS | Azure Service Bus topic name for file send messages, eg `ffc-pay-submit` |
+| PAYMENTSUBMIT_TOPIC_ADDRESS | Azure Service Bus topic name for payment submit messages, eg `ffc-pay-file-send` |
 
+#### Message schemas
+
+All message schemas are fully documented in an [AsyncAPI specification](docs/asyncapi.yaml).
 ### Azure Storage
 
 This repository writes files to Azure Blob Storage within a `dax` container.
@@ -50,88 +63,55 @@ The following directory is automatically created within this container:
 
 ## Setup
 
-The application is designed to run in containerised environments, using Docker Compose in development and Kubernetes in production.
+### Configuration
+These configuration values should be set in the [docker-compose.yaml](docker-compose.yaml) file or Helm [values file](helm/ffc-pay-responses/values.yaml) if running Kubernetes.
 
-- A Helm chart is provided for deployments to Kubernetes.
+| Name | Description |
+| ---| --- |
+| `APPINSIGHTS_CLOUDROLE` | Azure App Insights cloud role |
+| `APPINSIGHTS_INSTRUMENTATIONKEY` | Azure App Insights instrumentation key |
 
-### Build container image
+#### Docker
 
-By default, the start script will build (or rebuild) images so there will
-rarely be a need to build images manually. However, this can be achieved
-through the Docker Compose
-[build](https://docs.docker.com/compose/reference/build/) command:
+Docker Compose can be used to build the container image.
 
 ```
 docker-compose build
 ```
 
-## How to start FFC-Pay-Submission
+The service will file watch application and test files so no need to rebuild the container unless a change to an npm package is made.
 
-The service can be started using the convenience script:
+## How to start the service
+
+The service can be run using the [start](scripts/start) script.
 ```
 ./scripts/start
 ```
 
-The service uses [Liquibase](https://www.liquibase.org/) to manage database migrations. To ensure the appropriate migrations have been run the utility script `scripts/start` may be run to execute the migrations, then the application.
+This script accepts any Docker Compose [Up](https://docs.docker.com/engine/reference/commandline/compose_up/) argument.
 
-Alternatively use Docker Compose to run the service locally using the following steps:
-* run migrations
-  * `docker-compose -f docker-compose.migrate.yaml run --rm database-up`
-* start
-  * `docker-compose up`
-* stop
-  * `docker-compose down` or CTRL-C
+### Debugging
 
-Additional Docker Compose files are provided for scenarios such as linking to other running services.
-
-Link to other services:
-```
-docker-compose -f docker-compose.yaml -f docker-compose.link.yaml up
-```
-
-
+A debugger can be attached to the running application using port `9243`.
 
 ## How to get an output
+Submit a valid [payment request](./docs/asyncapi.yaml) to the `PAYMENTSUBMIT_TOPIC_ADDRESS`
 
+This will generate two outputs from the service:
+1. A DAX submission file in csv format generated in the local version of [Azure Storage](#azure-storage) in the following directory: `Blob containers > dax`
+2. A new message sent to the service bus topic `FILESEND_TOPIC_ADDRESS`.
 
-
-## Example files
-
-### Batch sequencing
-
+#### Batch sequencing
 Both Accounts Payable (AP) and Accounts Receivable (AR) output files include an integer sequence number.  This number is incremented on each batch generation.  As the maximum number DAX can accept is `9999`, subsequent batches will restart from `1`.
-#### Example inbound payment request
 
-```
-{
-  "sourceSystem": "SFIP",
-  "frn": 1234567890,
-  "marketingYear": 2022,
-  "paymentRequestNumber": 1,
-  "correlationId":"9e016c50-046b-4597-b79a-ebe4f0bf8505",
-  "invoiceNumber": "S123456789A123456V001",
-  "agreementNumber": "SFI12345",
-  "contractNumber": "SFI12345",
-  "currency": "GBP",
-  "schedule": "Q4",
-  "dueDate": "09/11/2022",
-  "value": 100000,
-  "schemeId": 1,
-  "ledger": "AP",
-  "deliveryBody": "RP00",
-  "invoiceLines": [{
-    "schemeCode": "80001",
-    "description": "G00 - Gross value of claim",
-    "value": 100000,
-    "fundCode": "DOM00",
-    "accountCode": "SOS100"
-  }]
-}
-```
+
+## Example resources
+### Example inbound payment request
+An example inbound payment request is available from the [async api documentation](./docs/asyncapi.yaml).
 Note that duplicate message detection is based on a `referenceId` property which must be a `UUID`.  If this property is not provided then the `invoiceNumber` property is used instead.
 
-## DAX file specification
-### SFI Pilot
+### DAX file specification
+#### SFI Pilot
 #### Example AP file
 ```
 Vendor,1234567890,,DRD10,80001,2022,RP00,SFI12345678,80.16,GBP,legacy,,SIP123456,0,,1,,,,BACS_GBP,SitiELM,,0001,,02/08/2021,GBP,,,M12,END
@@ -144,9 +124,8 @@ Ledger,SOS277,,DRD10,80003,2022,RP00,SFI12345678,0.20,GBP,legacy,,,,1,,,G00 - Gr
 Ledger,SOS275,,DRD10,80003,2022,RP00,SFI12345678,-0.10,GBP,legacy,,,,2,,,P02 - Over declaration penalty,,,,,,,,,,SFI12345678,,END
 ```
 
-##### Specification
+#### Specification
 ##### Vendor line
-
 | Name | Description |
 | ---- | ----------- |
 | Line type | Always `Vendor` |
@@ -181,7 +160,6 @@ Ledger,SOS275,,DRD10,80003,2022,RP00,SFI12345678,-0.10,GBP,legacy,,,,2,,,P02 - O
 | Line end | Always `END` |
 
 ##### Ledger line
-
 | Name | Description |
 | ---- | ----------- |
 | Line type | Always `Ledger` |
@@ -227,8 +205,8 @@ L,G00 - Gross value of payment,SOS277,0.20,,02/08/2021,03/08/2021,,,DRD10,80003,
 L,P02 - Over declaration penalty,SOS275,-0.10,,02/08/2021,03/08/2021,,,DRD10,80003,2022,RP00,,END
 ```
 
-##### Specification
-###### Vendor line
+#### Specification
+##### Vendor line
 
 | Name | Description |
 | ---- | ----------- |
@@ -255,7 +233,7 @@ L,P02 - Over declaration penalty,SOS275,-0.10,,02/08/2021,03/08/2021,,,DRD10,800
 | Delivery body | Delivery body delivering payment, eg `RP00` |
 | Line end | Always `END` |
 
-###### Ledger line
+##### Ledger line
 
 | Name | Description |
 | ---- | ----------- |
@@ -299,31 +277,15 @@ The tests have been structured into subfolders of `./test` as per the
 [Microservice test approach and repository structure](https://eaflood.atlassian.net/wiki/spaces/FPS/pages/1845396477/Microservice+test+approach+and+repository+structure)
 
 ### Running tests
-Convenience scripts are provided to run automated tests in a containerised
-environment. This will rebuild images before running tests via docker-compose,
-using a combination of `docker-compose.yaml` and `docker-compose.test.yaml`.
-The command given to `docker-compose run` may be customised by passing
-arguments to the test script.
-
-Tests can be run in several modes
-- [Run tests and exit](#run-tests-and-exit)
-- [Run tests with file watch](#run-tests-with-file-watch)
-- [Run tests with debugger attachable](#run-tests-with-debugger-attachable)
-
-## Run tests and exit
+The service can be tested using the [test](scripts/test) script.
 ```
-scripts/test
+./scripts/test
 ```
 
-## Run tests with file watch
-```
-scripts/test -w
-```
+The script accepts the following arguments:
 
-## Run tests with debugger attachable
-```
-scripts/test -d
-```
+- `--watch/-w` - run tests with file watching to support Test Driven Development scenarios (TDD)
+- `--debug/-d` - run tests in debug mode. Same as watch mode but will wait for a debugger to be attached before running tests.
 
 ## CI pipeline
 
