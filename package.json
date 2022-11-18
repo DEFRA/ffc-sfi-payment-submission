@@ -16,7 +16,8 @@
   "author": "Defra",
   "contributors": [
     "John Watson john.watson2@rpa.gov.uk",
-    "Steve Dickinson steve.dickinson@defra.gov.uk"
+    "Steve Dickinson steve.dickinson@defra.gov.uk",
+    "Simon Dunn simon.dunn1@defra.gov.uk"
   ],
   "license": "OGL-UK-3.0",
   "dependencies": {
