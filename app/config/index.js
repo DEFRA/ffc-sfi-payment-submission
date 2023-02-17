@@ -8,7 +8,9 @@ const schema = Joi.object({
   env: Joi.string().valid('development', 'test', 'production').default('development'),
   batchGenerationInterval: Joi.number().default(120000), // 1 minutes
   batchSize: Joi.number().default(10000),
-  batchCap: Joi.number().default(1)
+  batchCap: Joi.number().default(1),
+  useV1Events: Joi.boolean().default(true),
+  useV2Events: Joi.boolean().default(true)
 })
 
 // Build config
@@ -16,7 +18,9 @@ const config = {
   env: process.env.NODE_ENV,
   batchGenerationInterval: process.env.BATCH_INTERVAL,
   batchSize: process.env.BATCH_SIZE,
-  batchCap: process.env.BATCH_CAP
+  batchCap: process.env.BATCH_CAP,
+  useV1Events: process.env.USE_V1_EVENTS,
+  useV2Events: process.env.USE_V2_EVENTS
 }
 
 // Validate config
@@ -39,6 +43,7 @@ value.isProd = value.env === 'production'
 value.submitSubscription = mqConfig.submitSubscription
 value.sendTopic = mqConfig.sendTopic
 value.eventTopic = mqConfig.eventTopic
+value.eventsTopic = mqConfig.eventsTopic
 value.dbConfig = dbConfig
 value.storageConfig = storageConfig
 
