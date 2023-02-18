@@ -27,11 +27,10 @@ const sendV1SubmissionTransferEvent = async (filename, batch) => {
 const sendV2SubmissionTransferEvent = async (filename, batch) => {
   const event = {
     source: 'ffc-pay-batch-processor',
-    type: 'uk.gov.defra.ffc.pay.batch.submitted.dax',
+    type: 'uk.gov.defra.ffc.pay.batch.created.dax',
     subject: filename,
     data: {
-      filename,
-      ...batch
+      filename
     }
   }
   const eventPublisher = new EventPublisher(config.eventsTopic)
