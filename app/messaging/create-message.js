@@ -4,7 +4,7 @@ function createMessage (filename, ledger) {
       filename,
       ledger
     },
-    type: 'uk.gov.pay.file.send',
+    type: 'uk.gov.defra.ffc.pay.file.send',
     source: 'ffc-pay-submission'
   }
 }
