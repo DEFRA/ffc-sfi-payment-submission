@@ -65,9 +65,9 @@ describe('V1 submission transfer event', () => {
     expect(mockSendEvents.mock.calls[0][0][0].properties.id).toBe(batch.paymentRequests[0].correlationId)
   })
 
-  test('should raise payment-request-submission-batch event name', async () => {
+  test('should raise payment-request-submission event name', async () => {
     await sendSubmissionTransferEvents(filename, batch)
-    expect(mockSendEvents.mock.calls[0][0][0].name).toBe('payment-request-submission-batch')
+    expect(mockSendEvents.mock.calls[0][0][0].name).toBe('payment-request-submission')
   })
 
   test('should raise success status event', async () => {
@@ -77,12 +77,12 @@ describe('V1 submission transfer event', () => {
 
   test('should raise error event type', async () => {
     await sendSubmissionTransferEvents(filename, batch)
-    expect(mockSendEvents.mock.calls[0][0][0].properties.action.type).toBe('submission')
+    expect(mockSendEvents.mock.calls[0][0][0].properties.action.type).toBe('info')
   })
 
   test('should include payment published message in event', async () => {
     await sendSubmissionTransferEvents(filename, batch)
-    expect(mockSendEvents.mock.calls[0][0][0].properties.action.message).toBe('Published batch file for DAX')
+    expect(mockSendEvents.mock.calls[0][0][0].properties.action.message).toBe('Payment request submission scheduled')
   })
 
   test('should include batch Id in event', async () => {
