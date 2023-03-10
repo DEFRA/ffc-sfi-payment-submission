@@ -1,3 +1,4 @@
+jest.mock('ffc-pay-event-publisher')
 const mockSendMessage = jest.fn()
 jest.mock('ffc-messaging', () => {
   return {
@@ -25,7 +26,7 @@ jest.mock('ffc-pay-event-publisher', () => {
 })
 const db = require('../../../../app/data')
 const generateBatches = require('../../../../app/batching/generate-batches')
-const { AP } = require('../../../../app/ledgers')
+const { AP } = require('../../../../app/constants/ledgers')
 let scheme
 let batch
 let paymentRequest

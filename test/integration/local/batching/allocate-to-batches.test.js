@@ -1,6 +1,6 @@
 const allocateToBatch = require('../../../../app/batching/allocate-to-batches')
 const db = require('../../../../app/data')
-const { AP, AR } = require('../../../../app/ledgers')
+const { AP, AR } = require('../../../../app/constants/ledgers')
 let scheme
 let paymentRequest
 let invoiceLine

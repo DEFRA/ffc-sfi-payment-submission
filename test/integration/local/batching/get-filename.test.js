@@ -1,6 +1,6 @@
 const db = require('../../../../app/data')
 const getFilename = require('../../../../app/batching/get-filename')
-const { AP, AR } = require('../../../../app/ledgers')
+const { AP, AR } = require('../../../../app/constants/ledgers')
 let batch
 
 describe('get filename', () => {
