@@ -1,5 +1,5 @@
 const mockSendEvents = jest.fn()
-const mockPublishEvents = jest.fn()
+const mockPublishEvent = jest.fn()
 const MockPublishEventBatch = jest.fn().mockImplementation(() => {
   return {
     sendEvents: mockSendEvents
@@ -7,7 +7,7 @@ const MockPublishEventBatch = jest.fn().mockImplementation(() => {
 })
 const MockEventPublisher = jest.fn().mockImplementation(() => {
   return {
-    publishEvents: mockPublishEvents
+    publishEvent: mockPublishEvent
   }
 })
 jest.mock('ffc-pay-event-publisher', () => {
@@ -18,9 +18,9 @@ jest.mock('ffc-pay-event-publisher', () => {
 })
 jest.mock('../../../app/config')
 const config = require('../../../app/config')
-const { PAYMENT_SUBMITTED } = require('../../../app/constants/events')
+const { BATCH_CREATED } = require('../../../app/constants/events')
 const { SOURCE } = require('../../../app/constants/source')
-const sendSubmissionEvents = require('../../../app/event/send-submission-batch-event')
+const sendSubmissionTransferEvents = require('../../../app/event/send-submission-transfer-event')
 
 let batch
 let paymentRequest
@@ -44,94 +44,89 @@ afterEach(() => {
   jest.clearAllMocks()
 })
 
-describe('V1 submission events', () => {
+describe('V1 submission transfer event', () => {
   test('should send V1 event if V1 events enabled', async () => {
     config.useV1Events = true
-    await sendSubmissionEvents(batch, filename)
+    await sendSubmissionTransferEvents(filename, batch)
     expect(mockSendEvents).toHaveBeenCalled()
   })
 
   test('should not send V1 event if V1 events disabled', async () => {
     config.useV1Events = false
-    await sendSubmissionEvents(batch, filename)
+    await sendSubmissionTransferEvents(filename, batch)
     expect(mockSendEvents).not.toHaveBeenCalled()
   })
 
   test('should send event to V1 topic', async () => {
-    await sendSubmissionEvents(batch, filename)
+    await sendSubmissionTransferEvents(filename, batch)
     expect(MockPublishEventBatch.mock.calls[0][0]).toBe(config.eventTopic)
   })
   test('should use correlation Id as Id', async () => {
-    await sendSubmissionEvents(batch, filename)
+    await sendSubmissionTransferEvents(filename, batch)
     expect(mockSendEvents.mock.calls[0][0][0].properties.id).toBe(batch.paymentRequests[0].correlationId)
   })
 
   test('should raise payment-request-submission-batch event name', async () => {
-    await sendSubmissionEvents(batch, filename)
+    await sendSubmissionTransferEvents(filename, batch)
     expect(mockSendEvents.mock.calls[0][0][0].name).toBe('payment-request-submission-batch')
   })
 
   test('should raise success status event', async () => {
-    await sendSubmissionEvents(batch, filename)
+    await sendSubmissionTransferEvents(filename, batch)
     expect(mockSendEvents.mock.calls[0][0][0].properties.status).toBe('success')
   })
 
   test('should raise error event type', async () => {
-    await sendSubmissionEvents(batch, filename)
+    await sendSubmissionTransferEvents(filename, batch)
     expect(mockSendEvents.mock.calls[0][0][0].properties.action.type).toBe('submission')
   })
 
   test('should include payment published message in event', async () => {
-    await sendSubmissionEvents(batch, filename)
+    await sendSubmissionTransferEvents(filename, batch)
     expect(mockSendEvents.mock.calls[0][0][0].properties.action.message).toBe('Published batch file for DAX')
   })
 
   test('should include payment request in event', async () => {
-    await sendSubmissionEvents(batch, filename)
+    await sendSubmissionTransferEvents(filename, batch)
     expect(mockSendEvents.mock.calls[0][0][0].properties.action.data.paymentRequest).toEqual(batch.paymentRequests[0])
   })
 
   test('should include event for each payment request', async () => {
-    await sendSubmissionEvents(batch, filename)
+    await sendSubmissionTransferEvents(filename, batch)
     expect(mockSendEvents.mock.calls[0][0].length).toBe(2)
   })
 })
 
-describe('V2 submission events', () => {
+describe('V2 submission transfer events', () => {
   test('should send V2 event if V2 events enabled', async () => {
     config.useV2Events = true
-    await sendSubmissionEvents(batch, filename)
-    expect(mockPublishEvents).toHaveBeenCalled()
+    await sendSubmissionTransferEvents(filename, batch)
+    expect(mockPublishEvent).toHaveBeenCalled()
   })
 
   test('should not send V2 event if V2 events disabled', async () => {
     config.useV2Events = false
-    await sendSubmissionEvents(batch, filename)
-    expect(mockPublishEvents).not.toHaveBeenCalled()
+    await sendSubmissionTransferEvents(filename, batch)
+    expect(mockPublishEvent).not.toHaveBeenCalled()
   })
 
   test('should send event to V2 topic', async () => {
-    await sendSubmissionEvents(batch, filename)
+    await sendSubmissionTransferEvents(filename, batch)
     expect(MockEventPublisher.mock.calls[0][0]).toBe(config.eventsTopic)
   })
 
   test('should raise an event with processing source', async () => {
-    await sendSubmissionEvents(batch, filename)
-    expect(mockPublishEvents.mock.calls[0][0][0].source).toBe(SOURCE)
+    await sendSubmissionTransferEvents(filename, batch)
+    expect(mockPublishEvent.mock.calls[0][0].source).toBe(SOURCE)
   })
 
   test('should raise acknowledged payment event type', async () => {
-    await sendSubmissionEvents(batch, filename)
-    expect(mockPublishEvents.mock.calls[0][0][0].type).toBe(PAYMENT_SUBMITTED)
+    await sendSubmissionTransferEvents(filename, batch)
+    expect(mockPublishEvent.mock.calls[0][0].type).toBe(BATCH_CREATED)
   })
 
-  test('should include payment request in event data', async () => {
-    await sendSubmissionEvents(batch, filename)
-    expect(mockPublishEvents.mock.calls[0][0][0].data).toEqual(paymentRequest)
-  })
-
-  test('should include event for each payment request', async () => {
-    await sendSubmissionEvents(batch, filename)
-    expect(mockPublishEvents.mock.calls[0][0].length).toBe(2)
+  test('should include filename as subject', async () => {
+    await sendSubmissionTransferEvents(filename, batch)
+    expect(mockPublishEvent.mock.calls[0][0].subject).toBe(filename)
   })
 })
