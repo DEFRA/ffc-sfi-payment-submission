@@ -2,6 +2,8 @@ const { EventPublisher } = require('ffc-pay-event-publisher')
 const { v4: uuidv4 } = require('uuid')
 const raiseEvents = require('./raise-events')
 const config = require('../config')
+const { BATCH_CREATED } = require('../constants/events')
+const { SOURCE } = require('../constants/source')
 
 const sendSubmissionTransferEvent = async (filename, batch) => {
   if (config.useV1Events) {
@@ -26,8 +28,8 @@ const sendV1SubmissionTransferEvent = async (filename, batch) => {
 
 const sendV2SubmissionTransferEvent = async (filename, batch) => {
   const event = {
-    source: 'ffc-pay-batch-processor',
-    type: 'uk.gov.defra.ffc.pay.batch.created.dax',
+    source: SOURCE,
+    type: BATCH_CREATED,
     subject: filename,
     data: {
       filename

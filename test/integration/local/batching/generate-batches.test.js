@@ -1,4 +1,3 @@
-jest.mock('ffc-pay-event-publisher')
 const mockSendMessage = jest.fn()
 jest.mock('ffc-messaging', () => {
   return {
@@ -20,6 +19,11 @@ jest.mock('ffc-pay-event-publisher', () => {
     PublishEventBatch: jest.fn().mockImplementation(() => {
       return {
         sendEvents: jest.fn()
+      }
+    }),
+    EventPublisher: jest.fn().mockImplementation(() => {
+      return {
+        publishEvents: jest.fn()
       }
     })
   }

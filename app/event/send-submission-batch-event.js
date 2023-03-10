@@ -2,6 +2,8 @@ const raiseEvents = require('./raise-events')
 const { v4: uuidv4 } = require('uuid')
 const config = require('../config')
 const { EventPublisher } = require('ffc-pay-event-publisher')
+const { PAYMENT_SUBMITTED } = require('../constants/events')
+const { SOURCE } = require('../constants/source')
 
 const sendSubmissionBatchEvent = async (batch, filename) => {
   if (config.useV1Events) {
@@ -38,8 +40,8 @@ const sendV2SubmissionBatchEvent = async (batch, filename) => {
 
 const createEvent = (paymentRequest, filename) => {
   return {
-    source: 'ffc-pay-submission',
-    type: 'uk.gov.defra.ffc.pay.payment.submitted',
+    source: SOURCE,
+    type: PAYMENT_SUBMITTED,
     subject: filename,
     data: paymentRequest
   }
