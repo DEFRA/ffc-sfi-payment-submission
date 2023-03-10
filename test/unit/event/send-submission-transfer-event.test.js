@@ -19,6 +19,7 @@ jest.mock('ffc-pay-event-publisher', () => {
 jest.mock('../../../app/config')
 const config = require('../../../app/config')
 const { BATCH_CREATED } = require('../../../app/constants/events')
+const { AP } = require('../../../app/constants/ledgers')
 const { SOURCE } = require('../../../app/constants/source')
 const sendSubmissionTransferEvents = require('../../../app/event/send-submission-transfer-event')
 
@@ -29,6 +30,8 @@ let filename
 beforeEach(() => {
   paymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-request')))
   batch = {
+    batchId: 1,
+    ledger: AP,
     paymentRequests: [paymentRequest, paymentRequest]
   }
 
@@ -86,9 +89,19 @@ describe('V1 submission transfer event', () => {
     expect(mockSendEvents.mock.calls[0][0][0].properties.action.message).toBe('Published batch file for DAX')
   })
 
-  test('should include payment request in event', async () => {
+  test('should include batch Id in event', async () => {
     await sendSubmissionTransferEvents(filename, batch)
-    expect(mockSendEvents.mock.calls[0][0][0].properties.action.data.paymentRequest).toEqual(batch.paymentRequests[0])
+    expect(mockSendEvents.mock.calls[0][0][0].properties.action.data.batchId).toBe(batch.batchId)
+  })
+
+  test('should include filename in event', async () => {
+    await sendSubmissionTransferEvents(filename, batch)
+    expect(mockSendEvents.mock.calls[0][0][0].properties.action.data.filename).toBe(filename)
+  })
+
+  test('should include ledger in event', async () => {
+    await sendSubmissionTransferEvents(filename, batch)
+    expect(mockSendEvents.mock.calls[0][0][0].properties.action.data.ledger).toBe(batch.ledger)
   })
 
   test('should include event for each payment request', async () => {

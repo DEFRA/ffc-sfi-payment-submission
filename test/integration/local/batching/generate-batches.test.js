@@ -23,7 +23,8 @@ jest.mock('ffc-pay-event-publisher', () => {
     }),
     EventPublisher: jest.fn().mockImplementation(() => {
       return {
-        publishEvents: jest.fn()
+        publishEvents: jest.fn(),
+        publishEvent: jest.fn()
       }
     })
   }
