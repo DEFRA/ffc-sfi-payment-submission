@@ -28,9 +28,8 @@ let filename
 
 beforeEach(() => {
   paymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-request')))
-  batch = {
-    paymentRequests: [paymentRequest, paymentRequest]
-  }
+  batch = JSON.parse(JSON.stringify(require('../../mocks/batch')))
+  batch.paymentRequests = [paymentRequest, paymentRequest]
 
   filename = 'test.csv'
 

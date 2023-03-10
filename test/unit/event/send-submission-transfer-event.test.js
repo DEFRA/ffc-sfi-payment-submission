@@ -19,7 +19,6 @@ jest.mock('ffc-pay-event-publisher', () => {
 jest.mock('../../../app/config')
 const config = require('../../../app/config')
 const { BATCH_CREATED } = require('../../../app/constants/events')
-const { AP } = require('../../../app/constants/ledgers')
 const { SOURCE } = require('../../../app/constants/source')
 const sendSubmissionTransferEvents = require('../../../app/event/send-submission-transfer-event')
 
@@ -29,11 +28,8 @@ let filename
 
 beforeEach(() => {
   paymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-request')))
-  batch = {
-    batchId: 1,
-    ledger: AP,
-    paymentRequests: [paymentRequest, paymentRequest]
-  }
+  batch = JSON.parse(JSON.stringify(require('../../mocks/batch')))
+  batch.paymentRequests = [paymentRequest, paymentRequest]
 
   filename = 'test.csv'
 
