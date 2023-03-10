@@ -75,7 +75,7 @@ describe('V1 submission transfer event', () => {
     expect(mockSendEvents.mock.calls[0][0][0].properties.status).toBe('success')
   })
 
-  test('should raise error event type', async () => {
+  test('should raise info event type', async () => {
     await sendSubmissionTransferEvents(filename, batch)
     expect(mockSendEvents.mock.calls[0][0][0].properties.action.type).toBe('info')
   })
