@@ -1,6 +1,6 @@
 const { getLedgerLineAP, getLedgerLineAR } = require('./get-ledger-line')
 const { getVendorLineAP, getVendorLineAR } = require('./get-vendor-line')
-const { AP } = require('../ledgers')
+const { AP } = require('../constants/ledgers')
 
 const getContent = (batch) => {
   let rows = []

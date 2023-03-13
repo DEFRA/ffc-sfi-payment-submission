@@ -1,6 +1,6 @@
 const db = require('../data')
 const config = require('../config')
-const { AP, AR } = require('../ledgers')
+const { AP, AR } = require('../constants/ledgers')
 const MAX_BATCH_SEQUENCE = 9999
 
 const allocateToBatches = async (created = new Date()) => {

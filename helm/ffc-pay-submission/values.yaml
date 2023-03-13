@@ -43,6 +43,9 @@ container:
   batchSize: 10000
   batchCap: 1
   eventTopicAddress: ffc-pay-event
+  eventsTopicAddress: ffc-pay-events
+  useV1Events: true
+  useV2Events: true
 
 postgresService:
   postgresDb: ffc_pay_submission

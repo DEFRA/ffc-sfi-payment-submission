@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     schemeId: DataTypes.INTEGER,
     batchId: DataTypes.INTEGER,
     sourceSystem: DataTypes.STRING,
+    batch: DataTypes.STRING,
     deliveryBody: DataTypes.STRING,
     invoiceNumber: DataTypes.STRING,
     frn: DataTypes.BIGINT,

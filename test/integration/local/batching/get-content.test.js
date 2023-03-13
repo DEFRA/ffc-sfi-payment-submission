@@ -1,5 +1,5 @@
 const getContent = require('../../../../app/batching/get-content')
-const { AP, AR } = require('../../../../app/ledgers')
+const { AP, AR } = require('../../../../app/constants/ledgers')
 const AGREEMENT_NUMBER_INDEX = 28
 let batch
 
