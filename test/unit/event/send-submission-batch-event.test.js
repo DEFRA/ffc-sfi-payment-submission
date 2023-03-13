@@ -24,11 +24,9 @@ const { SOURCE } = require('../../../app/constants/source')
 const sendSubmissionEvents = require('../../../app/event/send-submission-batch-event')
 
 let batch
-let paymentRequest
 let filename
 
 beforeEach(() => {
-  paymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-request')))
   batch = JSON.parse(JSON.stringify(require('../../mocks/batch')))
 
   filename = require('../../mocks/filename')
