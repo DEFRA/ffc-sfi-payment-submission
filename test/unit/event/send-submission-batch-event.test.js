@@ -16,6 +16,7 @@ jest.mock('ffc-pay-event-publisher', () => {
     EventPublisher: MockEventPublisher
   }
 })
+
 jest.mock('../../../app/config')
 const config = require('../../../app/config')
 const { PAYMENT_SUBMITTED } = require('../../../app/constants/events')
