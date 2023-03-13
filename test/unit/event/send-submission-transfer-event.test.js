@@ -31,7 +31,7 @@ beforeEach(() => {
   batch = JSON.parse(JSON.stringify(require('../../mocks/batch')))
   batch.paymentRequests = [paymentRequest, paymentRequest]
 
-  filename = 'test.csv'
+  filename = require('../../mocks/filename')
 
   config.useV1Events = true
   config.useV2Events = true
