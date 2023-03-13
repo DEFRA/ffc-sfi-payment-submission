@@ -60,6 +60,7 @@ describe('V1 submission events', () => {
     await sendSubmissionEvents(batch, filename)
     expect(MockPublishEventBatch.mock.calls[0][0]).toBe(config.eventTopic)
   })
+
   test('should use correlation Id as Id', async () => {
     await sendSubmissionEvents(batch, filename)
     expect(mockSendEvents.mock.calls[0][0][0].properties.id).toBe(batch.paymentRequests[0].correlationId)
