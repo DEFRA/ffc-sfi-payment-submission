@@ -65,5 +65,3 @@ describe('getLedgerLineAP tests', () => {
     expect(result[17]).toBe('G00 - Gross value of payment')
   })
 })
-
-// SFI, SFIP, LumpSums, VetVisits, CS, BPS
