@@ -324,12 +324,12 @@ describe('get AR vendor line', () => {
 
   test('should return item 18 as fund code', () => {
     const line = getVendorLineAR(paymentRequest, batch, lowestValueLine)
-    expect(line[17]).toBe(paymentRequest.fundCode)
+    expect(line[17]).toBe(lowestValueLine.fundCode)
   })
 
   test('should return item 19 as scheme code', () => {
     const line = getVendorLineAR(paymentRequest, batch, lowestValueLine)
-    expect(line[18]).toBe(paymentRequest.schemeCode)
+    expect(line[18]).toBe(lowestValueLine.schemeCode)
   })
 
   test('should return item 20 as marketing year', () => {
