@@ -3,12 +3,7 @@ require('log-timestamp')
 const messaging = require('./messaging')
 const batching = require('./batching')
 
-process.on('SIGTERM', async () => {
-  await messaging.stop()
-  process.exit(0)
-})
-
-process.on('SIGINT', async () => {
+process.on(['SIGTERM', 'SIGINT'], async () => {
   await messaging.stop()
   process.exit(0)
 })

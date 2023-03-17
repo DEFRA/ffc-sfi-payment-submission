@@ -3,7 +3,7 @@ const createMessage = require('./create-message')
 const { sendTopic } = require('../config')
 const { sendSubmissionTransferEvent } = require('../event')
 
-async function sendFileTransferMessage (filename, batch) {
+const sendFileTransferMessage = async (filename, batch) => {
   const ledger = batch.ledger
   const message = createMessage(filename, ledger)
   const sender = new MessageSender(sendTopic)
