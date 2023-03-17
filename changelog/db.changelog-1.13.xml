@@ -29,7 +29,7 @@
   <changeSet author="John Watson" id="6">
     <update tableName="batchProperties">
       <column name="prefix" value="FFCCS" />
-      <column name="suffix" value="(SITICS)" />
+      <column name="suffix" value=" (SITICS)" />
       <column name="source" value="SITICS" />
       <where>"schemeId" = 5</where>
     </update>
@@ -38,7 +38,7 @@
     <insert tableName="batchProperties">
       <column name="schemeId" value="6" />
       <column name="prefix" value="FFCBPS" />
-      <column name="suffix" value="(SITI)" />
+      <column name="suffix" value=" (SITI)" />
       <column name="source" value="SITIAgri" />
     </insert>
   </changeSet>
