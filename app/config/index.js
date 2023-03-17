@@ -6,7 +6,7 @@ const storageConfig = require('./storage-config')
 // Define config schema
 const schema = Joi.object({
   env: Joi.string().valid('development', 'test', 'production').default('development'),
-  batchGenerationInterval: Joi.number().default(120000), // 1 minutes
+  batchGenerationInterval: Joi.number().default(30000), // 30 seconds
   batchSize: Joi.number().default(10000),
   batchCap: Joi.number().default(1),
   useV1Events: Joi.boolean().default(true),

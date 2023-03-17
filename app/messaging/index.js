@@ -3,7 +3,7 @@ const processPaymentMessage = require('./process-payment-message')
 const { MessageReceiver } = require('ffc-messaging')
 const paymentReceivers = []
 
-async function start () {
+const start = async () => {
   for (let i = 0; i < config.submitSubscription.numberOfReceivers; i++) {
     let paymentReceiver  // eslint-disable-line
     const paymentAction = message => processPaymentMessage(message, paymentReceiver)
@@ -14,7 +14,7 @@ async function start () {
   }
 }
 
-async function stop () {
+const stop = async () => {
   for (const paymentReceiver of paymentReceivers) {
     await paymentReceiver.closeConnection()
   }

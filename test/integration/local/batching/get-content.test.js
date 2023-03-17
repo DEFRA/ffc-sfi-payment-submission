@@ -500,7 +500,7 @@ const unscheduledAPRequest = [
 ]
 
 describe('get content', () => {
-  beforeEach(async () => {
+  beforeEach(() => {
     batch = {
       sequence: 1,
       ledger: AP,
@@ -559,97 +559,97 @@ describe('get content', () => {
     }
   })
 
-  test('should return as array', async () => {
-    const content = await getContent(batch)
+  test('should return as array', () => {
+    const content = getContent(batch)
     expect(Array.isArray(content)).toBeTruthy()
   })
 
-  test('should include correct content for AP', async () => {
-    const content = await getContent(batch)
+  test('should include correct content for AP', () => {
+    const content = getContent(batch)
     expect(content).toStrictEqual(scheduledAPRequest)
   })
 
-  test('should include correct content for AR', async () => {
+  test('should include correct content for AR', () => {
     batch.ledger = AR
-    const content = await getContent(batch)
+    const content = getContent(batch)
     expect(content).toStrictEqual(arRequest)
   })
 
-  test('should include correct content for AP if schedule undefined', async () => {
+  test('should include correct content for AP if schedule undefined', () => {
     batch.paymentRequests[0].schedule = undefined
-    const content = await getContent(batch)
+    const content = getContent(batch)
     expect(content).toStrictEqual(unscheduledAPRequest)
   })
 
-  test('should include correct content for AP if schedule null', async () => {
+  test('should include correct content for AP if schedule null', () => {
     batch.paymentRequests[0].schedule = null
-    const content = await getContent(batch)
+    const content = getContent(batch)
     expect(content).toStrictEqual(unscheduledAPRequest)
   })
 
-  test('should include correct content for AP if no schedule', async () => {
+  test('should include correct content for AP if no schedule', () => {
     delete batch.paymentRequests[0].schedule
-    const content = await getContent(batch)
+    const content = getContent(batch)
     expect(content).toStrictEqual(unscheduledAPRequest)
   })
 
-  test('should include correct content for AP if schedule empty string', async () => {
+  test('should include correct content for AP if schedule empty string', () => {
     batch.paymentRequests[0].schedule = ''
-    const content = await getContent(batch)
+    const content = getContent(batch)
     expect(content).toStrictEqual(unscheduledAPRequest)
   })
 
-  test('should include agreement number on every ledger line if source does not begin with Siti', async () => {
+  test('should include agreement number on every ledger line if source does not begin with Siti', () => {
     batch.scheme.batchProperties.source = 'NOT_SITI'
-    const content = await getContent(batch)
+    const content = getContent(batch)
     expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === scheduledAPRequest[1][AGREEMENT_NUMBER_INDEX])).toBeTruthy()
   })
 
-  test('should include agreement number on every ledger line if source is SitiELM', async () => {
+  test('should include agreement number on every ledger line if source is SitiELM', () => {
     batch.scheme.batchProperties.source = 'SitiELM'
-    const content = await getContent(batch)
+    const content = getContent(batch)
     expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === scheduledAPRequest[1][AGREEMENT_NUMBER_INDEX])).toBeTruthy()
   })
 
-  test('should include agreement number on every ledger line if source is SITICS', async () => {
+  test('should include agreement number on every ledger line if source is SITICS', () => {
     batch.scheme.batchProperties.source = 'SITICS'
-    const content = await getContent(batch)
+    const content = getContent(batch)
     expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === scheduledAPRequest[1][AGREEMENT_NUMBER_INDEX])).toBeTruthy()
   })
 
-  test('should not include agreement number on any ledger line if source begins with SITI and is not SitiELM or SITICS', async () => {
+  test('should not include agreement number on any ledger line if source begins with SITI and is not SitiELM or SITICS', () => {
     batch.scheme.batchProperties.source = 'SITI_SOMETHING'
-    const content = await getContent(batch)
+    const content = getContent(batch)
     expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === '')).toBeTruthy()
   })
 
-  test('should not include agreement number on any ledger line if source begins with Siti and is not SitiELM or SITICS', async () => {
+  test('should not include agreement number on any ledger line if source begins with Siti and is not SitiELM or SITICS', () => {
     batch.scheme.batchProperties.source = 'Siti_SOMETHING'
-    const content = await getContent(batch)
+    const content = getContent(batch)
     expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === '')).toBeTruthy()
   })
 
-  test('should not include agreement number on any ledger line if source begins with siti and is not SitiELM or SITICS', async () => {
+  test('should not include agreement number on any ledger line if source begins with siti and is not SitiELM or SITICS', () => {
     batch.scheme.batchProperties.source = 'siti_SOMETHING'
-    const content = await getContent(batch)
+    const content = getContent(batch)
     expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === '')).toBeTruthy()
   })
 
-  test('should not include agreement number on any ledger line if source begins is Siti', async () => {
+  test('should not include agreement number on any ledger line if source begins is Siti', () => {
     batch.scheme.batchProperties.source = 'Siti'
-    const content = await getContent(batch)
+    const content = getContent(batch)
     expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === '')).toBeTruthy()
   })
 
-  test('should not include agreement number on any ledger line if source begins is SITI', async () => {
+  test('should not include agreement number on any ledger line if source begins is SITI', () => {
     batch.scheme.batchProperties.source = 'SITI'
-    const content = await getContent(batch)
+    const content = getContent(batch)
     expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === '')).toBeTruthy()
   })
 
-  test('should not include agreement number on any ledger line if source begins is siti', async () => {
+  test('should not include agreement number on any ledger line if source begins is siti', () => {
     batch.scheme.batchProperties.source = 'siti'
-    const content = await getContent(batch)
+    const content = getContent(batch)
     expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === '')).toBeTruthy()
   })
 })
