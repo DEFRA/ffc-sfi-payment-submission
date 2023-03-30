@@ -4,5 +4,6 @@ module.exports = {
   LumpSums: 3,
   VetVisits: 4,
   CS: 5,
-  BPS: 6
+  BPS: 6,
+  FDMR: 7
 }
