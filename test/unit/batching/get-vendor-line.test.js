@@ -1,26 +1,18 @@
 const { getVendorLineAP, getVendorLineAR } = require('../../../app/batching/get-vendor-line')
-const { GBP, EUR } = require('../../../app/constants/currency')
-const { SFI, BPS } = require('../../../app/constants/schemes')
-const { Q4 } = require('../../../app/constants/schedules')
+const { EUR } = require('../../../app/constants/currency')
 const { AR } = require('../../../app/constants/ledgers')
 let paymentRequest
+let bpsPaymentRequest
+let fdmrPaymentRequest
 let batch
 let highestValueLine
 let lowestValueLine
 
 beforeEach(() => {
-  paymentRequest = {
-    schemeId: SFI,
-    frn: 1000000001,
-    marketingYear: 2023,
-    deliveryBody: 'RP00',
-    invoiceNumber: 'S12345678C1234567V001',
-    value: 1000,
-    currency: GBP,
-    contractNumber: 'C1234567',
-    dueDate: '01/02/2023',
-    schedule: Q4
-  }
+  paymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/payment-request')))
+  bpsPaymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/bps')))
+  fdmrPaymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/fdmr')))
+
   batch = {
     scheme: {
       batchProperties: {
@@ -93,7 +85,7 @@ describe('get AP vendor line', () => {
 
   test('should return item 9 as inverted value in pounds', () => {
     const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
-    expect(line[8]).toBe('-10.00')
+    expect(line[8]).toBe('-1.50')
   })
 
   test('should return item 10 as currency', () => {
@@ -116,14 +108,18 @@ describe('get AP vendor line', () => {
     expect(line[12]).toBe(paymentRequest.contractNumber)
   })
 
-  test('should return item 14 as 0 if not BPS', () => {
+  test('should return item 14 as 0 if not BPS or FDMR', () => {
     const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
     expect(line[13]).toBe(0)
   })
 
   test('should return item 14 as empty string if BPS', () => {
-    paymentRequest.schemeId = BPS
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(bpsPaymentRequest, batch, highestValueLine)
+    expect(line[13]).toBe('')
+  })
+
+  test('should return item 14 as empty string if FDMR', () => {
+    const line = getVendorLineAP(fdmrPaymentRequest, batch, highestValueLine)
     expect(line[13]).toBe('')
   })
 
@@ -132,14 +128,18 @@ describe('get AP vendor line', () => {
     expect(line[14]).toBe('')
   })
 
-  test('should return item 16 as 1 if not BPS', () => {
+  test('should return item 16 as 1 if not BPS or FDMR', () => {
     const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
     expect(line[15]).toBe(1)
   })
 
   test('should return item 16 as empty string if BPS', () => {
-    paymentRequest.schemeId = BPS
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(bpsPaymentRequest, batch, highestValueLine)
+    expect(line[15]).toBe('')
+  })
+
+  test('should return item 16 as empty string if FDMR', () => {
+    const line = getVendorLineAP(fdmrPaymentRequest, batch, highestValueLine)
     expect(line[15]).toBe('')
   })
 
@@ -194,8 +194,7 @@ describe('get AP vendor line', () => {
   })
 
   test('should return item 26 as EUR if BPS', () => {
-    paymentRequest.schemeId = BPS
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(bpsPaymentRequest, batch, highestValueLine)
     expect(line[25]).toBe(EUR)
   })
 

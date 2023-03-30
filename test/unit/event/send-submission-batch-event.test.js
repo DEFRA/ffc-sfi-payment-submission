@@ -28,7 +28,7 @@ let paymentRequest
 let filename
 
 beforeEach(() => {
-  paymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-request')))
+  paymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/payment-request')))
   batch = JSON.parse(JSON.stringify(require('../../mocks/batch')))
 
   filename = require('../../mocks/filename')

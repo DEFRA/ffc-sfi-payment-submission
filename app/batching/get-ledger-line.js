@@ -1,4 +1,4 @@
-const { BPS } = require('../constants/schemes')
+const { BPS, FDMR } = require('../constants/schemes')
 const { convertToPounds } = require('../currency-convert')
 const AGREEMENT_NUMBER_INDEX = 28
 
@@ -21,7 +21,7 @@ const getLedgerLineAP = (invoiceLine, paymentRequest, lineId, source) => {
     lineId,
     '',
     '',
-    paymentRequest.schemeId === BPS ? invoiceLine.description.substring(6) : invoiceLine.description,
+    (paymentRequest.schemeId === BPS || paymentRequest.schemeId === FDMR) ? invoiceLine.description.substring(6) : invoiceLine.description,
     '',
     '',
     '',

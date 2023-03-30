@@ -1,4 +1,4 @@
-const { BPS } = require('../constants/schemes')
+const { BPS, FDMR } = require('../constants/schemes')
 const { EUR } = require('../constants/currency')
 const { convertToPounds } = require('../currency-convert')
 const AGREEMENT_NUMBER_INDEX = 28
@@ -18,9 +18,9 @@ const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
     'legacy',
     '',
     paymentRequest.contractNumber,
-    paymentRequest.schemeId === BPS ? '' : 0,
+    (paymentRequest.schemeId === BPS || paymentRequest.schemeId === FDMR) ? '' : 0,
     '',
-    paymentRequest.schemeId === BPS ? '' : 1,
+    (paymentRequest.schemeId === BPS || paymentRequest.schemeId === FDMR) ? '' : 1,
     '',
     '',
     '',
