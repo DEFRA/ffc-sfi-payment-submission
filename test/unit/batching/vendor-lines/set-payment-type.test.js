@@ -4,9 +4,6 @@ const setPaymentType = require('../../../../app/batching/vendor-lines/set-paymen
 describe('set payment type tests', () => {
   let paymentType
 
-  beforeEach(() => {
-  })
-
   test('Return 1 when schemeId is CS and paymentType is 1', async () => {
     paymentType = '1'
     const result = setPaymentType(CS, paymentType)
