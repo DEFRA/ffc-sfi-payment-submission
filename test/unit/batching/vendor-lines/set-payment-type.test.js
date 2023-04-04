@@ -46,25 +46,25 @@ describe('set payment type tests', () => {
     expect(result).toBe('')
   })
 
-  test('Return "0" when schemeId is LumpSums and paymentType is "0" ', async () => {
+  test('Return 0 when schemeId is LumpSums and paymentType is "0" ', async () => {
     paymentType = '0'
     const result = setPaymentType(LumpSums, paymentType)
     expect(result).toBe(0)
   })
 
-  test('Return "0" when schemeId is SFI and paymentType is "0" ', async () => {
+  test('Return 0 when schemeId is SFI and paymentType is "0" ', async () => {
     paymentType = '0'
     const result = setPaymentType(SFI, paymentType)
     expect(result).toBe(0)
   })
 
-  test('Return "0" when schemeId is SFIP and paymentType is "0" ', async () => {
+  test('Return 0 when schemeId is SFIP and paymentType is "0" ', async () => {
     paymentType = '0'
     const result = setPaymentType(SFIP, paymentType)
     expect(result).toBe(0)
   })
 
-  test('Return "0" when schemeId is VetVisits and paymentType is "0" ', async () => {
+  test('Return 0 when schemeId is VetVisits and paymentType is "0" ', async () => {
     paymentType = '0'
     const result = setPaymentType(VetVisits, paymentType)
     expect(result).toBe(0)
