@@ -1,5 +1,5 @@
 const { BPS, CS, FDMR, LumpSums, SFI, SFIP, VetVisits } = require('../../../../app/constants/schemes')
-const setPaymentType = require('../../../../app/batching/vendor-lines/set-payment-type')
+const { setPaymentType } = require('../../../../app/batching/vendor-lines/set-payment-type')
 
 describe('set payment type tests', () => {
   let paymentType

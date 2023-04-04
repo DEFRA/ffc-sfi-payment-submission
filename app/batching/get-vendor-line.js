@@ -1,7 +1,7 @@
 const { BPS, FDMR } = require('../constants/schemes')
 const { EUR } = require('../constants/currency')
 const { convertToPounds } = require('../currency-convert')
-const setPaymentType = require('./vendor-lines/set-payment-type')
+const { setPaymentType } = require('./vendor-lines/set-payment-type')
 const AGREEMENT_NUMBER_INDEX = 28
 
 const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
