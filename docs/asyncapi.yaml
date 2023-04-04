@@ -30,6 +30,12 @@ components:
           paymentRequestNumber:
             type: number
             description: Version of payment request starting with 1, anything greater than 1 is an adjustment
+          PaymentType:
+            type: number
+            description: Defines type of payment request either Balance or Advance
+            minimum: 0
+            maximum: 3
+            example: 1
           correlationId:
             type: string
             description: Identifier for event correlation
