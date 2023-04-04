@@ -1,6 +1,7 @@
 const { BPS, FDMR } = require('../constants/schemes')
 const { EUR } = require('../constants/currency')
 const { convertToPounds } = require('../currency-convert')
+const { setPaymentType } = require('./vendor-lines/set-payment-type')
 const AGREEMENT_NUMBER_INDEX = 28
 
 const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
@@ -18,7 +19,7 @@ const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
     'legacy',
     '',
     paymentRequest.contractNumber,
-    (paymentRequest.schemeId === BPS || paymentRequest.schemeId === FDMR) ? '' : 0,
+    setPaymentType(paymentRequest.schemeId, paymentRequest.paymentType),
     '',
     (paymentRequest.schemeId === BPS || paymentRequest.schemeId === FDMR) ? '' : 1,
     '',
