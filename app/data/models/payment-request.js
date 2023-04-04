@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     referenceId: DataTypes.UUID,
     correlationId: DataTypes.UUID,
     paymentRequestNumber: DataTypes.INTEGER,
-    paymentType: DataTypes.STRING
+    paymentType: DataTypes.INTEGER
   },
   {
     tableName: 'paymentRequests',
