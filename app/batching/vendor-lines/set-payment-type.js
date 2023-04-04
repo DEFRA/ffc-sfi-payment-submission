@@ -12,4 +12,6 @@ const setPaymentType = (schemeId, paymentType) => {
   }
 }
 
-module.exports = setPaymentType
+module.exports = {
+  setPaymentType
+}
