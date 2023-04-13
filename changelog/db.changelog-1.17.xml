@@ -21,7 +21,12 @@
       <column name="schemeId" value="7" />
       <column name="prefix" value="FFCManual" />
       <column name="suffix" value=" (Manual)" />
-      <column name="source" value="Manual" />
+      <column name="source" value="M_TEMPLATE" />
     </insert>
+  </changeSet>
+  <changeSet author="John Watson" id="5">
+    <addColumn tableName="paymentRequests" >
+      <column name="pillar" type="VARCHAR(10)"/>
+    </addColumn> 
   </changeSet>
 </databaseChangeLog>

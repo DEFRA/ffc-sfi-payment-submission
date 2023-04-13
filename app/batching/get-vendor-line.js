@@ -2,6 +2,7 @@ const { BPS, FDMR } = require('../constants/schemes')
 const { EUR } = require('../constants/currency')
 const { convertToPounds } = require('../currency-convert')
 const { setPaymentType } = require('./vendor-lines/set-payment-type')
+const { getSourceCode } = require('./vendor-lines/get-source-code')
 const AGREEMENT_NUMBER_INDEX = 28
 
 const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
@@ -26,7 +27,7 @@ const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
     '',
     '',
     `BACS_${paymentRequest.currency}`,
-    batch.scheme.batchProperties.source,
+    getSourceCode(paymentRequest.schemeId, batch.scheme.batchProperties.source, paymentRequest.pillar),
     '',
     batch.sequence.toString().padStart(4, '0'),
     '',
