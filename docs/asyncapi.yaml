@@ -87,6 +87,9 @@ components:
           referenceId:
             type: string
             description: Optional UUID used for duplicate detection.  If not provided invoiceNumber is used instead
+          pillar:
+            type: string
+            description: Pillar of scheme for manual invoices
           invoiceLines:
             type: array
             description: List of Invoice lines that make up request
