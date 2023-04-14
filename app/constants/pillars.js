@@ -1,6 +1,6 @@
 module.exports = {
   DA: 'DA',
-  IP: 'EA',
+  IP: 'IP',
   SPS: 'SPS',
   DF: 'DF',
   FCCS: 'FCCS',
