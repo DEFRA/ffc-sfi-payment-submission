@@ -111,3 +111,6 @@ components:
                 accountCode:
                   type: string
                   description: Unique account code to pay from
+                deliveryBody:
+                  type: string
+                  description: Delivery body responsible for payment
