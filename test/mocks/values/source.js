@@ -1,0 +1,3 @@
+module.exports = {
+  SOURCE: 'SFI'
+}
