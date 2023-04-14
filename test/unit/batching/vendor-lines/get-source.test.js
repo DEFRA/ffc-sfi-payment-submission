@@ -1,7 +1,9 @@
 const { getSource } = require('../../../../app/batching/vendor-lines/get-source')
+
 const { DA: DA_PILLAR } = require('../../../../app/constants/pillars')
 const { DA: DA_SOURCE } = require('../../../../app/constants/manual-sources')
 const { SFI, MANUAL } = require('../../../../app/constants/schemes')
+
 const { SOURCE } = require('../../../mocks/values/source')
 
 describe('get source', () => {
@@ -22,8 +24,8 @@ describe('get source', () => {
 
   test.each([
     { pillar: DA_PILLAR, expectedSource: DA_SOURCE }
-  ])('should return mapped manual source when scheme is manual and pillar can be mapped', (pillar, expectedSource) => {
-    const source = getSource(MANUAL, SOURCE, pillar)
-    expect(source).toBe(expectedSource)
+  ])('should return mapped manual source when scheme is manual and pillar can be mapped', (testParams) => {
+    const source = getSource(MANUAL, SOURCE, testParams.pillar)
+    expect(source).toBe(testParams.expectedSource)
   })
 })
