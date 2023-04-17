@@ -25,7 +25,7 @@ const initialiseContainers = async () => {
   containersInitialised = true
 }
 
-async function initialiseFolders () {
+const initialiseFolders = async () => {
   const placeHolderText = 'Placeholder'
   const client = container.getBlockBlobClient(`${config.folder}/default.txt`)
   await client.upload(placeHolderText, placeHolderText.length)
@@ -37,6 +37,7 @@ const getOutboundBlobClient = async (filename) => {
 }
 
 module.exports = {
+  initialiseContainers,
   blobServiceClient,
   getOutboundBlobClient
 }
