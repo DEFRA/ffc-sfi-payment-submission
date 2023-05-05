@@ -31,7 +31,7 @@ const getLedgerLineAP = (invoiceLine, paymentRequest, lineId, source) => {
     '',
     '',
     '',
-    getAgreementReference(source, paymentRequest.agreementNumber),
+    getAgreementReference(source, invoiceLine.agreementNumber ?? paymentRequest.agreementNumber),
     '',
     'END'
   ]
@@ -58,7 +58,7 @@ const getLedgerLineAR = (invoiceLine, paymentRequest, lineId, source) => {
     invoiceLine.schemeCode,
     paymentRequest.marketingYear,
     invoiceLine.deliveryBody ?? paymentRequest.deliveryBody,
-    getAgreementReference(source, paymentRequest.agreementNumber),
+    getAgreementReference(source, invoiceLine.agreementNumber ?? paymentRequest.agreementNumber),
     'END'
   ]
 }
