@@ -107,7 +107,6 @@ describe('save invoice lines', () => {
   test('should save invoice line without agreement number if not present', async () => {
     delete invoiceLines[0].agreementNumber
     delete invoiceLines[1].agreementNumber
-    console.log(invoiceLines[0].agreementNumber)
     await saveInvoiceLines(invoiceLines, paymentRequestId)
     const invoiceLine = await db.invoiceLine.findOne({
       where: {
