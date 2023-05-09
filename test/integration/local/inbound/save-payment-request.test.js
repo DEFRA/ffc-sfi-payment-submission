@@ -93,7 +93,7 @@ describe('save payment requests', () => {
     expect(invoiceLinesRows[1].schemeCode).toBe('80001')
     expect(invoiceLinesRows[1].accountCode).toBe('SOS273')
     expect(invoiceLinesRows[1].fundCode).toBe('DRD10')
-    expect(invoiceLinesRows[0].agreementNumber).toBe('SIP00000000000001')
+    expect(invoiceLinesRows[1].agreementNumber).toBe('SIP00000000000001')
     expect(invoiceLinesRows[1].description).toBe('P02 - Over declaration penalty')
     expect(parseFloat(invoiceLinesRows[1].value)).toBe(-10000)
   })
