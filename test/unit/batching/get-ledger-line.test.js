@@ -1,4 +1,4 @@
-const { getLedgerLineAP } = require('../../../app/batching/get-ledger-line')
+const { getLedgerLineAP, getLedgerLineAR } = require('../../../app/batching/get-ledger-line')
 
 let invoiceLine
 let sfiPaymentRequest
@@ -36,23 +36,6 @@ describe('getLedgerLineAP tests', () => {
     expect(result[17]).toBe('Gross value of claim')
   })
 
-  test('Should return invoice line agreement number if exists when CS', async () => {
-    const result = getLedgerLineAP(invoiceLine, csPaymentRequest, lineId, source)
-    expect(result[27]).toBe(invoiceLine.agreementNumber)
-  })
-
-  test('Should return payment request agreement number if invoice line agreement number doesnt exist and when CS', async () => {
-    delete invoiceLine.agreementNumber
-    const result = getLedgerLineAP(invoiceLine, csPaymentRequest, lineId, source)
-    expect(result[27]).toBe(csPaymentRequest.agreementNumber)
-  })
-
-  test('Should not use either if source starts with SITI and not SITIELM or SITICS', async () => {
-    source = 'SITI'
-    const result = getLedgerLineAP(invoiceLine, csPaymentRequest, lineId, source)
-    expect(result[27]).toBe('')
-  })
-
   test('Should not return substring of invoiceLine.description when schemeId is SFI', async () => {
     const result = getLedgerLineAP(invoiceLine, sfiPaymentRequest, lineId, source)
     expect(result[17]).toBe('G00 - Gross value of claim')
@@ -76,5 +59,39 @@ describe('getLedgerLineAP tests', () => {
   test('Should not return substring of invoiceLine.description when schemeId is CS', async () => {
     const result = getLedgerLineAP(invoiceLine, csPaymentRequest, lineId, source)
     expect(result[17]).toBe('G00 - Gross value of claim')
+  })
+
+  test('Should return invoice line agreement number if exists when CS and AP', async () => {
+    const result = getLedgerLineAP(invoiceLine, csPaymentRequest, lineId, source)
+    expect(result[27]).toBe(invoiceLine.agreementNumber)
+  })
+
+  test('Should return payment request agreement number if invoice line agreement number doesnt exist and when CS and AP', async () => {
+    delete invoiceLine.agreementNumber
+    const result = getLedgerLineAP(invoiceLine, csPaymentRequest, lineId, source)
+    expect(result[27]).toBe(csPaymentRequest.agreementNumber)
+  })
+
+  test('Should not use either if source starts with SITI and not SITIELM or SITICS when AP', async () => {
+    source = 'SITI'
+    const result = getLedgerLineAP(invoiceLine, csPaymentRequest, lineId, source)
+    expect(result[27]).toBe('')
+  })
+
+  test('Should return invoice line agreement number if exists when CS and AR', async () => {
+    const result = getLedgerLineAR(invoiceLine, csPaymentRequest, lineId, source)
+    expect(result[13]).toBe(invoiceLine.agreementNumber)
+  })
+
+  test('Should return payment request agreement number if invoice line agreement number doesnt exist and when CS and AR', async () => {
+    delete invoiceLine.agreementNumber
+    const result = getLedgerLineAR(invoiceLine, csPaymentRequest, lineId, source)
+    expect(result[13]).toBe(csPaymentRequest.agreementNumber)
+  })
+
+  test('Should not use either if source starts with SITI and not SITIELM or SITICS when AR', async () => {
+    source = 'SITI'
+    const result = getLedgerLineAR(invoiceLine, csPaymentRequest, lineId, source)
+    expect(result[13]).toBe('')
   })
 })
