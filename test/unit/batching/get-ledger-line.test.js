@@ -14,7 +14,6 @@ let source
 describe('getLedgerLineAP tests', () => {
   beforeEach(() => {
     invoiceLine = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/invoice-line')))
-
     sfiPaymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/sfi')))
     sfiPilotPaymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/sfi-pilot')))
     lumpSumsPaymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/lump-sums')))
@@ -28,37 +27,54 @@ describe('getLedgerLineAP tests', () => {
   })
 
   test('Should return substring of invoiceLine.description when schemeId is BPS', async () => {
-    const result = await getLedgerLineAP(invoiceLine, bpsPaymentRequest, lineId, source)
+    const result = getLedgerLineAP(invoiceLine, bpsPaymentRequest, lineId, source)
     expect(result[17]).toBe('Gross value of claim')
   })
 
   test('Should return substring of invoiceLine.description when schemeId is FDMR', async () => {
-    const result = await getLedgerLineAP(invoiceLine, fdmrPaymentRequest, lineId, source)
+    const result = getLedgerLineAP(invoiceLine, fdmrPaymentRequest, lineId, source)
     expect(result[17]).toBe('Gross value of claim')
   })
 
+  test('Should return invoice line agreement number if exists when CS', async () => {
+    const result = getLedgerLineAP(invoiceLine, csPaymentRequest, lineId, source)
+    expect(result[27]).toBe(invoiceLine.agreementNumber)
+  })
+
+  test('Should return payment request agreement number if invoice line agreement number doesnt exist and when CS', async () => {
+    delete invoiceLine.agreementNumber
+    const result = getLedgerLineAP(invoiceLine, csPaymentRequest, lineId, source)
+    expect(result[27]).toBe(csPaymentRequest.agreementNumber)
+  })
+
+  test('Should not use either if source starts with SITI and not SITIELM or SITICS', async () => {
+    source = 'SITI'
+    const result = getLedgerLineAP(invoiceLine, csPaymentRequest, lineId, source)
+    expect(result[27]).toBe('')
+  })
+
   test('Should not return substring of invoiceLine.description when schemeId is SFI', async () => {
-    const result = await getLedgerLineAP(invoiceLine, sfiPaymentRequest, lineId, source)
+    const result = getLedgerLineAP(invoiceLine, sfiPaymentRequest, lineId, source)
     expect(result[17]).toBe('G00 - Gross value of claim')
   })
 
   test('Should not return substring of invoiceLine.description when schemeId is SFIP', async () => {
-    const result = await getLedgerLineAP(invoiceLine, sfiPilotPaymentRequest, lineId, source)
+    const result = getLedgerLineAP(invoiceLine, sfiPilotPaymentRequest, lineId, source)
     expect(result[17]).toBe('G00 - Gross value of claim')
   })
 
   test('Should not return substring of invoiceLine.description when schemeId is LumpSums', async () => {
-    const result = await getLedgerLineAP(invoiceLine, lumpSumsPaymentRequest, lineId, source)
+    const result = getLedgerLineAP(invoiceLine, lumpSumsPaymentRequest, lineId, source)
     expect(result[17]).toBe('G00 - Gross value of claim')
   })
 
   test('Should not return substring of invoiceLine.description when schemeId is VetVisits', async () => {
-    const result = await getLedgerLineAP(invoiceLine, vetVisitsPaymentRequest, lineId, source)
+    const result = getLedgerLineAP(invoiceLine, vetVisitsPaymentRequest, lineId, source)
     expect(result[17]).toBe('G00 - Gross value of claim')
   })
 
   test('Should not return substring of invoiceLine.description when schemeId is CS', async () => {
-    const result = await getLedgerLineAP(invoiceLine, csPaymentRequest, lineId, source)
+    const result = getLedgerLineAP(invoiceLine, csPaymentRequest, lineId, source)
     expect(result[17]).toBe('G00 - Gross value of claim')
   })
 })
