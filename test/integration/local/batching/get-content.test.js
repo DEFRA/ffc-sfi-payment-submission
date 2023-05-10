@@ -1,6 +1,9 @@
-const getContent = require('../../../../app/batching/get-content')
 const { AP, AR } = require('../../../../app/constants/ledgers')
+
+const getContent = require('../../../../app/batching/get-content')
+
 const AGREEMENT_NUMBER_INDEX = 28
+
 let batch
 
 const arRequest = [
@@ -525,33 +528,38 @@ describe('get content', () => {
         recoveryDate: '03/02/2022',
         debtType: 'irr',
         invoiceLines: [{
-          fundCode: 'DRD10',
           schemeCode: '80009',
           accountCode: 'SOS710',
+          fundCode: 'DRD10',
+          agreementNumber: 'SIP000001233488',
           description: 'G00 - Gross value of claim',
           value: 500000
         }, {
-          fundCode: 'DRD10',
           schemeCode: '80005',
           accountCode: 'SOS710',
+          fundCode: 'DRD10',
+          agreementNumber: 'SIP000001233488',
           description: 'G00 - Gross value of claim',
           value: 106700
         }, {
-          fundCode: 'DRD10',
           schemeCode: '80005',
           accountCode: 'SOS927',
+          fundCode: 'DRD10',
+          agreementNumber: 'SIP000001233488',
           description: 'P24 - Over declaration reduction',
           value: -27159
         }, {
-          fundCode: 'DRD10',
           schemeCode: '80003',
           accountCode: 'SOS710',
+          fundCode: 'DRD10',
+          agreementNumber: 'SIP000001233488',
           description: 'G00 - Gross value of claim',
           value: 12000
         }, {
-          fundCode: 'DRD10',
           schemeCode: '80003',
           accountCode: 'SOS927',
+          fundCode: 'DRD10',
+          agreementNumber: 'SIP000001233488',
           description: 'P24 - Over declaration reduction',
           value: -6000
         }]

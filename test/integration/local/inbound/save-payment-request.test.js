@@ -1,6 +1,7 @@
 const { v4: uuidv4 } = require('uuid')
 const db = require('../../../../app/data')
 const savePaymentRequest = require('../../../../app/inbound')
+
 let scheme
 let paymentRequest
 
@@ -32,6 +33,7 @@ describe('save payment requests', () => {
           schemeCode: '80001',
           accountCode: 'SOS273',
           fundCode: 'DRD10',
+          agreementNumber: 'SIP00000000000001',
           description: 'G00 - Gross value of claim',
           value: 25000
         },
@@ -39,6 +41,7 @@ describe('save payment requests', () => {
           schemeCode: '80001',
           accountCode: 'SOS273',
           fundCode: 'DRD10',
+          agreementNumber: 'SIP00000000000001',
           description: 'P02 - Over declaration penalty',
           value: -10000
         }
@@ -83,12 +86,14 @@ describe('save payment requests', () => {
     expect(invoiceLinesRows[0].schemeCode).toBe('80001')
     expect(invoiceLinesRows[0].accountCode).toBe('SOS273')
     expect(invoiceLinesRows[0].fundCode).toBe('DRD10')
+    expect(invoiceLinesRows[0].agreementNumber).toBe('SIP00000000000001')
     expect(invoiceLinesRows[0].description).toBe('G00 - Gross value of claim')
     expect(parseFloat(invoiceLinesRows[0].value)).toBe(25000)
 
     expect(invoiceLinesRows[1].schemeCode).toBe('80001')
     expect(invoiceLinesRows[1].accountCode).toBe('SOS273')
     expect(invoiceLinesRows[1].fundCode).toBe('DRD10')
+    expect(invoiceLinesRows[1].agreementNumber).toBe('SIP00000000000001')
     expect(invoiceLinesRows[1].description).toBe('P02 - Over declaration penalty')
     expect(parseFloat(invoiceLinesRows[1].value)).toBe(-10000)
   })
