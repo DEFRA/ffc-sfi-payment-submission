@@ -9,7 +9,7 @@ const getLedgerLineAP = (invoiceLine, paymentRequest, lineId, source) => {
     '',
     invoiceLine.fundCode,
     invoiceLine.schemeCode,
-    paymentRequest.marketingYear,
+    invoiceLine.marketingYear ?? paymentRequest.marketingYear,
     invoiceLine.deliveryBody ?? paymentRequest.deliveryBody,
     paymentRequest.invoiceNumber,
     convertToPounds(invoiceLine.value),
@@ -56,7 +56,7 @@ const getLedgerLineAR = (invoiceLine, paymentRequest, lineId, source) => {
     lineId,
     invoiceLine.fundCode,
     invoiceLine.schemeCode,
-    paymentRequest.marketingYear,
+    invoiceLine.marketingYear ?? paymentRequest.marketingYear,
     invoiceLine.deliveryBody ?? paymentRequest.deliveryBody,
     getAgreementReference(source, invoiceLine.agreementNumber ?? paymentRequest.agreementNumber),
     'END'

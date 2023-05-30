@@ -1,13 +1,12 @@
 asyncapi: 2.2.0
 info:
-  title: FFC Pay Submission
+  title: Payment Hub Submission
   version: 1.1.0
 channels:
   payment/request:
     subscribe:
       message:
         $ref: '#/components/messages/PaymentRequest'
-
 components:
   messages:
     PaymentRequest:
@@ -114,3 +113,9 @@ components:
                 deliveryBody:
                   type: string
                   description: Delivery body responsible for payment
+                agreementNumber:
+                  type: string
+                  description: Unique reference number for agreement/application
+                marketingYear:
+                  type: number
+                  description: Scheme year for line
