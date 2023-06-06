@@ -1,7 +1,7 @@
 asyncapi: 2.6.0
 info:
   title: Payment Hub Submission
-  version: 1.1.0
+  version: 1.2.0
 channels:
   payment/request:
     subscribe:
@@ -119,3 +119,9 @@ components:
                 marketingYear:
                   type: number
                   description: Scheme year for line
+                convergence:
+                  type: boolean
+                  description: Whether line is convergence or not
+                stateAid:
+                  type: boolean
+                  description: Whether line is state aid or not
