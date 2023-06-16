@@ -15,8 +15,8 @@ jest.mock('ffc-pay-event-publisher', () => {
 jest.mock('../../../app/config')
 const config = require('../../../app/config')
 
-const { BATCH_CREATED } = require('../../../app/constants/events')
 const { SOURCE } = require('../../../app/constants/source')
+const { BATCH_CREATED } = require('../../../app/constants/events')
 
 const sendSubmissionTransferEvents = require('../../../app/event/send-submission-transfer-event')
 
