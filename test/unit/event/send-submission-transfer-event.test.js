@@ -1,4 +1,3 @@
-
 const mockPublishEvent = jest.fn()
 
 const MockEventPublisher = jest.fn().mockImplementation(() => {
@@ -12,6 +11,7 @@ jest.mock('ffc-pay-event-publisher', () => {
     EventPublisher: MockEventPublisher
   }
 })
+
 jest.mock('../../../app/config')
 const config = require('../../../app/config')
 
