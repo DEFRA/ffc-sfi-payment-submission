@@ -9,7 +9,6 @@ const schema = Joi.object({
   batchGenerationInterval: Joi.number().default(30000), // 30 seconds
   batchSize: Joi.number().default(10000),
   batchCap: Joi.number().default(1),
-  useV1Events: Joi.boolean().default(true),
   useV2Events: Joi.boolean().default(true)
 })
 
@@ -19,7 +18,6 @@ const config = {
   batchGenerationInterval: process.env.BATCH_INTERVAL,
   batchSize: process.env.BATCH_SIZE,
   batchCap: process.env.BATCH_CAP,
-  useV1Events: process.env.USE_V1_EVENTS,
   useV2Events: process.env.USE_V2_EVENTS
 }
 
