@@ -26,13 +26,13 @@ let filename
 describe('V2 submission transfer events', () => {
   beforeEach(() => {
     batch = JSON.parse(JSON.stringify(require('../../mocks/batch')))
-  
+
     filename = require('../../mocks/filename')
-  
+
     config.useV2Events = true
     config.eventsTopic = 'v2-events'
   })
-  
+
   afterEach(() => {
     jest.clearAllMocks()
   })
