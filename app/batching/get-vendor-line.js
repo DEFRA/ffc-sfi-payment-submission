@@ -3,6 +3,7 @@ const { EUR } = require('../constants/currency')
 const { convertToPounds } = require('../currency-convert')
 const { setPaymentType } = require('./vendor-lines/set-payment-type')
 const { getSource } = require('./vendor-lines/get-source')
+const { NOT_APPLICABLE } = require('../constants/not-applicable')
 const AGREEMENT_NUMBER_INDEX = 28
 
 const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
@@ -12,7 +13,7 @@ const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
     '',
     highestValueLine.fundCode,
     highestValueLine.schemeCode,
-    paymentRequest.marketingYear,
+    paymentRequest.marketingYear ?? NOT_APPLICABLE,
     paymentRequest.deliveryBody,
     paymentRequest.invoiceNumber,
     convertToPounds((paymentRequest.value * -1)),
@@ -67,7 +68,7 @@ const getVendorLineAR = (paymentRequest, batch, lowestValueLine) => {
     '',
     lowestValueLine.fundCode,
     lowestValueLine.schemeCode,
-    paymentRequest.marketingYear,
+    paymentRequest.marketingYear ?? NOT_APPLICABLE,
     paymentRequest.deliveryBody,
     'END'
   ]

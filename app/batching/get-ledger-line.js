@@ -1,3 +1,4 @@
+const { NOT_APPLICABLE } = require('../constants/not-applicable')
 const { BPS, FDMR } = require('../constants/schemes')
 const { convertToPounds } = require('../currency-convert')
 const AGREEMENT_NUMBER_INDEX = 28
@@ -9,7 +10,7 @@ const getLedgerLineAP = (invoiceLine, paymentRequest, lineId, source) => {
     '',
     invoiceLine.fundCode,
     invoiceLine.schemeCode,
-    invoiceLine.marketingYear ?? paymentRequest.marketingYear,
+    invoiceLine.marketingYear ?? paymentRequest.marketingYear ?? NOT_APPLICABLE,
     invoiceLine.deliveryBody ?? paymentRequest.deliveryBody,
     paymentRequest.invoiceNumber,
     convertToPounds(invoiceLine.value),
@@ -56,7 +57,7 @@ const getLedgerLineAR = (invoiceLine, paymentRequest, lineId, source) => {
     lineId,
     invoiceLine.fundCode,
     invoiceLine.schemeCode,
-    invoiceLine.marketingYear ?? paymentRequest.marketingYear,
+    invoiceLine.marketingYear ?? paymentRequest.marketingYear ?? NOT_APPLICABLE,
     invoiceLine.deliveryBody ?? paymentRequest.deliveryBody,
     getAgreementReference(source, invoiceLine.agreementNumber ?? paymentRequest.agreementNumber),
     'END'
