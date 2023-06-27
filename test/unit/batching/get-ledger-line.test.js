@@ -1,3 +1,5 @@
+const { NOT_APPLICABLE } = require('../../../app/constants/not-applicable')
+
 const { getLedgerLineAP, getLedgerLineAR } = require('../../../app/batching/get-ledger-line')
 
 let invoiceLine
@@ -35,6 +37,13 @@ describe('get ledger line for AP', () => {
     delete invoiceLine.marketingYear
     const result = getLedgerLineAP(invoiceLine, sfiPaymentRequest, lineId, source)
     expect(result[5]).toBe(sfiPaymentRequest.marketingYear)
+  })
+
+  test('should return marketing year from payment request when not present on invoice line or payment request', () => {
+    delete invoiceLine.marketingYear
+    delete sfiPaymentRequest.marketingYear
+    const result = getLedgerLineAP(invoiceLine, sfiPaymentRequest, lineId, source)
+    expect(result[5]).toBe(NOT_APPLICABLE)
   })
 
   test('should return substring of invoiceLine.description when schemeId is BPS', () => {
@@ -117,5 +126,12 @@ describe('get ledger line for AR', () => {
     delete invoiceLine.marketingYear
     const result = getLedgerLineAR(invoiceLine, sfiPaymentRequest, lineId, source)
     expect(result[11]).toBe(sfiPaymentRequest.marketingYear)
+  })
+
+  test('should return not applicable marketing year when marketing year not present on invoice line or payment request', () => {
+    delete sfiPaymentRequest.marketingYear
+    delete invoiceLine.marketingYear
+    const result = getLedgerLineAR(invoiceLine, sfiPaymentRequest, lineId, source)
+    expect(result[11]).toBe(NOT_APPLICABLE)
   })
 })
