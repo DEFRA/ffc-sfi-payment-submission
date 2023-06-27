@@ -1,6 +1,8 @@
 const { getVendorLineAP, getVendorLineAR } = require('../../../app/batching/get-vendor-line')
 const { EUR } = require('../../../app/constants/currency')
 const { AR } = require('../../../app/constants/ledgers')
+const { NOT_APPLICABLE } = require('../../../app/constants/not-applicable')
+
 let paymentRequest
 let bpsPaymentRequest
 let fdmrPaymentRequest
@@ -71,6 +73,12 @@ describe('get AP vendor line', () => {
   test('should return item 6 as marketing year', () => {
     const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
     expect(line[5]).toBe(paymentRequest.marketingYear)
+  })
+
+  test('should return item 6 as not applicable if payment request does not have marketing year', () => {
+    delete paymentRequest.marketingYear
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    expect(line[5]).toBe(NOT_APPLICABLE)
   })
 
   test('should return item 7 as delivery body', () => {
@@ -331,9 +339,15 @@ describe('get AR vendor line', () => {
     expect(line[18]).toBe(lowestValueLine.schemeCode)
   })
 
-  test('should return item 20 as marketing year', () => {
+  test('should return item 20 as marketing year if payment request has marketing year', () => {
     const line = getVendorLineAR(paymentRequest, batch, lowestValueLine)
     expect(line[19]).toBe(paymentRequest.marketingYear)
+  })
+
+  test('should return item 20 as not applicable if payment request has no marketing year', () => {
+    paymentRequest.marketingYear = null
+    const line = getVendorLineAR(paymentRequest, batch, lowestValueLine)
+    expect(line[19]).toBe(NOT_APPLICABLE)
   })
 
   test('should return item 21 as delivery body', () => {
