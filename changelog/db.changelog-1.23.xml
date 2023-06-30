@@ -24,4 +24,9 @@
       <column name="source" value="04" />
     </insert>
   </changeSet>
+  <changeSet author="John Watson" id="5">
+    <addColumn tableName="paymentRequests">
+      <column name="exchangeRate" type="DECIMAL(10,6)" />
+    </addColumn>
+  </changeSet>
 </databaseChangeLog>
