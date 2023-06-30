@@ -29,7 +29,7 @@ const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
     '',
     `BACS_${paymentRequest.currency}`,
     getSource(paymentRequest.schemeId, batch.scheme.batchProperties.source, paymentRequest.pillar),
-    '',
+    paymentRequest.exchangeRate ?? '',
     batch.sequence.toString().padStart(4, '0'),
     '',
     paymentRequest.dueDate,
