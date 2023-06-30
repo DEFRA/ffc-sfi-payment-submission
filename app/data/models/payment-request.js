@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     paymentType: DataTypes.INTEGER,
     pillar: DataTypes.STRING,
     exchangeRate: DataTypes.FLOAT,
-    eventDate: DataTypes.DATE
+    eventDate: DataTypes.STRING
   },
   {
     tableName: 'paymentRequests',
