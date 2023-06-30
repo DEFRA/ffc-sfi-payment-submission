@@ -27,6 +27,7 @@
   <changeSet author="John Watson" id="5">
     <addColumn tableName="paymentRequests">
       <column name="exchangeRate" type="DECIMAL(10,6)" />
+      <column name="eventDate" type="VARCHAR(10)" />
     </addColumn>
   </changeSet>
 </databaseChangeLog>
