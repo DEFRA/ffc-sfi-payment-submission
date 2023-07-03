@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
     paymentRequestNumber: DataTypes.INTEGER,
     paymentType: DataTypes.INTEGER,
     pillar: DataTypes.STRING,
-    exchangeRate: DataTypes.FLOAT,
+    exchangeRate: DataTypes.STRING,
     eventDate: DataTypes.STRING
   },
   {
