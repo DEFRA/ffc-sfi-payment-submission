@@ -1,9 +1,9 @@
-const { NOT_APPLICABLE } = require('../constants/not-applicable')
-const { convertToPounds } = require('../currency-convert')
-const { getAgreementReference } = require('./get-agreement-reference')
-const { getCustomerReference } = require('./get-customer-reference')
-const { getDescription } = require('./ledger-lines/get-description')
-const { getLineId } = require('./ledger-lines/get-line-id')
+const { NOT_APPLICABLE } = require('../../constants/not-applicable')
+const { convertToPounds } = require('../../currency-convert')
+const { getAgreementReference } = require('../get-agreement-reference')
+const { getCustomerReference } = require('../get-customer-reference')
+const { getDescription } = require('./get-description')
+const { getLineId } = require('./get-line-id')
 const AGREEMENT_NUMBER_INDEX = 28
 
 const getLedgerLineAP = (invoiceLine, paymentRequest, lineId, source) => {

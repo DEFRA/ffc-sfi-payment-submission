@@ -1,7 +1,7 @@
-const { getVendorLineAP, getVendorLineAR } = require('../../../app/batching/get-vendor-line')
-const { EUR } = require('../../../app/constants/currency')
-const { AR } = require('../../../app/constants/ledgers')
-const { NOT_APPLICABLE } = require('../../../app/constants/not-applicable')
+const { getVendorLineAP, getVendorLineAR } = require('../../../../app/batching/vendor-lines/get-vendor-line')
+const { EUR } = require('../../../../app/constants/currency')
+const { AR } = require('../../../../app/constants/ledgers')
+const { NOT_APPLICABLE } = require('../../../../app/constants/not-applicable')
 
 let paymentRequest
 let bpsPaymentRequest
@@ -11,9 +11,9 @@ let highestValueLine
 let lowestValueLine
 
 beforeEach(() => {
-  paymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/payment-request')))
-  bpsPaymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/bps')))
-  fdmrPaymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/fdmr')))
+  paymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/payment-request')))
+  bpsPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/bps')))
+  fdmrPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/fdmr')))
 
   batch = {
     scheme: {
