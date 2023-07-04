@@ -1,4 +1,4 @@
-const { ES, FC, IMPS } = require('../../constants/schemes')
+const { ES, FC, IMPS } = require('../constants/schemes')
 
 const getCustomerReference = (paymentRequest) => {
   if (paymentRequest.schemeId === ES) {

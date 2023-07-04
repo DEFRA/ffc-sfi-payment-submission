@@ -1,6 +1,7 @@
 const { NOT_APPLICABLE } = require('../constants/not-applicable')
 const { BPS, FDMR } = require('../constants/schemes')
 const { convertToPounds } = require('../currency-convert')
+const { getCustomerReference } = require('./get-customer-reference')
 const AGREEMENT_NUMBER_INDEX = 28
 
 const getLedgerLineAP = (invoiceLine, paymentRequest, lineId, source) => {
@@ -15,7 +16,7 @@ const getLedgerLineAP = (invoiceLine, paymentRequest, lineId, source) => {
     paymentRequest.invoiceNumber,
     convertToPounds(invoiceLine.value),
     paymentRequest.currency,
-    'legacy',
+    getCustomerReference(paymentRequest),
     '',
     '',
     '',
