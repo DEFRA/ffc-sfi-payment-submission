@@ -73,7 +73,8 @@ describe('generate batches', () => {
 
     invoiceLine = {
       invoiceLineId: 1,
-      paymentRequestId: 1
+      paymentRequestId: 1,
+      description: 'Description'
     }
   })
 
