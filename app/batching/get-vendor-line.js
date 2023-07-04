@@ -1,11 +1,10 @@
-const { BPS } = require('../constants/schemes')
-const { EUR } = require('../constants/currency')
 const { convertToPounds } = require('../currency-convert')
 const { getPaymentType } = require('./vendor-lines/get-payment-type')
 const { getSource } = require('./vendor-lines/get-source')
 const { NOT_APPLICABLE } = require('../constants/not-applicable')
 const { getCustomerReference } = require('./vendor-lines/get-customer-reference')
 const { getPaymentDescription } = require('./vendor-lines/get-payment-description')
+const { getCurrency } = require('./vendor-lines/get-currency')
 const AGREEMENT_NUMBER_INDEX = 28
 
 const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
@@ -35,7 +34,7 @@ const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
     batch.sequence.toString().padStart(4, '0'),
     paymentRequest.eventDate ?? '',
     paymentRequest.dueDate,
-    paymentRequest.schemeId === BPS ? EUR : paymentRequest.currency,
+    getCurrency(paymentRequest.schemeId, paymentRequest.currency),
     '',
     '',
     paymentRequest.schedule,
