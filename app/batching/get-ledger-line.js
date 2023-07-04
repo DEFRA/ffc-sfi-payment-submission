@@ -3,6 +3,7 @@ const { BPS, FDMR } = require('../constants/schemes')
 const { convertToPounds } = require('../currency-convert')
 const { getAgreementReference } = require('./get-agreement-reference')
 const { getCustomerReference } = require('./get-customer-reference')
+const { getLineId } = require('./ledger-lines/get-line-id')
 const AGREEMENT_NUMBER_INDEX = 28
 
 const getLedgerLineAP = (invoiceLine, paymentRequest, lineId, source) => {
@@ -21,7 +22,7 @@ const getLedgerLineAP = (invoiceLine, paymentRequest, lineId, source) => {
     '',
     '',
     '',
-    lineId,
+    getLineId(paymentRequest.schemeId, lineId),
     '',
     '',
     (paymentRequest.schemeId === BPS || paymentRequest.schemeId === FDMR) ? invoiceLine.description.substring(6) : invoiceLine.description,
@@ -56,7 +57,7 @@ const getLedgerLineAR = (invoiceLine, paymentRequest, lineId, source) => {
     paymentRequest.dueDate,
     paymentRequest.recoveryDate,
     '',
-    lineId,
+    getLineId(paymentRequest.schemeId, lineId),
     invoiceLine.fundCode,
     invoiceLine.schemeCode,
     invoiceLine.marketingYear ?? paymentRequest.marketingYear ?? NOT_APPLICABLE,
