@@ -4,6 +4,7 @@ const { convertToPounds } = require('../currency-convert')
 const { setPaymentType } = require('./vendor-lines/set-payment-type')
 const { getSource } = require('./vendor-lines/get-source')
 const { NOT_APPLICABLE } = require('../constants/not-applicable')
+const { getCustomerReference } = require('./vendor-lines/get-customer-reference')
 const AGREEMENT_NUMBER_INDEX = 28
 
 const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
@@ -18,7 +19,7 @@ const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
     paymentRequest.invoiceNumber,
     convertToPounds((paymentRequest.value * -1)),
     paymentRequest.currency,
-    'legacy',
+    getCustomerReference(paymentRequest),
     '',
     paymentRequest.contractNumber,
     setPaymentType(paymentRequest.schemeId, paymentRequest.paymentType),
