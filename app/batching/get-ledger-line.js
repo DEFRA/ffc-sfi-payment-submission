@@ -1,6 +1,7 @@
 const { NOT_APPLICABLE } = require('../constants/not-applicable')
 const { BPS, FDMR } = require('../constants/schemes')
 const { convertToPounds } = require('../currency-convert')
+const { getAgreementReference } = require('./get-agreement-reference')
 const { getCustomerReference } = require('./get-customer-reference')
 const AGREEMENT_NUMBER_INDEX = 28
 
@@ -63,12 +64,6 @@ const getLedgerLineAR = (invoiceLine, paymentRequest, lineId, source) => {
     getAgreementReference(source, invoiceLine.agreementNumber ?? paymentRequest.agreementNumber),
     'END'
   ]
-}
-
-const getAgreementReference = (source, agreementNumber) => {
-  // With the exception of SitiELM and SITICS, for sources beginning with Siti, DAX will populate the remittance advice with an invalid reference
-  // This can be avoided by not passing the agreement number on ledger lines
-  return !source.toLowerCase().startsWith('siti') || source === 'SitiELM' || source === 'SITICS' ? agreementNumber : ''
 }
 
 module.exports = {
