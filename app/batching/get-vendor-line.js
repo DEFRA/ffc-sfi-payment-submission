@@ -1,10 +1,11 @@
-const { BPS, FDMR } = require('../constants/schemes')
+const { BPS } = require('../constants/schemes')
 const { EUR } = require('../constants/currency')
 const { convertToPounds } = require('../currency-convert')
-const { setPaymentType } = require('./vendor-lines/set-payment-type')
+const { getPaymentType } = require('./vendor-lines/get-payment-type')
 const { getSource } = require('./vendor-lines/get-source')
 const { NOT_APPLICABLE } = require('../constants/not-applicable')
 const { getCustomerReference } = require('./vendor-lines/get-customer-reference')
+const { getPaymentDescription } = require('./vendor-lines/get-payment-description')
 const AGREEMENT_NUMBER_INDEX = 28
 
 const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
@@ -22,9 +23,9 @@ const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
     getCustomerReference(paymentRequest),
     '',
     paymentRequest.contractNumber,
-    setPaymentType(paymentRequest.schemeId, paymentRequest.paymentType),
+    getPaymentType(paymentRequest.schemeId, paymentRequest.paymentType),
     '',
-    (paymentRequest.schemeId === BPS || paymentRequest.schemeId === FDMR) ? '' : 1,
+    getPaymentDescription(paymentRequest.schemeId),
     '',
     '',
     '',
