@@ -1,5 +1,5 @@
-const { EUR } = require('../../constants/currency')
 const { BPS, ES, IMPS } = require('../../constants/schemes')
+const { EUR } = require('../../constants/currency')
 
 const getCurrency = (schemeId, paymentRequestCurrency) => {
   switch (schemeId) {
