@@ -71,6 +71,12 @@ describe('get payment type tests', () => {
     expect(result).toBe(0)
   })
 
+  test('return "" when schemeId is ES and paymentType is undefined', () => {
+    paymentType = undefined
+    const result = getPaymentType(ES, paymentType)
+    expect(result).toBe('')
+  })
+
   test('return "" when schemeId is ES and paymentType is "0"', () => {
     paymentType = '0'
     const result = getPaymentType(ES, paymentType)
@@ -83,10 +89,10 @@ describe('get payment type tests', () => {
     expect(result).toBe('')
   })
 
-  test('return "" when schemeId is ES and paymentType is undefined', () => {
+  test('return No when schemeId is IMPS and paymentType is undefined ', () => {
     paymentType = undefined
-    const result = getPaymentType(ES, paymentType)
-    expect(result).toBe('')
+    const result = getPaymentType(IMPS, paymentType)
+    expect(result).toBe('No')
   })
 
   test('return No when schemeId is IMPS and paymentType is "0" ', () => {
@@ -97,12 +103,6 @@ describe('get payment type tests', () => {
 
   test('return No when schemeId is IMPS and paymentType is "1" ', () => {
     paymentType = '1'
-    const result = getPaymentType(IMPS, paymentType)
-    expect(result).toBe('No')
-  })
-
-  test('return No when schemeId is IMPS and paymentType is undefined ', () => {
-    paymentType = undefined
     const result = getPaymentType(IMPS, paymentType)
     expect(result).toBe('No')
   })
