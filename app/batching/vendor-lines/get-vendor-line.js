@@ -1,13 +1,13 @@
-const { convertToPounds } = require('../../currency-convert')
-const { getPaymentType } = require('./get-payment-type')
-const { getSource } = require('./get-source')
 const { NOT_APPLICABLE } = require('../../constants/not-applicable')
-const { getCustomerReference } = require('../get-customer-reference')
-const { getPaymentDescription } = require('./get-payment-description')
-const { getCurrency } = require('./get-currency')
-const { getDueDate } = require('./get-due-date')
-const { getBatchNumber } = require('./get-batch-number')
+const { convertToPounds } = require('../../currency-convert')
 const { getContractNumber } = require('./get-contract-number')
+const { getCustomerReference } = require('../get-customer-reference')
+const { getPaymentType } = require('./get-payment-type')
+const { getPaymentDescription } = require('./get-payment-description')
+const { getSource } = require('./get-source')
+const { getBatchNumber } = require('./get-batch-number')
+const { getDueDate } = require('./get-due-date')
+const { getCurrency } = require('./get-currency')
 const AGREEMENT_NUMBER_INDEX = 28
 
 const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
