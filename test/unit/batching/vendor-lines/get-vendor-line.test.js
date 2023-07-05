@@ -1,7 +1,8 @@
-const { getVendorLineAP, getVendorLineAR } = require('../../../../app/batching/vendor-lines/get-vendor-line')
 const { EUR } = require('../../../../app/constants/currency')
 const { AR } = require('../../../../app/constants/ledgers')
 const { NOT_APPLICABLE } = require('../../../../app/constants/not-applicable')
+
+const { getVendorLineAP, getVendorLineAR } = require('../../../../app/batching/vendor-lines/get-vendor-line')
 
 let paymentRequest
 let bpsPaymentRequest
