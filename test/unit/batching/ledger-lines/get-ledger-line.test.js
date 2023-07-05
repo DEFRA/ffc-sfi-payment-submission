@@ -1,6 +1,6 @@
-const { NOT_APPLICABLE } = require('../../../app/constants/not-applicable')
+const { NOT_APPLICABLE } = require('../../../../app/constants/not-applicable')
 
-const { getLedgerLineAP, getLedgerLineAR } = require('../../../app/batching/get-ledger-line')
+const { getLedgerLineAP, getLedgerLineAR } = require('../../../../app/batching/ledger-lines/get-ledger-line')
 
 let invoiceLine
 let sfiPaymentRequest
@@ -14,14 +14,14 @@ let lineId
 let source
 
 beforeEach(() => {
-  invoiceLine = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/invoice-line')))
-  sfiPaymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/sfi')))
-  sfiPilotPaymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/sfi-pilot')))
-  lumpSumsPaymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/lump-sums')))
-  vetVisitsPaymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/vet-visits')))
-  csPaymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/cs')))
-  bpsPaymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/bps')))
-  fdmrPaymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/fdmr')))
+  invoiceLine = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/invoice-line')))
+  sfiPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/sfi')))
+  sfiPilotPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/sfi-pilot')))
+  lumpSumsPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/lump-sums')))
+  vetVisitsPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/vet-visits')))
+  csPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/cs')))
+  bpsPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/bps')))
+  fdmrPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/fdmr')))
 
   lineId = ''
   source = ''

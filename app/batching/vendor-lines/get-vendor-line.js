@@ -1,9 +1,13 @@
-const { BPS, FDMR } = require('../constants/schemes')
-const { EUR } = require('../constants/currency')
-const { convertToPounds } = require('../currency-convert')
-const { setPaymentType } = require('./vendor-lines/set-payment-type')
-const { getSource } = require('./vendor-lines/get-source')
-const { NOT_APPLICABLE } = require('../constants/not-applicable')
+const { NOT_APPLICABLE } = require('../../constants/not-applicable')
+const { convertToPounds } = require('../../currency-convert')
+const { getContractNumber } = require('./get-contract-number')
+const { getCustomerReference } = require('../get-customer-reference')
+const { getPaymentType } = require('./get-payment-type')
+const { getPaymentDescription } = require('./get-payment-description')
+const { getSource } = require('./get-source')
+const { getBatchNumber } = require('./get-batch-number')
+const { getDueDate } = require('./get-due-date')
+const { getCurrency } = require('./get-currency')
 const AGREEMENT_NUMBER_INDEX = 28
 
 const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
@@ -18,22 +22,22 @@ const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
     paymentRequest.invoiceNumber,
     convertToPounds((paymentRequest.value * -1)),
     paymentRequest.currency,
-    'legacy',
+    getCustomerReference(paymentRequest),
     '',
-    paymentRequest.contractNumber,
-    setPaymentType(paymentRequest.schemeId, paymentRequest.paymentType),
+    getContractNumber(paymentRequest.schemeId, paymentRequest.contractNumber, paymentRequest.invoiceNumber),
+    getPaymentType(paymentRequest.schemeId, paymentRequest.paymentType),
     '',
-    (paymentRequest.schemeId === BPS || paymentRequest.schemeId === FDMR) ? '' : 1,
+    getPaymentDescription(paymentRequest.schemeId),
     '',
     '',
     '',
     `BACS_${paymentRequest.currency}`,
     getSource(paymentRequest.schemeId, batch.scheme.batchProperties.source, paymentRequest.pillar),
-    '',
-    batch.sequence.toString().padStart(4, '0'),
-    '',
-    paymentRequest.dueDate,
-    paymentRequest.schemeId === BPS ? EUR : paymentRequest.currency,
+    paymentRequest.exchangeRate ?? '',
+    getBatchNumber(paymentRequest.schemeId, batch.sequence),
+    paymentRequest.eventDate ?? '',
+    getDueDate(paymentRequest.schemeId, paymentRequest.dueDate),
+    getCurrency(paymentRequest.schemeId, paymentRequest.currency),
     '',
     '',
     paymentRequest.schedule,

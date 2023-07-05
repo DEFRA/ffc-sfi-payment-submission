@@ -29,9 +29,13 @@ jest.mock('ffc-pay-event-publisher', () => {
     })
   }
 })
+
 const db = require('../../../../app/data')
-const generateBatches = require('../../../../app/batching/generate-batches')
+
 const { AP } = require('../../../../app/constants/ledgers')
+
+const generateBatches = require('../../../../app/batching/generate-batches')
+
 let scheme
 let batch
 let paymentRequest
@@ -73,7 +77,8 @@ describe('generate batches', () => {
 
     invoiceLine = {
       invoiceLineId: 1,
-      paymentRequestId: 1
+      paymentRequestId: 1,
+      description: 'Description'
     }
   })
 

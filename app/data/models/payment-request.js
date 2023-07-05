@@ -8,7 +8,9 @@ module.exports = (sequelize, DataTypes) => {
     deliveryBody: DataTypes.STRING,
     invoiceNumber: DataTypes.STRING,
     frn: DataTypes.BIGINT,
-    sbi: DataTypes.STRING,
+    sbi: DataTypes.INTEGER,
+    vendor: DataTypes.STRING,
+    trader: DataTypes.STRING,
     ledger: DataTypes.STRING,
     marketingYear: DataTypes.INTEGER,
     agreementNumber: DataTypes.STRING,
@@ -27,7 +29,9 @@ module.exports = (sequelize, DataTypes) => {
     correlationId: DataTypes.UUID,
     paymentRequestNumber: DataTypes.INTEGER,
     paymentType: DataTypes.INTEGER,
-    pillar: DataTypes.STRING
+    pillar: DataTypes.STRING,
+    exchangeRate: DataTypes.STRING,
+    eventDate: DataTypes.STRING
   },
   {
     tableName: 'paymentRequests',

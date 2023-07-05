@@ -1,6 +1,9 @@
-const { NOT_APPLICABLE } = require('../constants/not-applicable')
-const { BPS, FDMR } = require('../constants/schemes')
-const { convertToPounds } = require('../currency-convert')
+const { NOT_APPLICABLE } = require('../../constants/not-applicable')
+const { convertToPounds } = require('../../currency-convert')
+const { getCustomerReference } = require('../get-customer-reference')
+const { getLineId } = require('./get-line-id')
+const { getDescription } = require('./get-description')
+const { getAgreementReference } = require('../get-agreement-reference')
 const AGREEMENT_NUMBER_INDEX = 28
 
 const getLedgerLineAP = (invoiceLine, paymentRequest, lineId, source) => {
@@ -15,14 +18,14 @@ const getLedgerLineAP = (invoiceLine, paymentRequest, lineId, source) => {
     paymentRequest.invoiceNumber,
     convertToPounds(invoiceLine.value),
     paymentRequest.currency,
-    'legacy',
+    getCustomerReference(paymentRequest),
     '',
     '',
     '',
-    lineId,
+    getLineId(paymentRequest.schemeId, lineId),
     '',
     '',
-    (paymentRequest.schemeId === BPS || paymentRequest.schemeId === FDMR) ? invoiceLine.description.substring(6) : invoiceLine.description,
+    getDescription(paymentRequest.schemeId, invoiceLine.description),
     '',
     '',
     '',
@@ -47,14 +50,14 @@ const getLedgerLineAP = (invoiceLine, paymentRequest, lineId, source) => {
 const getLedgerLineAR = (invoiceLine, paymentRequest, lineId, source) => {
   return [
     'L',
-    invoiceLine.description,
+    getDescription(paymentRequest.schemeId, invoiceLine.description),
     invoiceLine.accountCode,
     convertToPounds((invoiceLine.value * -1)),
     '',
     paymentRequest.dueDate,
     paymentRequest.recoveryDate,
     '',
-    lineId,
+    getLineId(paymentRequest.schemeId, lineId),
     invoiceLine.fundCode,
     invoiceLine.schemeCode,
     invoiceLine.marketingYear ?? paymentRequest.marketingYear ?? NOT_APPLICABLE,
@@ -62,12 +65,6 @@ const getLedgerLineAR = (invoiceLine, paymentRequest, lineId, source) => {
     getAgreementReference(source, invoiceLine.agreementNumber ?? paymentRequest.agreementNumber),
     'END'
   ]
-}
-
-const getAgreementReference = (source, agreementNumber) => {
-  // With the exception of SitiELM and SITICS, for sources beginning with Siti, DAX will populate the remittance advice with an invalid reference
-  // This can be avoided by not passing the agreement number on ledger lines
-  return !source.toLowerCase().startsWith('siti') || source === 'SitiELM' || source === 'SITICS' ? agreementNumber : ''
 }
 
 module.exports = {
