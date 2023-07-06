@@ -8,7 +8,6 @@ const { getSource } = require('./get-source')
 const { getBatchNumber } = require('./get-batch-number')
 const { getDueDate } = require('./get-due-date')
 const { getCurrency } = require('./get-currency')
-const { getCurrencyPreference } = require('./get-currency-preference')
 const AGREEMENT_NUMBER_INDEX = 28
 
 const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
