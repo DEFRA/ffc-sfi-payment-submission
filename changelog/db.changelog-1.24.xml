@@ -24,4 +24,9 @@
       <column name="source" value="GLOS" />
     </insert>
   </changeSet>
+  <changeSet author="John Watson" id="5">
+    <addColumn tableName="paymentRequests">
+      <column name="claimDate" type="VARCHAR(10)" />
+    </addColumn>
+  </changeSet>
 </databaseChangeLog>
