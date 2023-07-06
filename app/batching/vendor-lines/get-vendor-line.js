@@ -15,7 +15,7 @@ const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
   const line = [
     'Vendor',
     paymentRequest.frn,
-    paymentRequest.claimDate,
+    paymentRequest.claimDate ?? '',
     highestValueLine.fundCode,
     highestValueLine.schemeCode,
     paymentRequest.marketingYear ?? NOT_APPLICABLE,
