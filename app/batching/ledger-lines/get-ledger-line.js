@@ -10,7 +10,7 @@ const getLedgerLineAP = (invoiceLine, paymentRequest, lineId, source) => {
   const line = [
     'Ledger',
     invoiceLine.accountCode,
-    '',
+    paymentRequest.claimDate,
     invoiceLine.fundCode,
     invoiceLine.schemeCode,
     invoiceLine.marketingYear ?? paymentRequest.marketingYear ?? NOT_APPLICABLE,
