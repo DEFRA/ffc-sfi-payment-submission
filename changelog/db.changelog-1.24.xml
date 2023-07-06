@@ -18,7 +18,7 @@
   </changeSet>
   <changeSet author="John Watson" id="4">
       <insert tableName="batchProperties">
-      <column name="schemeId" value="11" />
+      <column name="schemeId" value="10" />
       <column name="prefix" value="FFCFC" />
       <column name="suffix" value=" (GLOS)" />
       <column name="source" value="GLOS" />
