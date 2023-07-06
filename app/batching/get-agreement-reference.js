@@ -4,7 +4,7 @@ const getAgreementReference = (source, agreementNumber) => {
   if (source === 'SitiELM' || source === 'SITICS') {
     return agreementNumber
   }
-  if (source.toLowerCase().startsWith('siti') || source === 'Genesis' || source === '04') {
+  if (source.toLowerCase().startsWith('siti') || source === 'Genesis' || source === 'GLOS' || source === '04') {
     return ''
   }
   return agreementNumber

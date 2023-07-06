@@ -1,4 +1,4 @@
-const { BPS, CS, FDMR, ES, IMPS } = require('../../constants/schemes')
+const { BPS, CS, FDMR, ES, FC, IMPS } = require('../../constants/schemes')
 
 const getPaymentType = (schemeId, paymentType) => {
   switch (true) {
@@ -7,6 +7,7 @@ const getPaymentType = (schemeId, paymentType) => {
     case schemeId === BPS:
     case schemeId === FDMR:
     case schemeId === ES:
+    case schemeId === FC:
       return ''
     case schemeId === IMPS:
       return 'No'
