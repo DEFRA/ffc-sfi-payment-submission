@@ -4,6 +4,7 @@ const { getContractNumber } = require('./get-contract-number')
 const { getCustomerReference } = require('../get-customer-reference')
 const { getPaymentType } = require('./get-payment-type')
 const { getPaymentDescription } = require('./get-payment-description')
+const { getHeaderDescription } = require('./get-header-description')
 const { getSource } = require('./get-source')
 const { getBatchNumber } = require('./get-batch-number')
 const { getDueDate } = require('./get-due-date')
@@ -29,7 +30,7 @@ const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
     '',
     getPaymentDescription(paymentRequest.schemeId),
     '',
-    '',
+    getHeaderDescription(paymentRequest),
     '',
     `BACS_${paymentRequest.currency}`,
     getSource(paymentRequest.schemeId, batch.scheme.batchProperties.source, paymentRequest.pillar),
