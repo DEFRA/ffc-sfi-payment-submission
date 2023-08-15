@@ -16,12 +16,12 @@
       <column name="nextAR" value="1" />
     </insert>
   </changeSet>
-  <changeSet author="John Watson" id="4">
+  <changeSet author="Sam Plackett" id="4">
       <insert tableName="batchProperties">
       <column name="schemeId" value="12" />
       <column name="prefix" value="FFCSFIA" />
       <column name="suffix" value=" (SFI_SFIA)" />
-      <column name="source" value="SITI_SFI" />
+      <column name="source" value="SITI_SFIA" />
     </insert>
   </changeSet>
 </databaseChangeLog>
