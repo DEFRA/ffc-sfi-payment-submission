@@ -1,4 +1,4 @@
-const { BPS, CS, FDMR, LumpSums, SFI, SFIP, VetVisits, IMPS, ES } = require('../../../../app/constants/schemes')
+const { BPS, CS, FDMR, LumpSums, SFI, SFIP, VetVisits, IMPS, ES, SFI23 } = require('../../../../app/constants/schemes')
 
 const { getPaymentType } = require('../../../../app/batching/vendor-lines/get-payment-type')
 
@@ -105,5 +105,11 @@ describe('get payment type tests', () => {
     paymentType = '1'
     const result = getPaymentType(IMPS, paymentType)
     expect(result).toBe('No')
+  })
+
+  test('return 0 when schemeId is SFI23 and paymentType is "0" ', () => {
+    paymentType = '0'
+    const result = getPaymentType(SFI23, paymentType)
+    expect(result).toBe(0)
   })
 })
