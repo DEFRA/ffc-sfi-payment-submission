@@ -51,13 +51,6 @@ describe('generate batches', () => {
       name: 'SFI'
     }
 
-    batchProperties = {
-      schemeId: 1,
-      prefix: 'PFELM',
-      suffix: ' (SITI)',
-      source: 'SitiELM'
-    }
-
     batch = {
       batchId: 1,
       schemeId: 1,
@@ -88,8 +81,6 @@ describe('generate batches', () => {
   })
 
   test('should generate batch and update as published', async () => {
-    await db.scheme.create(scheme)
-    await db.batchProperties.create(batchProperties)
     await db.batch.create(batch)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
@@ -99,8 +90,6 @@ describe('generate batches', () => {
   })
 
   test('should send message for file transfer', async () => {
-    await db.scheme.create(scheme)
-    await db.batchProperties.create(batchProperties)
     await db.batch.create(batch)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)

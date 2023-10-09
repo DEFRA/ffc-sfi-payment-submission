@@ -16,15 +16,6 @@ const getPendingBatches = async (started, transaction) => {
     limit: config.batchCap,
     order: ['sequence'],
     include: [{
-      model: db.scheme,
-      as: 'scheme',
-      required: true,
-      include: [{
-        model: db.batchProperties,
-        as: 'batchProperties',
-        required: true
-      }]
-    }, {
       model: db.paymentRequest,
       as: 'paymentRequests',
       required: true,

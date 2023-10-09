@@ -1,4 +1,4 @@
-const { LUMP_SUMS } = require('../../../app/constants/schemes')
+const { LUMP_SUMS } = require('../../../app/constants/scheme-ids')
 const { LUMP_SUMS_INVOICE_NUMBER } = require('../values/invoice-number')
 const paymentRequest = require('./payment-request')
 

@@ -1,4 +1,4 @@
-const config = require('../config')
+const config = require('../config/messaging')
 const processPaymentMessage = require('./process-payment-message')
 const { MessageReceiver } = require('ffc-messaging')
 const paymentReceivers = []

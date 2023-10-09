@@ -1,4 +1,4 @@
-const { MANUAL } = require('../../constants/schemes')
+const { MANUAL } = require('../../constants/scheme-ids')
 const manualSources = require('../../constants/manual-sources')
 
 const getSource = (schemeId, source, pillar) => {

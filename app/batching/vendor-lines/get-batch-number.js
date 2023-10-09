@@ -1,4 +1,4 @@
-const { ES } = require('../../constants/schemes')
+const { ES } = require('../../constants/scheme-ids')
 
 const getBatchNumber = (schemeId, sequence) => {
   if (schemeId === ES) {

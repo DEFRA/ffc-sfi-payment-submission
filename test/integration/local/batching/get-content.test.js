@@ -507,11 +507,6 @@ describe('get content', () => {
     batch = {
       sequence: 1,
       ledger: AP,
-      scheme: {
-        batchProperties: {
-          source: 'SOURCE'
-        }
-      },
       paymentRequests: [{
         frn: 1234567890,
         marketingYear: 2021,

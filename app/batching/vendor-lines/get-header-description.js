@@ -1,4 +1,4 @@
-const { FC } = require('../../constants/schemes')
+const { FC } = require('../../constants/scheme-ids')
 
 const getHeaderDescription = (paymentRequest) => {
   if (paymentRequest.schemeId === FC) {

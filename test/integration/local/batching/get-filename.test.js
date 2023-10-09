@@ -10,13 +10,7 @@ describe('get filename', () => {
     batch = {
       ledger: AP,
       sequence: 1,
-      started: new Date(2022, 2, 1, 22, 27, 0, 0),
-      scheme: {
-        batchProperties: {
-          prefix: 'PFELM',
-          suffix: ' (SITI)'
-        }
-      }
+      started: new Date(2022, 2, 1, 22, 27, 0, 0)
     }
   })
 

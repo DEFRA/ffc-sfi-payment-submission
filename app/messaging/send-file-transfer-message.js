@@ -1,6 +1,6 @@
 const { MessageSender } = require('ffc-messaging')
 const createMessage = require('./create-message')
-const { sendTopic } = require('../config')
+const { sendTopic } = require('../config/messaging')
 const { sendSubmissionTransferEvent } = require('../event')
 
 const sendFileTransferMessage = async (filename, batch) => {

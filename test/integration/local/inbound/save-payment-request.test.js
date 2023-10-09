@@ -48,7 +48,6 @@ describe('save payment requests', () => {
       ]
     }
 
-    await db.scheme.create(scheme)
   })
 
   afterAll(async () => {

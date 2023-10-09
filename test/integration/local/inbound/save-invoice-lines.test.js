@@ -35,7 +35,6 @@ describe('save invoice lines', () => {
       value: 15000
     }
 
-    await db.scheme.create(scheme)
     await db.paymentRequest.create(paymentRequest)
 
     invoiceLines = [{

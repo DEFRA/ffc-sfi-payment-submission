@@ -1,4 +1,4 @@
-const { FC } = require('../../../../app/constants/schemes')
+const { FC } = require('../../../../app/constants/scheme-ids')
 
 const { getHeaderDescription } = require('../../../../app/batching/vendor-lines/get-header-description')
 

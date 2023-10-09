@@ -1,4 +1,4 @@
-const { VET_VISITS } = require('../../../app/constants/schemes')
+const { VET_VISITS } = require('../../../app/constants/scheme-ids')
 const { VET_VISITS_INVOICE_NUMBER } = require('../values/invoice-number')
 const paymentRequest = require('./payment-request')
 

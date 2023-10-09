@@ -41,7 +41,6 @@ describe('allocate to batch', () => {
   })
 
   test('should not increase sequence if no due payment requests', async () => {
-    await db.scheme.create(scheme)
     await db.sequence.create(sequence)
     await allocateToBatch()
     const sequenceResult = await db.sequence.findByPk(sequence.schemeId)
@@ -50,7 +49,6 @@ describe('allocate to batch', () => {
   })
 
   test('should not increase sequence for AP payment requests with no invoice lines', async () => {
-    await db.scheme.create(scheme)
     await db.sequence.create(sequence)
     await db.paymentRequest.create(paymentRequest)
     await allocateToBatch()
@@ -61,7 +59,6 @@ describe('allocate to batch', () => {
 
   test('should not increase sequence for AR payment requests with no invoice lines', async () => {
     paymentRequest.ledger = AR
-    await db.scheme.create(scheme)
     await db.sequence.create(sequence)
     await db.paymentRequest.create(paymentRequest)
     await allocateToBatch()
@@ -71,7 +68,6 @@ describe('allocate to batch', () => {
   })
 
   test('should not allocate AP payment requests with no invoice lines', async () => {
-    await db.scheme.create(scheme)
     await db.sequence.create(sequence)
     await db.paymentRequest.create(paymentRequest)
     await allocateToBatch()
@@ -81,7 +77,6 @@ describe('allocate to batch', () => {
 
   test('should not allocate AR payment requests with no invoice lines', async () => {
     paymentRequest.ledger = AR
-    await db.scheme.create(scheme)
     await db.sequence.create(sequence)
     await db.paymentRequest.create(paymentRequest)
     await allocateToBatch()
@@ -90,7 +85,6 @@ describe('allocate to batch', () => {
   })
 
   test('should create AP batch', async () => {
-    await db.scheme.create(scheme)
     await db.sequence.create(sequence)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
@@ -100,7 +94,6 @@ describe('allocate to batch', () => {
   })
 
   test('should allocate AP payment requests to next batch', async () => {
-    await db.scheme.create(scheme)
     await db.sequence.create(sequence)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
@@ -112,7 +105,6 @@ describe('allocate to batch', () => {
 
   test('should create AR batch', async () => {
     paymentRequest.ledger = AR
-    await db.scheme.create(scheme)
     await db.sequence.create(sequence)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
@@ -123,7 +115,6 @@ describe('allocate to batch', () => {
 
   test('should allocate AR payment requests to next batch', async () => {
     paymentRequest.ledger = AR
-    await db.scheme.create(scheme)
     await db.sequence.create(sequence)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
@@ -134,7 +125,6 @@ describe('allocate to batch', () => {
   })
 
   test('should increase sequence for AP payment requests', async () => {
-    await db.scheme.create(scheme)
     await db.sequence.create(sequence)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
@@ -146,7 +136,6 @@ describe('allocate to batch', () => {
 
   test('should increase sequence for AR payment requests', async () => {
     paymentRequest.ledger = AR
-    await db.scheme.create(scheme)
     await db.sequence.create(sequence)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
@@ -157,7 +146,6 @@ describe('allocate to batch', () => {
   })
 
   test('should set initial dates for AP batch', async () => {
-    await db.scheme.create(scheme)
     await db.sequence.create(sequence)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
@@ -170,7 +158,6 @@ describe('allocate to batch', () => {
 
   test('should set initial dates for AR batch', async () => {
     paymentRequest.ledger = AR
-    await db.scheme.create(scheme)
     await db.sequence.create(sequence)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
@@ -183,7 +170,6 @@ describe('allocate to batch', () => {
 
   test('should reset sequence for AP payment requests to 1 after 9999', async () => {
     sequence.nextAP = 9999
-    await db.scheme.create(scheme)
     await db.sequence.create(sequence)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
@@ -195,7 +181,6 @@ describe('allocate to batch', () => {
   test('should increase sequence for AR payment requests to 1 after 9999', async () => {
     sequence.nextAR = 9999
     paymentRequest.ledger = AR
-    await db.scheme.create(scheme)
     await db.sequence.create(sequence)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)

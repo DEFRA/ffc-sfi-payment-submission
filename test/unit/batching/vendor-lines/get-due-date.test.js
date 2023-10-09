@@ -1,6 +1,6 @@
 const { DUE_DATE } = require('../../../mocks/values/due-date')
 
-const { ES, IMPS, SFI } = require('../../../../app/constants/schemes')
+const { ES, IMPS, SFI } = require('../../../../app/constants/scheme-ids')
 
 const { getDueDate } = require('../../../../app/batching/vendor-lines/get-due-date')
 
