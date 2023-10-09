@@ -18,10 +18,6 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'batchId',
       as: 'paymentRequests'
     })
-    batch.belongsTo(models.scheme, {
-      foreignKey: 'schemeId',
-      as: 'scheme'
-    })
   }
   return batch
 }

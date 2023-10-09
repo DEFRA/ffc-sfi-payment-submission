@@ -40,7 +40,6 @@ let scheme
 let batch
 let paymentRequest
 let invoiceLine
-let batchProperties
 
 describe('generate batches', () => {
   beforeEach(async () => {

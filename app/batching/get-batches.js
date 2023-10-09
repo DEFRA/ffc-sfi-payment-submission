@@ -1,6 +1,6 @@
 const db = require('../data')
 const moment = require('moment')
-const config = require('../config')
+const config = require('../config/submission')
 
 const getBatches = async (transaction, started = new Date()) => {
   const batches = await getPendingBatches(started, transaction)

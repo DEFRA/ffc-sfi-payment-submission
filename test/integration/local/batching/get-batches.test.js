@@ -1,13 +1,12 @@
 const db = require('../../../../app/data')
 const getBatches = require('../../../../app/batching/get-batches')
-const config = require('../../../../app/config')
+const config = require('../../../../app/config/submission')
 const moment = require('moment')
 const { AP } = require('../../../../app/constants/ledgers')
 let scheme
 let batch
 let paymentRequest
 let invoiceLine
-let batchProperties
 
 describe('get batches', () => {
   beforeEach(async () => {
