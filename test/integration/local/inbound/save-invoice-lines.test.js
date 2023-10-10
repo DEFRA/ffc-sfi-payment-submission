@@ -3,7 +3,6 @@ const { M12 } = require('../../../../app/constants/schedules')
 const db = require('../../../../app/data')
 const saveInvoiceLines = require('../../../../app/inbound/save-invoice-lines')
 
-let scheme
 let paymentRequest
 let invoiceLines
 let paymentRequestId
@@ -11,12 +10,6 @@ let paymentRequestId
 describe('save invoice lines', () => {
   beforeEach(async () => {
     await db.sequelize.truncate({ cascade: true })
-
-    scheme = {
-      schemeId: 1,
-      name: 'SFI',
-      active: true
-    }
 
     paymentRequest = {
       paymentRequestId: 1,

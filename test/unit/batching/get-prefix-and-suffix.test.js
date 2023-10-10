@@ -1,4 +1,4 @@
-const { 
+const {
   SFI,
   SFIP,
   LumpSums,
@@ -11,12 +11,12 @@ const {
   FC,
   IMPS,
   SFI23
-} = require("../../../app/constants/scheme-ids")
-const { 
+} = require('../../../app/constants/scheme-ids')
+const {
   SFI: SFI_PFX,
   SFIP: SFIP_PFX,
-  LumpSums: LumpSums_PFX,
-  VetVisits: VetVisits_PFX,
+  LumpSums: lumpSums_PFX,
+  VetVisits: vetVisits_PFX,
   CS: CS_PFX,
   BPS: BPS_PFX,
   FDMR: FDMR_PFX,
@@ -25,12 +25,12 @@ const {
   FC: FC_PFX,
   IMPS: IMPS_PFX,
   SFI23: SFI23_PFX
-} = require("../../../app/constants/prefixes")
-const { 
+} = require('../../../app/constants/prefixes')
+const {
   SFI: SFI_SFX,
   SFIP: SFIP_SFX,
-  LumpSums: LumpSums_SFX,
-  VetVisits: VetVisits_SFX,
+  LumpSums: lumpSums_SFX,
+  VetVisits: vetVisits_SFX,
   CS: CS_SFX,
   BPS: BPS_SFX,
   FDMR: FDMR_SFX,
@@ -39,12 +39,11 @@ const {
   FC: FC_SFX,
   IMPS: IMPS_SFX,
   SFI23: SFI23_SFX
-} = require("../../../app/constants/suffixes")
+} = require('../../../app/constants/suffixes')
 
 const { getPrefixAndSuffix } = require('../../../app/batching/get-prefix-and-suffix')
 
 describe('get prefix and suffix', () => {
-
   test('returns correct prefix for SFI', () => {
     expect(getPrefixAndSuffix(SFI)[0]).toBe(SFI_PFX)
   })
@@ -62,19 +61,19 @@ describe('get prefix and suffix', () => {
   })
 
   test('returns correct prefix for LumpSums', () => {
-    expect(getPrefixAndSuffix(LumpSums)[0]).toBe(LumpSums_PFX)
+    expect(getPrefixAndSuffix(LumpSums)[0]).toBe(lumpSums_PFX)
   })
 
   test('returns correct suffix for LumpSums', () => {
-    expect(getPrefixAndSuffix(LumpSums)[1]).toBe(LumpSums_SFX)
+    expect(getPrefixAndSuffix(LumpSums)[1]).toBe(lumpSums_SFX)
   })
 
   test('returns correct prefix for VetVisits', () => {
-    expect(getPrefixAndSuffix(VetVisits)[0]).toBe(VetVisits_PFX)
+    expect(getPrefixAndSuffix(VetVisits)[0]).toBe(vetVisits_PFX)
   })
 
   test('returns correct suffix for VetVisits', () => {
-    expect(getPrefixAndSuffix(VetVisits)[1]).toBe(VetVisits_SFX)
+    expect(getPrefixAndSuffix(VetVisits)[1]).toBe(vetVisits_SFX)
   })
 
   test('returns correct prefix for CS', () => {

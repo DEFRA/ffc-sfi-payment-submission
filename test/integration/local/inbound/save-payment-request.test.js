@@ -2,17 +2,11 @@ const { v4: uuidv4 } = require('uuid')
 const db = require('../../../../app/data')
 const savePaymentRequest = require('../../../../app/inbound')
 
-let scheme
 let paymentRequest
 
 describe('save payment requests', () => {
   beforeEach(async () => {
     await db.sequelize.truncate({ cascade: true })
-
-    scheme = {
-      schemeId: 1,
-      name: 'SFI'
-    }
 
     paymentRequest = {
       sourceSystem: 'SFIP',
@@ -47,7 +41,6 @@ describe('save payment requests', () => {
         }
       ]
     }
-
   })
 
   afterAll(async () => {

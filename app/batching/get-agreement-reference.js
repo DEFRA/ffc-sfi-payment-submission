@@ -1,4 +1,4 @@
-const { CS, ES, FC, IMPS } = require("../constants/scheme-sources")
+const { CS, ES, FC, IMPS } = require('../constants/scheme-sources')
 
 const getAgreementReference = (source, agreementNumber) => {
   // With the exception of SitiELM and SITICS, for sources beginning with Siti, DAX will populate the remittance advice with an invalid reference

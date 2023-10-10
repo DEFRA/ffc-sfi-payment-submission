@@ -2,17 +2,11 @@ const db = require('../../../../app/data')
 const completeBatch = require('../../../../app/batching/complete-batch')
 const moment = require('moment')
 const { AP } = require('../../../../app/constants/ledgers')
-let scheme
 let batch
 
 describe('complete batch', () => {
   beforeEach(async () => {
     await db.sequelize.truncate({ cascade: true })
-
-    scheme = {
-      schemeId: 1,
-      name: 'SFI'
-    }
 
     batch = {
       batchId: 1,

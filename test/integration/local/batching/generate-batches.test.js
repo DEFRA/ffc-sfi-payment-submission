@@ -36,7 +36,6 @@ const { AP } = require('../../../../app/constants/ledgers')
 
 const generateBatches = require('../../../../app/batching/generate-batches')
 
-let scheme
 let batch
 let paymentRequest
 let invoiceLine
@@ -44,11 +43,6 @@ let invoiceLine
 describe('generate batches', () => {
   beforeEach(async () => {
     await db.sequelize.truncate({ cascade: true })
-
-    scheme = {
-      schemeId: 1,
-      name: 'SFI'
-    }
 
     batch = {
       batchId: 1,

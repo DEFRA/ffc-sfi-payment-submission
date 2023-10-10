@@ -1,7 +1,6 @@
 const allocateToBatch = require('../../../../app/batching/allocate-to-batches')
 const db = require('../../../../app/data')
 const { AP, AR } = require('../../../../app/constants/ledgers')
-let scheme
 let paymentRequest
 let invoiceLine
 let sequence
@@ -9,11 +8,6 @@ let sequence
 describe('allocate to batch', () => {
   beforeEach(async () => {
     await db.sequelize.truncate({ cascade: true })
-
-    scheme = {
-      schemeId: 1,
-      name: 'SFI'
-    }
 
     paymentRequest = {
       paymentRequestId: 1,
