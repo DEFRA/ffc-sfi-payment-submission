@@ -12,11 +12,11 @@ const {
   IMPS,
   SFI23
 } = require('./scheme-ids')
-const { 
+const {
   SFI: SFI_NAME,
   SFIP: SFIP_NAME,
-  LumpSums: lumpSums_NAME,
-  VetVisits: vetVisits_NAME,
+  LumpSums: LS_NAME,
+  VetVisits: VV_NAME,
   CS: CS_NAME,
   BPS: BPS_NAME,
   FDMR: FDMR_NAME,
@@ -30,8 +30,8 @@ const {
 module.exports = [
   { schemeId: SFI, name: SFI_NAME },
   { schemeId: SFIP, name: SFIP_NAME },
-  { schemeId: LumpSums, name: lumpSums_NAME },
-  { schemeId: VetVisits, name: vetVisits_NAME },
+  { schemeId: LumpSums, name: LS_NAME },
+  { schemeId: VetVisits, name: VV_NAME },
   { schemeId: CS, name: CS_NAME },
   { schemeId: BPS, name: BPS_NAME },
   { schemeId: FDMR, name: FDMR_NAME },

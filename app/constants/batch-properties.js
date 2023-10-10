@@ -12,11 +12,11 @@ const {
   IMPS,
   SFI23
 } = require('./scheme-ids')
-const { 
+const {
   SFI: SFI_PFX,
   SFIP: SFIP_PFX,
-  LumpSums: lumpSums_PFX,
-  VetVisits: vetVisits_PFX,
+  LumpSums: LS_PFX,
+  VetVisits: VV_PFX,
   CS: CS_PFX,
   BPS: BPS_PFX,
   FDMR: FDMR_PFX,
@@ -26,11 +26,11 @@ const {
   IMPS: IMPS_PFX,
   SFI23: SFI23_PFX
 } = require('./prefixes')
-const { 
+const {
   SFI: SFI_SFX,
   SFIP: SFIP_SFX,
-  LumpSums: lumpSums_SFX,
-  VetVisits: vetVisits_SFX,
+  LumpSums: LS_SFX,
+  VetVisits: VV_SFX,
   CS: CS_SFX,
   BPS: BPS_SFX,
   FDMR: FDMR_SFX,
@@ -43,8 +43,8 @@ const {
 const {
   SFI: SFI_SRC,
   SFIP: SFIP_SRC,
-  LumpSums: lumpSums_SRC,
-  VetVisits: vetVisits_SRC,
+  LumpSums: LS_SRC,
+  VetVisits: VV_SRC,
   CS: CS_SRC,
   BPS: BPS_SRC,
   FDMR: FDMR_SRC,
@@ -58,8 +58,8 @@ const {
 module.exports = [
   { schemeId: SFI, prefix: SFI_PFX, suffix: SFI_SFX, source: SFI_SRC },
   { schemeId: SFIP, prefix: SFIP_PFX, suffix: SFIP_SFX, source: SFIP_SRC },
-  { schemeId: LumpSums, prefix: lumpSums_PFX, suffix: lumpSums_SFX, source: lumpSums_SRC },
-  { schemeId: VetVisits, prefix: vetVisits_PFX, suffix: vetVisits_SFX, source: vetVisits_SRC },
+  { schemeId: LumpSums, prefix: LS_PFX, suffix: LS_SFX, source: LS_SRC },
+  { schemeId: VetVisits, prefix: VV_PFX, suffix: VV_SFX, source: VV_SRC },
   { schemeId: CS, prefix: CS_PFX, suffix: CS_SFX, source: CS_SRC },
   { schemeId: BPS, prefix: BPS_PFX, suffix: BPS_SFX, source: BPS_SRC },
   { schemeId: FDMR, prefix: FDMR_PFX, suffix: FDMR_SFX, source: FDMR_SRC },

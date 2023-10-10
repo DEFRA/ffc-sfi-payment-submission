@@ -15,8 +15,8 @@ const {
 const {
   SFI: SFI_PFX,
   SFIP: SFIP_PFX,
-  LumpSums: lumpSums_PFX,
-  VetVisits: vetVisits_PFX,
+  LumpSums: LS_PFX,
+  VetVisits: VV_PFX,
   CS: CS_PFX,
   BPS: BPS_PFX,
   FDMR: FDMR_PFX,
@@ -29,8 +29,8 @@ const {
 const {
   SFI: SFI_SFX,
   SFIP: SFIP_SFX,
-  LumpSums: lumpSums_SFX,
-  VetVisits: vetVisits_SFX,
+  LumpSums: LS_SFX,
+  VetVisits: VV_SFX,
   CS: CS_SFX,
   BPS: BPS_SFX,
   FDMR: FDMR_SFX,
@@ -61,19 +61,19 @@ describe('get prefix and suffix', () => {
   })
 
   test('returns correct prefix for LumpSums', () => {
-    expect(getPrefixAndSuffix(LumpSums)[0]).toBe(lumpSums_PFX)
+    expect(getPrefixAndSuffix(LumpSums)[0]).toBe(LS_PFX)
   })
 
   test('returns correct suffix for LumpSums', () => {
-    expect(getPrefixAndSuffix(LumpSums)[1]).toBe(lumpSums_SFX)
+    expect(getPrefixAndSuffix(LumpSums)[1]).toBe(LS_SFX)
   })
 
   test('returns correct prefix for VetVisits', () => {
-    expect(getPrefixAndSuffix(VetVisits)[0]).toBe(vetVisits_PFX)
+    expect(getPrefixAndSuffix(VetVisits)[0]).toBe(VV_PFX)
   })
 
   test('returns correct suffix for VetVisits', () => {
-    expect(getPrefixAndSuffix(VetVisits)[1]).toBe(vetVisits_SFX)
+    expect(getPrefixAndSuffix(VetVisits)[1]).toBe(VV_SFX)
   })
 
   test('returns correct prefix for CS', () => {
