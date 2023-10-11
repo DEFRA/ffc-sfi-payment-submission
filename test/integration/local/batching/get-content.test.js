@@ -609,19 +609,13 @@ describe('get content', () => {
     expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === scheduledAPRequest[1][AGREEMENT_NUMBER_INDEX])).toBeTruthy()
   })
 
-  // test('should include agreement number on every ledger line if source is SitiELM', () => {
-  //   batch.scheme.batchProperties.source = 'SitiELM'
-  //   const content = getContent(batch)
-  //   expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === scheduledAPRequest[1][AGREEMENT_NUMBER_INDEX])).toBeTruthy()
-  // })
-
   test('should include agreement number on every ledger line if source is SITICS', () => {
     batch.schemeId = 4
     const content = getContent(batch)
     expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === scheduledAPRequest[1][AGREEMENT_NUMBER_INDEX])).toBeTruthy()
   })
 
-  test('should not include agreement number on any ledger line if source begins with SITI and is not SitiELM or SITICS', () => {
+  test('should not include agreement number on any ledger line if source begins with SITI and is not SITICS', () => {
     batch.schemeId = 1
     const content = getContent(batch)
     expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === '')).toBeTruthy()
