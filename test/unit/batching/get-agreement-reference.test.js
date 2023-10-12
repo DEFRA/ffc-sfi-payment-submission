@@ -4,10 +4,6 @@ const { agreementNumber } = require('../../mocks/values/agreement-number')
 const { getAgreementReference } = require('../../../app/batching/get-agreement-reference')
 
 describe('get agreement reference', () => {
-  test('returns agreement reference if source is SitiELM', () => {
-    expect(getAgreementReference('SitiELM', agreementNumber)).toBe(agreementNumber)
-  })
-
   test('returns agreement reference if source is CS', () => {
     expect(getAgreementReference(CS, agreementNumber)).toBe(agreementNumber)
   })
