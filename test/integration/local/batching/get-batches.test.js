@@ -1,8 +1,9 @@
 const db = require('../../../../app/data')
 const getBatches = require('../../../../app/batching/get-batches')
-const config = require('../../../../app/config/submission')
+const { submissionConfig } = require('../../../../app/config')
 const moment = require('moment')
 const { AP } = require('../../../../app/constants/ledgers')
+let scheme
 let batch
 let paymentRequest
 let invoiceLine
@@ -10,6 +11,11 @@ let invoiceLine
 describe('get batches', () => {
   beforeEach(async () => {
     await db.sequelize.truncate({ cascade: true })
+
+    scheme = {
+      schemeId: 1,
+      name: 'SFI'
+    }
 
     batch = {
       batchId: 1,
@@ -39,12 +45,14 @@ describe('get batches', () => {
   })
 
   test('should not return batches if no payment requests', async () => {
+    await db.scheme.create(scheme)
     await db.batch.create(batch)
     const batches = await getBatches()
     expect(batches.length).toBe(0)
   })
 
   test('should not return batches if payment requests have no invoice lines', async () => {
+    await db.scheme.create(scheme)
     await db.batch.create(batch)
     await db.paymentRequest.create(paymentRequest)
     const batches = await getBatches()
@@ -52,6 +60,7 @@ describe('get batches', () => {
   })
 
   test('should not return batches if no batch properties', async () => {
+    await db.scheme.create(scheme)
     await db.batch.create(batch)
     await db.paymentRequest.create(paymentRequest)
     const batches = await getBatches()
@@ -59,6 +68,7 @@ describe('get batches', () => {
   })
 
   test('should return batch if not complete', async () => {
+    await db.scheme.create(scheme)
     await db.batch.create(batch)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
@@ -67,6 +77,7 @@ describe('get batches', () => {
   })
 
   test('should return batch if some payment requests do not have lines', async () => {
+    await db.scheme.create(scheme)
     await db.batch.create(batch)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
@@ -79,6 +90,7 @@ describe('get batches', () => {
   })
 
   test('should return all payment requests in batch', async () => {
+    await db.scheme.create(scheme)
     await db.batch.create(batch)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
@@ -94,6 +106,7 @@ describe('get batches', () => {
 
   test('should not return batch if complete', async () => {
     batch.published = new Date()
+    await db.scheme.create(scheme)
     await db.batch.create(batch)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
@@ -103,6 +116,7 @@ describe('get batches', () => {
 
   test('should not return batch if in progress', async () => {
     batch.started = moment().subtract(1, 'minute')
+    await db.scheme.create(scheme)
     await db.batch.create(batch)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
@@ -112,6 +126,7 @@ describe('get batches', () => {
 
   test('should return batch if in progress but exceeded allowance', async () => {
     batch.started = moment().subtract(10, 'minute')
+    await db.scheme.create(scheme)
     await db.batch.create(batch)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
@@ -120,6 +135,7 @@ describe('get batches', () => {
   })
 
   test('should update started', async () => {
+    await db.scheme.create(scheme)
     await db.batch.create(batch)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
@@ -129,7 +145,8 @@ describe('get batches', () => {
   })
 
   test('should restrict batches to cap', async () => {
-    config.batchCap = 1
+    submissionConfig.batchCap = 1
+    await db.scheme.create(scheme)
     await db.batch.create(batch)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)

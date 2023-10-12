@@ -40,6 +40,10 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   })
   paymentRequest.associate = function (models) {
+    paymentRequest.belongsTo(models.scheme, {
+      foreignKey: 'schemeId',
+      as: 'scheme'
+    })
     paymentRequest.hasMany(models.invoiceLine, {
       foreignKey: 'paymentRequestId',
       as: 'invoiceLines'

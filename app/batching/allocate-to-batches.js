@@ -1,11 +1,11 @@
 const db = require('../data')
 const config = require('../config')
 const { AP, AR } = require('../constants/ledgers')
-const schemes = require('../constants/schemes')
 const MAX_BATCH_SEQUENCE = 9999
 
 const allocateToBatches = async (created = new Date()) => {
   const transaction = await db.sequelize.transaction()
+  const schemes = await getSchemes()
   try {
     for (const scheme of schemes) {
       const apPaymentRequests = await getPendingPaymentRequests(scheme.schemeId, AP, transaction)
@@ -22,6 +22,10 @@ const allocateToBatches = async (created = new Date()) => {
     await transaction.rollback()
     throw (error)
   }
+}
+
+const getSchemes = async () => {
+  return db.scheme.findAll()
 }
 
 const getPendingPaymentRequests = async (schemeId, ledger, transaction) => {

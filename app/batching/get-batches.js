@@ -1,6 +1,6 @@
 const db = require('../data')
 const moment = require('moment')
-const config = require('../config/submission')
+const { submissionConfig } = require('../config')
 
 const getBatches = async (transaction, started = new Date()) => {
   const batches = await getPendingBatches(started, transaction)
@@ -13,7 +13,7 @@ const getPendingBatches = async (started, transaction) => {
     transaction,
     lock: true,
     skipLocked: true,
-    limit: config.batchCap,
+    limit: submissionConfig.batchCap,
     order: ['sequence'],
     include: [{
       model: db.paymentRequest,

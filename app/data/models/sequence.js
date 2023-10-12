@@ -9,5 +9,11 @@ module.exports = (sequelize, DataTypes) => {
     freezeTableName: true,
     timestamps: false
   })
+  sequence.associate = function (models) {
+    sequence.belongsTo(models.scheme, {
+      foreignKey: 'schemeId',
+      as: 'scheme'
+    })
+  }
   return sequence
 }
