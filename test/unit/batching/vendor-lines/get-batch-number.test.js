@@ -1,4 +1,4 @@
-const { ES, SFI } = require('../../../../app/constants/schemes')
+const { ES, SFI } = require('../../../../app/constants/scheme-ids')
 
 const { getBatchNumber } = require('../../../../app/batching/vendor-lines/get-batch-number')
 

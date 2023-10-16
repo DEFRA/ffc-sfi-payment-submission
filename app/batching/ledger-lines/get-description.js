@@ -1,4 +1,4 @@
-const { BPS, FDMR } = require('../../constants/schemes')
+const { BPS, FDMR } = require('../../constants/scheme-ids')
 const MAX_DESCRIPTION_LENGTH = 60
 
 const getDescription = (schemeId, description) => {

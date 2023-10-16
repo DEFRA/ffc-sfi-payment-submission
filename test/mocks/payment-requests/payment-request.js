@@ -1,4 +1,4 @@
-const { SFI } = require('../../../app/constants/schemes')
+const { SFI } = require('../../../app/constants/scheme-ids')
 const { GBP } = require('../../../app/constants/currency')
 const { M12 } = require('../../../app/constants/schedules')
 const { AP } = require('../../../app/constants/ledgers')

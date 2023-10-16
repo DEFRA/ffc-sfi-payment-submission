@@ -1,4 +1,4 @@
-const { SFI } = require('../../../app/constants/schemes')
+const { SFI } = require('../../../app/constants/scheme-ids')
 const { SFI_INVOICE_NUMBER } = require('../values/invoice-number')
 const paymentRequest = require('./payment-request')
 

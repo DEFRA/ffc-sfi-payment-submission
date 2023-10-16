@@ -11,7 +11,7 @@ const { getDueDate } = require('./get-due-date')
 const { getCurrency } = require('./get-currency')
 const AGREEMENT_NUMBER_INDEX = 28
 
-const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
+const getVendorLineAP = (paymentRequest, batch, source, highestValueLine) => {
   const line = [
     'Vendor',
     paymentRequest.frn,
@@ -33,7 +33,7 @@ const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
     getHeaderDescription(paymentRequest),
     '',
     `BACS_${paymentRequest.currency}`,
-    getSource(paymentRequest.schemeId, batch.scheme.batchProperties.source, paymentRequest.pillar),
+    getSource(paymentRequest.schemeId, source, paymentRequest.pillar),
     paymentRequest.exchangeRate ?? '',
     getBatchNumber(paymentRequest.schemeId, batch.sequence),
     paymentRequest.eventDate ?? '',
@@ -52,7 +52,7 @@ const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
   return line
 }
 
-const getVendorLineAR = (paymentRequest, batch, lowestValueLine) => {
+const getVendorLineAR = (paymentRequest, batch, source, lowestValueLine) => {
   return [
     'H',
     paymentRequest.frn,
@@ -62,7 +62,7 @@ const getVendorLineAR = (paymentRequest, batch, lowestValueLine) => {
     paymentRequest.originalInvoiceNumber,
     'None',
     '',
-    batch.scheme.batchProperties.source,
+    source,
     '',
     paymentRequest.invoiceNumber,
     paymentRequest.invoiceNumber,
