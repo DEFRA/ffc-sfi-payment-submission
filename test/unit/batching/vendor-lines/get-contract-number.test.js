@@ -1,7 +1,7 @@
 const { CONTRACT_NUMBER } = require('../../../mocks/values/contract-number')
 const { ES_INVOICE_NUMBER } = require('../../../mocks/values/invoice-number')
 
-const { ES, SFI } = require('../../../../app/constants/schemes')
+const { ES, SFI } = require('../../../../app/constants/scheme-ids')
 
 const { getContractNumber } = require('../../../../app/batching/vendor-lines/get-contract-number')
 

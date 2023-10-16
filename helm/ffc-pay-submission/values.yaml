@@ -25,9 +25,9 @@ deployment:
   memoryThreshold: 80
 
 container:
-  requestMemory: 150Mi
+  requestMemory: 250Mi
   requestCpu: 120m
-  limitMemory: 150Mi
+  limitMemory: 250Mi
   limitCpu: 180m
   messageQueueHost: namespace.servicebus.windows.net
   paymentSubmitTopicAddress: ffc-pay-submit

@@ -1,4 +1,5 @@
 const { AP } = require('../constants/ledgers')
+const batchProperties = require('../constants/batch-properties')
 const { getLedgerLineAP, getLedgerLineAR } = require('./ledger-lines/get-ledger-line')
 const { getVendorLineAP, getVendorLineAR } = require('./vendor-lines/get-vendor-line')
 
@@ -14,9 +15,10 @@ const getContent = (batch) => {
 const getAPContent = (paymentRequest, batch) => {
   const highestValueLine = getHighestValueLine(paymentRequest.invoiceLines)
   const rows = []
-  rows.push(getVendorLineAP(paymentRequest, batch, highestValueLine))
+  const source = getSchemeSource(batch.schemeId)
+  rows.push(getVendorLineAP(paymentRequest, batch, source, highestValueLine))
   for (const [lineId, invoiceLine] of paymentRequest.invoiceLines.entries()) {
-    rows.push(getLedgerLineAP(invoiceLine, paymentRequest, lineId + 1, batch.scheme.batchProperties.source))
+    rows.push(getLedgerLineAP(invoiceLine, paymentRequest, lineId + 1, source))
   }
   return rows
 }
@@ -24,11 +26,17 @@ const getAPContent = (paymentRequest, batch) => {
 const getARContent = (paymentRequest, batch) => {
   const valueLine = paymentRequest.value > 0 ? getHighestValueLine(paymentRequest.invoiceLines) : getLowestValueLine(paymentRequest.invoiceLines)
   const rows = []
-  rows.push(getVendorLineAR(paymentRequest, batch, valueLine))
+  const source = getSchemeSource(batch.schemeId)
+  rows.push(getVendorLineAR(paymentRequest, batch, source, valueLine))
   for (const [lineId, invoiceLine] of paymentRequest.invoiceLines.entries()) {
-    rows.push(getLedgerLineAR(invoiceLine, paymentRequest, lineId + 1, batch.scheme.batchProperties.source))
+    rows.push(getLedgerLineAR(invoiceLine, paymentRequest, lineId + 1, source))
   }
   return rows
+}
+
+const getSchemeSource = (schemeId) => {
+  const sourceIdx = batchProperties.findIndex(scheme => scheme.schemeId === schemeId)
+  return batchProperties[sourceIdx].source
 }
 
 const getHighestValueLine = (invoiceLines) => {

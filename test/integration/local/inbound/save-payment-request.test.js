@@ -11,7 +11,8 @@ describe('save payment requests', () => {
 
     scheme = {
       schemeId: 1,
-      name: 'SFI'
+      name: 'SFI',
+      active: true
     }
 
     paymentRequest = {

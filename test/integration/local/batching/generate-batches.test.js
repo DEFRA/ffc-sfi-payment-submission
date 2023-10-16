@@ -40,7 +40,6 @@ let scheme
 let batch
 let paymentRequest
 let invoiceLine
-let batchProperties
 
 describe('generate batches', () => {
   beforeEach(async () => {
@@ -49,13 +48,6 @@ describe('generate batches', () => {
     scheme = {
       schemeId: 1,
       name: 'SFI'
-    }
-
-    batchProperties = {
-      schemeId: 1,
-      prefix: 'PFELM',
-      suffix: ' (SITI)',
-      source: 'SitiELM'
     }
 
     batch = {
@@ -89,7 +81,6 @@ describe('generate batches', () => {
 
   test('should generate batch and update as published', async () => {
     await db.scheme.create(scheme)
-    await db.batchProperties.create(batchProperties)
     await db.batch.create(batch)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
@@ -100,7 +91,6 @@ describe('generate batches', () => {
 
   test('should send message for file transfer', async () => {
     await db.scheme.create(scheme)
-    await db.batchProperties.create(batchProperties)
     await db.batch.create(batch)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)

@@ -13,10 +13,6 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'schemeId',
       as: 'sequence'
     })
-    scheme.hasOne(models.batchProperties, {
-      foreignKey: 'schemeId',
-      as: 'batchProperties'
-    })
     scheme.hasMany(models.paymentRequest, {
       foreignKey: 'schemeId',
       as: 'paymentRequests'

@@ -1,4 +1,4 @@
-const { ES, FC, IMPS } = require('../../../app/constants/schemes')
+const { ES, FC, IMPS } = require('../../../app/constants/scheme-ids')
 
 const { getCustomerReference } = require('../../../app/batching/get-customer-reference')
 

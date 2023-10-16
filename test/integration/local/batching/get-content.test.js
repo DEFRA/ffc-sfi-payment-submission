@@ -16,7 +16,7 @@ const arRequest = [
     'S0695764S1248977V001',
     'None',
     '',
-    'SOURCE',
+    'GLOS',
     '',
     'S0695764S1248977V001',
     'S0695764S1248977V001',
@@ -45,7 +45,7 @@ const arRequest = [
     '80009',
     2021,
     'RP00',
-    'SIP000001233488',
+    '',
     'END'
   ],
   [
@@ -62,7 +62,7 @@ const arRequest = [
     '80005',
     2021,
     'RP00',
-    'SIP000001233488',
+    '',
     'END'
   ],
   [
@@ -79,7 +79,7 @@ const arRequest = [
     '80005',
     2021,
     'RP00',
-    'SIP000001233488',
+    '',
     'END'
   ],
   [
@@ -96,7 +96,7 @@ const arRequest = [
     '80003',
     2021,
     'RP00',
-    'SIP000001233488',
+    '',
     'END'
   ],
   [
@@ -113,7 +113,7 @@ const arRequest = [
     '80003',
     2021,
     'RP00',
-    'SIP000001233488',
+    '',
     'END'
   ]
 ]
@@ -140,7 +140,7 @@ const scheduledAPRequest = [
     '',
     '',
     'BACS_GBP',
-    'SOURCE',
+    'GLOS',
     '',
     '0001',
     '',
@@ -179,7 +179,7 @@ const scheduledAPRequest = [
     '',
     '',
     '',
-    'SIP000001233488',
+    '',
     '',
     'END'
   ],
@@ -211,7 +211,7 @@ const scheduledAPRequest = [
     '',
     '',
     '',
-    'SIP000001233488',
+    '',
     '',
     'END'
   ],
@@ -243,7 +243,7 @@ const scheduledAPRequest = [
     '',
     '',
     '',
-    'SIP000001233488',
+    '',
     '',
     'END'
   ],
@@ -275,7 +275,7 @@ const scheduledAPRequest = [
     '',
     '',
     '',
-    'SIP000001233488',
+    '',
     '',
     'END'
   ],
@@ -307,7 +307,7 @@ const scheduledAPRequest = [
     '',
     '',
     '',
-    'SIP000001233488',
+    '',
     '',
     'END'
   ]
@@ -335,7 +335,7 @@ const unscheduledAPRequest = [
     '',
     '',
     'BACS_GBP',
-    'SOURCE',
+    'GLOS',
     '',
     '0001',
     '',
@@ -373,7 +373,7 @@ const unscheduledAPRequest = [
     '',
     '',
     '',
-    'SIP000001233488',
+    '',
     'END'
   ],
   [
@@ -404,7 +404,7 @@ const unscheduledAPRequest = [
     '',
     '',
     '',
-    'SIP000001233488',
+    '',
     'END'
   ],
   [
@@ -435,7 +435,7 @@ const unscheduledAPRequest = [
     '',
     '',
     '',
-    'SIP000001233488',
+    '',
     'END'
   ],
   [
@@ -466,7 +466,7 @@ const unscheduledAPRequest = [
     '',
     '',
     '',
-    'SIP000001233488',
+    '',
     'END'
   ],
   [
@@ -497,7 +497,7 @@ const unscheduledAPRequest = [
     '',
     '',
     '',
-    'SIP000001233488',
+    '',
     'END'
   ]
 ]
@@ -507,11 +507,7 @@ describe('get content', () => {
     batch = {
       sequence: 1,
       ledger: AP,
-      scheme: {
-        batchProperties: {
-          source: 'SOURCE'
-        }
-      },
+      schemeId: 10,
       paymentRequests: [{
         frn: 1234567890,
         marketingYear: 2021,
@@ -608,55 +604,19 @@ describe('get content', () => {
   })
 
   test('should include agreement number on every ledger line if source does not begin with Siti', () => {
-    batch.scheme.batchProperties.source = 'NOT_SITI'
-    const content = getContent(batch)
-    expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === scheduledAPRequest[1][AGREEMENT_NUMBER_INDEX])).toBeTruthy()
-  })
-
-  test('should include agreement number on every ledger line if source is SitiELM', () => {
-    batch.scheme.batchProperties.source = 'SitiELM'
+    batch.schemeId = 3
     const content = getContent(batch)
     expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === scheduledAPRequest[1][AGREEMENT_NUMBER_INDEX])).toBeTruthy()
   })
 
   test('should include agreement number on every ledger line if source is SITICS', () => {
-    batch.scheme.batchProperties.source = 'SITICS'
+    batch.schemeId = 4
     const content = getContent(batch)
     expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === scheduledAPRequest[1][AGREEMENT_NUMBER_INDEX])).toBeTruthy()
   })
 
-  test('should not include agreement number on any ledger line if source begins with SITI and is not SitiELM or SITICS', () => {
-    batch.scheme.batchProperties.source = 'SITI_SOMETHING'
-    const content = getContent(batch)
-    expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === '')).toBeTruthy()
-  })
-
-  test('should not include agreement number on any ledger line if source begins with Siti and is not SitiELM or SITICS', () => {
-    batch.scheme.batchProperties.source = 'Siti_SOMETHING'
-    const content = getContent(batch)
-    expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === '')).toBeTruthy()
-  })
-
-  test('should not include agreement number on any ledger line if source begins with siti and is not SitiELM or SITICS', () => {
-    batch.scheme.batchProperties.source = 'siti_SOMETHING'
-    const content = getContent(batch)
-    expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === '')).toBeTruthy()
-  })
-
-  test('should not include agreement number on any ledger line if source begins is Siti', () => {
-    batch.scheme.batchProperties.source = 'Siti'
-    const content = getContent(batch)
-    expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === '')).toBeTruthy()
-  })
-
-  test('should not include agreement number on any ledger line if source begins is SITI', () => {
-    batch.scheme.batchProperties.source = 'SITI'
-    const content = getContent(batch)
-    expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === '')).toBeTruthy()
-  })
-
-  test('should not include agreement number on any ledger line if source begins is siti', () => {
-    batch.scheme.batchProperties.source = 'siti'
+  test('should not include agreement number on any ledger line if source begins with SITI and is not SITICS', () => {
+    batch.schemeId = 1
     const content = getContent(batch)
     expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === '')).toBeTruthy()
   })
