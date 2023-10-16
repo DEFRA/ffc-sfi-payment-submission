@@ -1,4 +1,4 @@
-const { BPS } = require('../../../app/constants/scheme-ids')
+const { BPS } = require('../../../app/constants/schemes')
 const { BPS_INVOICE_NUMBER } = require('../values/invoice-number')
 const paymentRequest = require('./payment-request')
 

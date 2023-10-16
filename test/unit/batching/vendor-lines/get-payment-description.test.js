@@ -1,4 +1,4 @@
-const { BPS, FDMR, ES, IMPS, SFI } = require('../../../../app/constants/scheme-ids')
+const { BPS, FDMR, ES, IMPS, SFI } = require('../../../../app/constants/schemes')
 
 const { getPaymentDescription } = require('../../../../app/batching/vendor-lines/get-payment-description')
 

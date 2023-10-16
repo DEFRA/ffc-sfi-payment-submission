@@ -1,8 +1,7 @@
 const { DefaultAzureCredential } = require('@azure/identity')
-const { PRODUCTION } = require('../constants/environments')
 
 function isProd () {
-  return process.env.NODE_ENV === PRODUCTION
+  return process.env.NODE_ENV === 'production'
 }
 
 const hooks = {
@@ -24,7 +23,7 @@ const retry = {
   timeout: 60000
 }
 
-const config = {
+const dbConfig = {
   database: process.env.POSTGRES_DB || 'ffc_pay_submission',
   dialect: 'postgres',
   dialectOptions: {
@@ -40,4 +39,8 @@ const config = {
   username: process.env.POSTGRES_USERNAME
 }
 
-module.exports = config
+module.exports = {
+  development: dbConfig,
+  production: dbConfig,
+  test: dbConfig
+}

@@ -1,5 +1,5 @@
 const paymentRequest = require('./payment-request')
-const { CS } = require('../../../app/constants/scheme-ids')
+const { CS } = require('../../../app/constants/schemes')
 const { CS_INVOICE_NUMBER } = require('../values/invoice-number')
 
 module.exports = {

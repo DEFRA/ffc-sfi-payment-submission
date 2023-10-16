@@ -1,4 +1,4 @@
-const { BPS, ES, FC, IMPS } = require('../../constants/scheme-ids')
+const { BPS, ES, FC, IMPS } = require('../../constants/schemes')
 const { EUR } = require('../../constants/currency')
 
 const getCurrency = (schemeId, paymentRequestCurrency) => {

@@ -1,7 +1,6 @@
 const joi = require('joi')
-const { PRODUCTION } = require('../constants/environments')
 
-const schema = joi.object({
+const mqSchema = joi.object({
   messageQueue: {
     host: joi.string(),
     username: joi.string(),
@@ -25,14 +24,14 @@ const schema = joi.object({
     address: joi.string()
   }
 })
-const config = {
+const mqConfig = {
   messageQueue: {
     host: process.env.MESSAGE_QUEUE_HOST,
     username: process.env.MESSAGE_QUEUE_USER,
     password: process.env.MESSAGE_QUEUE_PASSWORD,
-    useCredentialChain: process.env.NODE_ENV === PRODUCTION,
+    useCredentialChain: process.env.NODE_ENV === 'production',
     type: 'subscription',
-    appInsights: process.env.NODE_ENV === PRODUCTION ? require('applicationinsights') : undefined
+    appInsights: process.env.NODE_ENV === 'production' ? require('applicationinsights') : undefined
   },
   submitSubscription: {
     address: process.env.PAYMENTSUBMIT_SUBSCRIPTION_ADDRESS,
@@ -50,19 +49,19 @@ const config = {
   }
 }
 
-const result = schema.validate(config, {
+const mqResult = mqSchema.validate(mqConfig, {
   abortEarly: false
 })
 
 // Throw if config is invalid
-if (result.error) {
-  throw new Error(`The message queue config is invalid. ${result.error.message}`)
+if (mqResult.error) {
+  throw new Error(`The message queue config is invalid. ${mqResult.error.message}`)
 }
 
-const submitSubscription = { ...result.value.messageQueue, ...result.value.submitSubscription }
-const sendTopic = { ...result.value.messageQueue, ...result.value.sendTopic }
-const eventTopic = { ...result.value.messageQueue, ...result.value.eventTopic }
-const eventsTopic = { ...result.value.messageQueue, ...result.value.eventsTopic }
+const submitSubscription = { ...mqResult.value.messageQueue, ...mqResult.value.submitSubscription }
+const sendTopic = { ...mqResult.value.messageQueue, ...mqResult.value.sendTopic }
+const eventTopic = { ...mqResult.value.messageQueue, ...mqResult.value.eventTopic }
+const eventsTopic = { ...mqResult.value.messageQueue, ...mqResult.value.eventsTopic }
 
 module.exports = {
   submitSubscription,

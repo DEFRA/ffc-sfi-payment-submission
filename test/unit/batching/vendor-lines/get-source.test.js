@@ -48,7 +48,7 @@ const {
   [EXNRDPE_PILLAR]: EXNRDPE_SOURCE
 } = require('../../../../app/constants/manual-sources')
 
-const { SFI, MANUAL } = require('../../../../app/constants/scheme-ids')
+const { SFI, MANUAL } = require('../../../../app/constants/schemes')
 
 const { SOURCE } = require('../../../mocks/values/source')
 

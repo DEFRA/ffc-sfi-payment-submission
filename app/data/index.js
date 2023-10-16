@@ -1,11 +1,12 @@
 const fs = require('fs')
 const path = require('path')
 const { Sequelize, DataTypes } = require('sequelize')
-const { databaseConfig } = require('../config')
+const config = require('../config')
+const dbConfig = config.dbConfig[config.env]
 const modelPath = path.join(__dirname, 'models')
 const db = {}
 
-const sequelize = new Sequelize(databaseConfig.database, databaseConfig.username, databaseConfig.password, databaseConfig)
+const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, dbConfig)
 
 fs.readdirSync(modelPath)
   .filter(file => {

@@ -1,4 +1,4 @@
-const { FDMR } = require('../../../app/constants/scheme-ids')
+const { FDMR } = require('../../../app/constants/schemes')
 const { FDMR_INVOICE_NUMBER } = require('../values/invoice-number')
 const paymentRequest = require('./payment-request')
 

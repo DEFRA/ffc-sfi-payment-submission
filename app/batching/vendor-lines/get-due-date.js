@@ -1,4 +1,4 @@
-const { ES, FC, IMPS } = require('../../constants/scheme-ids')
+const { ES, FC, IMPS } = require('../../constants/schemes')
 
 const getDueDate = (schemeId, dueDate) => {
   return [ES, FC, IMPS].includes(schemeId) ? '' : dueDate
