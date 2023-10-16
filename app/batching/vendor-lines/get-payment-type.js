@@ -1,4 +1,4 @@
-const { BPS, CS, FDMR, ES, FC, IMPS } = require('../../constants/scheme-ids')
+const { BPS, CS, FDMR, ES, FC, IMPS } = require('../../constants/schemes')
 
 const getPaymentType = (schemeId, paymentType) => {
   switch (true) {

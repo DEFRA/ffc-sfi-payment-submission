@@ -11,7 +11,12 @@ describe('get filename', () => {
       ledger: AP,
       sequence: 1,
       started: new Date(2022, 2, 1, 22, 27, 0, 0),
-      schemeId: 1
+      scheme: {
+        batchProperties: {
+          prefix: 'PFELM',
+          suffix: ' (SITI)'
+        }
+      }
     }
   })
 
@@ -22,18 +27,18 @@ describe('get filename', () => {
 
   test('should return filename for sequence 1', async () => {
     const filename = getFilename(batch)
-    expect(filename).toMatch(/FFCSFI_0001_AP_\d{14}\(SITI_SFI\).csv/)
+    expect(filename).toMatch(/PFELM_0001_AP_\d{14} \(SITI\).csv/)
   })
 
   test('should return filename for sequence 10', async () => {
     batch.sequence = 10
     const filename = getFilename(batch)
-    expect(filename).toMatch(/FFCSFI_0010_AP_\d{14}\(SITI_SFI\).csv/)
+    expect(filename).toMatch(/PFELM_0010_AP_\d{14} \(SITI\).csv/)
   })
 
   test('should return filename for AR', async () => {
     batch.ledger = AR
     const filename = getFilename(batch)
-    expect(filename).toMatch(/FFCSFI_0001_AR_\d{14}\(SITI_SFI\).csv/)
+    expect(filename).toMatch(/PFELM_0001_AR_\d{14} \(SITI\).csv/)
   })
 })

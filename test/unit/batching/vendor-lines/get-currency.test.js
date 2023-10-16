@@ -1,5 +1,5 @@
 const { EUR, GBP } = require('../../../../app/constants/currency')
-const { BPS, ES, IMPS, SFI } = require('../../../../app/constants/scheme-ids')
+const { BPS, ES, IMPS, SFI } = require('../../../../app/constants/schemes')
 
 const { getCurrency } = require('../../../../app/batching/vendor-lines/get-currency')
 
