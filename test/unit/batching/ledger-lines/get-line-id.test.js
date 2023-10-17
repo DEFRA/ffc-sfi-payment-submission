@@ -1,4 +1,4 @@
-const { ES, IMPS, SFI } = require('../../../../app/constants/scheme-ids')
+const { ES, IMPS, SFI } = require('../../../../app/constants/schemes')
 
 const { getLineId } = require('../../../../app/batching/ledger-lines/get-line-id')
 

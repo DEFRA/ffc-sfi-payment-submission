@@ -1,4 +1,4 @@
-const { BPS, CS, FDMR, LumpSums, SFI, SFIP, VetVisits, IMPS, ES, SFI23 } = require('../../../../app/constants/scheme-ids')
+const { BPS, CS, FDMR, LumpSums, SFI, SFIP, VetVisits, IMPS, ES, SFI23 } = require('../../../../app/constants/schemes')
 
 const { getPaymentType } = require('../../../../app/batching/vendor-lines/get-payment-type')
 
