@@ -19,7 +19,15 @@ const {
   P1,
   EA,
   RDTEXQ,
-  EXNRDPE
+  EXNRDPE,
+  SFI,
+  SFIP,
+  LSES,
+  AHWR,
+  CS,
+  BPS,
+  FDMR,
+  SFI23
 } = require('./pillars')
 
 module.exports = {
@@ -43,5 +51,13 @@ module.exports = {
   [P1]: 'NMAN_NE',
   [EA]: 'NMAN_EA',
   [RDTEXQ]: 'NMAN_RDT',
-  [EXNRDPE]: 'NMAN_RDT'
+  [EXNRDPE]: 'NMAN_RDT',
+  [SFI]: 'NMAN_DA',
+  [SFIP]: 'NMAN_DA',
+  [LSES]: 'NMAN_DA',
+  [AHWR]: 'NMAN_DA',
+  [CS]: 'NMAN_DA',
+  [BPS]: 'NMAN_DA',
+  [FDMR]: 'NMAN_DA',
+  [SFI23]: 'NMAN_DA'
 }
