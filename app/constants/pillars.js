@@ -27,5 +27,8 @@ module.exports = {
   CS: 'CS',
   BPS: 'BPS',
   FDMR: 'FDMR',
+  ES: 'ES',
+  FC: 'FC',
+  IMPS: 'IMPS',
   SFI23: 'SFI23'
 }
