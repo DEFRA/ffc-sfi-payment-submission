@@ -1,4 +1,6 @@
 const { AP, AR } = require('../../../../app/constants/ledgers')
+const { SFI23, SFI } = require('../../../../app/constants/pillars')
+const { Q1 } = require('../../../../app/constants/schedules')
 
 const getContent = require('../../../../app/batching/get-content')
 
@@ -605,6 +607,20 @@ describe('get content', () => {
     batch.paymentRequests[0].schedule = ''
     const content = getContent(batch)
     expect(content).toStrictEqual(unscheduledAPRequest)
+  })
+
+  test('should include correct content for AP if schedule undefined but manual SFI 23 payment', () => {
+    batch.paymentRequests[0].schedule = undefined
+    batch.paymentRequests[0].pillar = SFI23
+    const content = getContent(batch)
+    expect(content[0][28]).toContain(Q1)
+  })
+
+  test('should include correct content for AP if schedule undefined but manual SFI payment', () => {
+    batch.paymentRequests[0].schedule = undefined
+    batch.paymentRequests[0].pillar = SFI
+    const content = getContent(batch)
+    expect(content[0][28]).toContain(Q1)
   })
 
   test('should include agreement number on every ledger line if source does not begin with Siti', () => {

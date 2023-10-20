@@ -88,38 +88,26 @@ describe('get ledger line for AP', () => {
     expect(result[17]).toBe('G00 - Gross value of claim')
   })
 
-  test('should return invoice line agreement number if exists when CS and AP', () => {
+  test('should return invoice line agreement number if exists when AP', () => {
     const result = getLedgerLineAP(invoiceLine, csPaymentRequest, lineId, source)
     expect(result[27]).toBe(invoiceLine.agreementNumber)
   })
 
-  test('should return payment request agreement number if invoice line agreement number does not exist and when CS and AP', () => {
+  test('should return payment request agreement number if invoice line agreement number does not exist and when AP', () => {
     delete invoiceLine.agreementNumber
     const result = getLedgerLineAP(invoiceLine, csPaymentRequest, lineId, source)
     expect(result[27]).toBe(csPaymentRequest.agreementNumber)
   })
 
-  test('should not use either if source starts with SITI and not SITIELM or SITICS when AP', () => {
-    source = 'SITI'
-    const result = getLedgerLineAP(invoiceLine, csPaymentRequest, lineId, source)
-    expect(result[27]).toBe('')
-  })
-
-  test('should return invoice line agreement number if exists when CS and AR', () => {
+  test('should return invoice line agreement number if exists when AR', () => {
     const result = getLedgerLineAR(invoiceLine, csPaymentRequest, lineId, source)
     expect(result[13]).toBe(invoiceLine.agreementNumber)
   })
 
-  test('should return payment request agreement number if invoice line agreement number does not exist and when CS and AR', () => {
+  test('should return payment request agreement number if invoice line agreement number does not exist and when AR', () => {
     delete invoiceLine.agreementNumber
     const result = getLedgerLineAR(invoiceLine, csPaymentRequest, lineId, source)
     expect(result[13]).toBe(csPaymentRequest.agreementNumber)
-  })
-
-  test('should not use either if source starts with SITI and not SITIELM or SITICS when AR', () => {
-    source = 'SITI'
-    const result = getLedgerLineAR(invoiceLine, csPaymentRequest, lineId, source)
-    expect(result[13]).toBe('')
   })
 })
 

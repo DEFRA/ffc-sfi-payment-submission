@@ -19,5 +19,16 @@ module.exports = {
   P1: 'P1',
   EA: 'EA',
   RDTEXQ: 'RDTEXQ',
-  EXNRDPE: 'ExNRDPE'
+  EXNRDPE: 'ExNRDPE',
+  SFI: 'SFI',
+  SFIP: 'SFIP',
+  LSES: 'LSES',
+  AHWR: 'AHWR',
+  CS: 'CS',
+  BPS: 'BPS',
+  FDMR: 'FDMR',
+  ES: 'ES',
+  FC: 'FC',
+  IMPS: 'IMPS',
+  SFI23: 'SFI23'
 }

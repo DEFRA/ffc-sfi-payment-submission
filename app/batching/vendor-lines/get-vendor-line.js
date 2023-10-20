@@ -9,9 +9,11 @@ const { getSource } = require('./get-source')
 const { getBatchNumber } = require('./get-batch-number')
 const { getDueDate } = require('./get-due-date')
 const { getCurrency } = require('./get-currency')
+const { getSchedule } = require('./get-schedule')
 const AGREEMENT_NUMBER_INDEX = 28
 
 const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
+  const schedule = getSchedule(paymentRequest.schedule, paymentRequest.pillar)
   const line = [
     'Vendor',
     paymentRequest.frn,
@@ -41,11 +43,11 @@ const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
     getCurrency(paymentRequest.schemeId, paymentRequest.currency),
     '',
     '',
-    paymentRequest.schedule,
+    schedule,
     'END'
   ]
 
-  if (!paymentRequest.schedule) {
+  if (!schedule) {
     line.splice(AGREEMENT_NUMBER_INDEX, 1)
   }
 
