@@ -55,15 +55,15 @@ module.exports = {
   [EA]: 'NMAN_EA',
   [RDTEXQ]: 'NMAN_RDT',
   [EXNRDPE]: 'NMAN_RDT',
-  [SFI]: 'NMAN_DA',
+  [SFI]: 'PMAN_SFI',
   [SFIP]: 'NMAN_DA',
   [LSES]: 'NMAN_DA',
   [AHWR]: 'NMAN_DA',
   [CS]: 'NMAN_DA',
   [BPS]: 'NMAN_DA',
   [FDMR]: 'NMAN_DA',
-  [ES]: 'NMAN_RDPE',
-  [FC]: 'NMAN_FC',
-  [IMPS]: 'NMAN_TR',
-  [SFI23]: 'NMAN_DA'
+  [ES]: 'NMAN_DA',
+  [FC]: 'NMAN_DA',
+  [IMPS]: 'NMAN_DA',
+  [SFI23]: 'PMAN_SFIA'
 }
