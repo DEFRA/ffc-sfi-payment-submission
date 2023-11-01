@@ -23,6 +23,14 @@ const retry = {
   timeout: 60000
 }
 
+const pool = {
+  acquire: 120000,
+  evict: 1000,
+  idle: 10000,
+  max: 10,
+  min: 0
+}
+
 const dbConfig = {
   database: process.env.POSTGRES_DB || 'ffc_pay_submission',
   dialect: 'postgres',
@@ -35,6 +43,7 @@ const dbConfig = {
   port: process.env.POSTGRES_PORT || 5432,
   logging: process.env.POSTGRES_LOGGING || false,
   retry,
+  pool,
   schema: process.env.POSTGRES_SCHEMA_NAME || 'public',
   username: process.env.POSTGRES_USERNAME
 }
