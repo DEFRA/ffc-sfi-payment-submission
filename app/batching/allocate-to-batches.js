@@ -36,6 +36,7 @@ const getSchemes = async () => {
 
 const getPendingPaymentRequests = async (schemeId, ledger, transaction) => {
   const nextPending = await db.paymentRequest.findOne({
+    attributes: ['pillar'],
     transaction,
     lock: true,
     skipLocked: true,
