@@ -14,7 +14,7 @@ const generateBatches = async () => {
   try {
     const batches = await getBatches(transaction)
     for (const batch of batches) {
-      const filename = getFileName(batch)
+      const filename = getFileName(batch, batch.paymentRequests[0].pillar)
       const content = getContent(batch)
       await publishBatch(filename, content)
       await sendSubmissionBatchEvent(batch, filename)

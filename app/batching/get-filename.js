@@ -1,6 +1,14 @@
 const moment = require('moment')
+const { MANUAL } = require('../constants/schemes')
+const { getSource } = require('./vendor-lines/get-source')
 
-const getFileName = (batch) => {
+const getFileName = (batch, pillar) => {
+  if (batch.scheme.schemeId === MANUAL && pillar) {
+    const source = getSource(batch.scheme.schemeId, batch.scheme.batchProperties.source, pillar)
+    if (source !== batch.scheme.batchProperties.source) {
+      return `FFC${source}_${batch.sequence.toString().padStart(4, '0')}_${batch.ledger}_${moment().format('YYYYMMDDHHmmss')} (${source}).csv`
+    }
+  }
   return `${batch.scheme.batchProperties.prefix}_${batch.sequence.toString().padStart(4, '0')}_${batch.ledger}_${moment().format('YYYYMMDDHHmmss')}${batch.scheme.batchProperties.suffix}.csv`
 }
 
