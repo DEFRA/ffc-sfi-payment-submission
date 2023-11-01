@@ -10,7 +10,10 @@ process.on(['SIGTERM', 'SIGINT'], async () => {
 })
 
 module.exports = (async function startService () {
+  console.log('Starting containers')
   await initialiseContainers()
+  console.log('Starting messaging')
   await messaging.start()
+  console.log('Starting batching')
   await batching.start()
 }())
