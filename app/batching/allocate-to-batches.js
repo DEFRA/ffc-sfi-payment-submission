@@ -29,7 +29,7 @@ const getSchemes = async () => {
 }
 
 const getPendingPaymentRequests = async (schemeId, ledger, transaction) => {
-  return db.paymentRequest.findAll({
+  const nextPending = await db.paymentRequest.findOne({
     transaction,
     lock: true,
     skipLocked: true,
@@ -42,6 +42,26 @@ const getPendingPaymentRequests = async (schemeId, ledger, transaction) => {
       ledger,
       batchId: null,
       schemeId
+    },
+    order: ['paymentRequestId']
+  })
+
+  const nextPendingPillar = nextPending?.pillar ? nextPending.pillar : null
+
+  return db.paymentRequest.findAll({
+    transaction,
+    lock: true,
+    skipLocked: true,
+    include: [{
+      model: db.invoiceLine,
+      as: 'invoiceLines',
+      required: true
+    }],
+    where: {
+      ledger,
+      batchId: null,
+      schemeId,
+      pillar: nextPendingPillar
     },
     order: ['paymentRequestId'],
     limit: config.batchSize

@@ -1,6 +1,8 @@
 const allocateToBatch = require('../../../../app/batching/allocate-to-batches')
 const db = require('../../../../app/data')
 const { AP, AR } = require('../../../../app/constants/ledgers')
+const { SFI, SFI23 } = require('../../../../app/constants/pillars')
+
 let scheme
 let paymentRequest
 let invoiceLine
@@ -202,5 +204,73 @@ describe('allocate to batch', () => {
     await allocateToBatch()
     const sequenceResult = await db.sequence.findByPk(sequence.schemeId)
     expect(sequenceResult.nextAR).toBe(1)
+  })
+
+  test('should not include non existent and existent pillars in same batch', async () => {
+    await db.scheme.create(scheme)
+    await db.sequence.create(sequence)
+    await db.paymentRequest.create(paymentRequest)
+    await db.invoiceLine.create(invoiceLine)
+    paymentRequest.pillar = SFI
+    paymentRequest.paymentRequestId = 2
+    invoiceLine.paymentRequestId = 2
+    invoiceLine.invoiceLineId = 2
+    await db.paymentRequest.create(paymentRequest)
+    await db.invoiceLine.create(invoiceLine)
+    await allocateToBatch()
+    await allocateToBatch()
+    const batches = await db.batch.findAll({ where: { ledger: AP } })
+    expect(batches.length).toBe(2)
+  })
+
+  test('should not include different pillars in same batch', async () => {
+    await db.scheme.create(scheme)
+    await db.sequence.create(sequence)
+    paymentRequest.pillar = SFI23
+    await db.paymentRequest.create(paymentRequest)
+    await db.invoiceLine.create(invoiceLine)
+    paymentRequest.pillar = SFI
+    paymentRequest.paymentRequestId = 2
+    invoiceLine.paymentRequestId = 2
+    invoiceLine.invoiceLineId = 2
+    await db.paymentRequest.create(paymentRequest)
+    await db.invoiceLine.create(invoiceLine)
+    await allocateToBatch()
+    await allocateToBatch()
+    const batches = await db.batch.findAll({ where: { ledger: AP } })
+    expect(batches.length).toBe(2)
+  })
+
+  test('should include same pillar in same batch', async () => {
+    await db.scheme.create(scheme)
+    await db.sequence.create(sequence)
+    paymentRequest.pillar = SFI
+    await db.paymentRequest.create(paymentRequest)
+    await db.invoiceLine.create(invoiceLine)
+    paymentRequest.paymentRequestId = 2
+    invoiceLine.paymentRequestId = 2
+    invoiceLine.invoiceLineId = 2
+    await db.paymentRequest.create(paymentRequest)
+    await db.invoiceLine.create(invoiceLine)
+    await allocateToBatch()
+    await allocateToBatch()
+    const batches = await db.batch.findAll({ where: { ledger: AP, sequence: sequence.nextAP } })
+    expect(batches.length).toBe(1)
+  })
+
+  test('should include empty pillars in same batch', async () => {
+    await db.scheme.create(scheme)
+    await db.sequence.create(sequence)
+    await db.paymentRequest.create(paymentRequest)
+    await db.invoiceLine.create(invoiceLine)
+    paymentRequest.paymentRequestId = 2
+    invoiceLine.paymentRequestId = 2
+    invoiceLine.invoiceLineId = 2
+    await db.paymentRequest.create(paymentRequest)
+    await db.invoiceLine.create(invoiceLine)
+    await allocateToBatch()
+    await allocateToBatch()
+    const batches = await db.batch.findAll({ where: { ledger: AP, sequence: sequence.nextAP } })
+    expect(batches.length).toBe(1)
   })
 })

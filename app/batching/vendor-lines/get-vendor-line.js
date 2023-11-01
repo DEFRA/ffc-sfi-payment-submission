@@ -64,7 +64,7 @@ const getVendorLineAR = (paymentRequest, batch, lowestValueLine) => {
     paymentRequest.originalInvoiceNumber,
     'None',
     '',
-    batch.scheme.batchProperties.source,
+    getSource(paymentRequest.schemeId, batch.scheme.batchProperties.source, paymentRequest.pillar),
     '',
     paymentRequest.invoiceNumber,
     paymentRequest.invoiceNumber,
