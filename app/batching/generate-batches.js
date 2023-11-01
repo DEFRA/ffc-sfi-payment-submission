@@ -22,9 +22,10 @@ const generateBatches = async () => {
       await completeBatch(batch.batchId, transaction)
     }
     await transaction.commit()
-  } catch (error) {
+  } catch (err) {
+    console.log(err)
     await transaction.rollback()
-    throw (error)
+    throw err
   }
 }
 
