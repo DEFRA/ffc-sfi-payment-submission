@@ -6,15 +6,10 @@ const MAX_BATCH_SEQUENCE = 9999
 const allocateToBatches = async (created = new Date()) => {
   const transaction = await db.sequelize.transaction()
   try {
-    console.log('Getting schemes')
     const schemes = await getSchemes()
-    console.log('Found schemes')
     for (const scheme of schemes) {
-      console.log(`Getting payments scheme ${scheme.schemeId} and ledger ${AP}`)
       const apPaymentRequests = await getPendingPaymentRequests(scheme.schemeId, AP, transaction)
-      console.log(`Getting payments scheme ${scheme.schemeId} and ledger ${AR}`)
       const arPaymentRequests = await getPendingPaymentRequests(scheme.schemeId, AR, transaction)
-      console.log(`Allocating to batches for scheme ${scheme.schemeId}`)
       if (apPaymentRequests.length) {
         await allocateToBatch(scheme.schemeId, apPaymentRequests, AP, created, transaction)
       }
@@ -59,11 +54,8 @@ const getPendingPaymentRequests = async (schemeId, ledger, transaction) => {
 }
 
 const allocateToBatch = async (schemeId, paymentRequests, ledger, created, transaction) => {
-  console.log('Getting sequence')
   const sequence = await getAndIncrementSequence(schemeId, ledger, transaction)
-  console.log('Creating batch')
   const batch = await createNewBatch(schemeId, ledger, sequence, created, transaction)
-  console.log('Updating payment requests')
   await updatePaymentRequests(paymentRequests, batch.batchId, transaction)
 }
 

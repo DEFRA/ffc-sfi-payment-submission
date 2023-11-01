@@ -9,14 +9,10 @@ const sendFileTransferMessage = require('../messaging/send-file-transfer-message
 const completeBatch = require('./complete-batch')
 
 const generateBatches = async () => {
-  console.log('Allocating to batches')
   await allocateToBatches()
-  console.log('Generating batches')
   const transaction = await db.sequelize.transaction()
   try {
-    console.log('Getting batches')
     const batches = await getBatches(transaction)
-    console.log('Found batches')
     for (const batch of batches) {
       const filename = getFileName(batch, batch.paymentRequests[0].pillar)
       const content = getContent(batch)
