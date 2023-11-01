@@ -40,7 +40,7 @@ container:
   storageContainer: dax
   storageFolder: outbound
   batchGenerationInterval: 120000
-  batchSize: 10000
+  batchSize: 5000
   batchCap: 1
   eventTopicAddress: ffc-pay-event
   eventsTopicAddress: ffc-pay-events
