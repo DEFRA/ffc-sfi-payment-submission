@@ -35,8 +35,7 @@ const getSchemes = async () => {
 }
 
 const getPendingPaymentRequests = async (schemeId, ledger, transaction) => {
-  const nextPending = await db.paymentRequest.findOne({
-    attributes: ['pillar'],
+  const pendingPaymentRequests = await db.paymentRequest.findAll({
     transaction,
     lock: true,
     skipLocked: true,
@@ -50,29 +49,13 @@ const getPendingPaymentRequests = async (schemeId, ledger, transaction) => {
       batchId: null,
       schemeId
     },
-    order: ['paymentRequestId']
-  })
-
-  const nextPendingPillar = nextPending?.pillar ? nextPending.pillar : null
-
-  return db.paymentRequest.findAll({
-    transaction,
-    lock: true,
-    skipLocked: true,
-    include: [{
-      model: db.invoiceLine,
-      as: 'invoiceLines',
-      required: true
-    }],
-    where: {
-      ledger,
-      batchId: null,
-      schemeId,
-      pillar: nextPendingPillar
-    },
     order: ['paymentRequestId'],
     limit: config.batchSize
   })
+
+  const nextPendingPillar = pendingPaymentRequests[0] ? pendingPaymentRequests[0].pillar : null
+
+  return pendingPaymentRequests.filter(x => x.pillar === nextPendingPillar)
 }
 
 const allocateToBatch = async (schemeId, paymentRequests, ledger, created, transaction) => {
