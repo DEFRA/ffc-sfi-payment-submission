@@ -18,9 +18,10 @@ const allocateToBatches = async (created = new Date()) => {
       }
     }
     await transaction.commit()
-  } catch (error) {
+  } catch (err) {
+    console.log(err)
     await transaction.rollback()
-    throw (error)
+    throw err
   }
 }
 
