@@ -5,7 +5,6 @@ const getExistingPaymentRequest = async (invoiceNumber, referenceId, transaction
 
   return db.paymentRequest.findOne({
     transaction,
-    lock: true,
     where
   })
 }
