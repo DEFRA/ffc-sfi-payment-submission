@@ -34,11 +34,6 @@ const getPendingPaymentRequests = async (schemeId, ledger, transaction) => {
     transaction,
     lock: true,
     skipLocked: true,
-    include: [{
-      model: db.invoiceLine,
-      as: 'invoiceLines',
-      required: true
-    }],
     where: {
       ledger,
       batchId: null,
@@ -50,7 +45,17 @@ const getPendingPaymentRequests = async (schemeId, ledger, transaction) => {
 
   const nextPendingPillar = pendingPaymentRequests[0] ? pendingPaymentRequests[0].pillar : null
 
-  return pendingPaymentRequests.filter(x => x.pillar === nextPendingPillar)
+  const paymentRequestsWithMatchingPillar = pendingPaymentRequests.filter(x => x.pillar === nextPendingPillar)
+
+  // getting invoice lines as separate query for performance reasons
+  for (const paymentRequest of paymentRequestsWithMatchingPillar) {
+    paymentRequest.invoiceLines = await db.invoiceLine.findAll({
+      where: { paymentRequestId: paymentRequest.paymentRequestId },
+      transaction
+    })
+  }
+
+  return paymentRequestsWithMatchingPillar.filter(x => x.invoiceLines.length)
 }
 
 const allocateToBatch = async (schemeId, paymentRequests, ledger, created, transaction) => {
