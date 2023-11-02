@@ -20,7 +20,7 @@ const retry = {
   match: [/SequelizeConnectionError/],
   max: 10,
   name: 'connection',
-  timeout: 60000
+  timeout: 360000
 }
 
 const dbConfig = {
@@ -33,7 +33,7 @@ const dbConfig = {
   host: process.env.POSTGRES_HOST || 'ffc-pay-submission-postgres',
   password: process.env.POSTGRES_PASSWORD,
   port: process.env.POSTGRES_PORT || 5432,
-  logging: process.env.POSTGRES_LOGGING || true,
+  logging: process.env.POSTGRES_LOGGING || false,
   retry,
   schema: process.env.POSTGRES_SCHEMA_NAME || 'public',
   username: process.env.POSTGRES_USERNAME
