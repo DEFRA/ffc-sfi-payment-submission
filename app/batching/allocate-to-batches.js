@@ -30,32 +30,35 @@ const getSchemes = async () => {
 }
 
 const getPendingPaymentRequests = async (schemeId, ledger, transaction) => {
-  const pendingPaymentRequests = await db.paymentRequest.findAll({
-    transaction,
-    lock: true,
-    skipLocked: true,
-    where: {
+  const queue = await db.sequelize.query(`
+    SELECT
+      queue.*,
+      "paymentRequests"."pillar"
+    FROM "queue"
+    INNER JOIN "paymentRequests" 
+      ON "queue"."paymentRequestId" = "paymentRequests"."paymentRequestId"
+    INNER JOIN "invoiceLines"
+      ON "paymentRequests"."paymentRequestId" = "invoiceLines"."paymentRequestId"
+    WHERE "paymentRequests"."schemeId" = :schemeId
+      AND "paymentRequests"."ledger" = :ledger
+      AND "queue"."batchId" IS NULL
+    ORDER BY "queue"."paymentRequestId"
+    LIMIT :batchSize
+    FOR UPDATE OF "queue" SKIP LOCKED
+  `, {
+    replacements: {
+      schemeId,
       ledger,
-      batchId: null,
-      schemeId
+      batchSize: config.batchSize
     },
-    order: ['paymentRequestId'],
-    limit: config.batchSize
+    type: db.sequelize.QueryTypes.SELECT,
+    transaction,
+    raw: true
   })
 
-  const nextPendingPillar = pendingPaymentRequests[0] ? pendingPaymentRequests[0].pillar : null
+  const nextPendingPillar = queue[0] ? queue[0].pillar : null
 
-  const paymentRequestsWithMatchingPillar = pendingPaymentRequests.filter(x => x.pillar === nextPendingPillar)
-
-  // getting invoice lines as separate query for performance reasons
-  for (const paymentRequest of paymentRequestsWithMatchingPillar) {
-    paymentRequest.invoiceLines = await db.invoiceLine.findAll({
-      where: { paymentRequestId: paymentRequest.paymentRequestId },
-      transaction
-    })
-  }
-
-  return paymentRequestsWithMatchingPillar.filter(x => x.invoiceLines.length)
+  return queue.filter(x => x.pillar === nextPendingPillar)
 }
 
 const allocateToBatch = async (schemeId, paymentRequests, ledger, created, transaction) => {
@@ -108,6 +111,12 @@ const createNewBatch = async (schemeId, ledger, sequence, created, transaction) 
 const updatePaymentRequests = async (paymentRequests, batchId, transaction) => {
   for (const paymentRequest of paymentRequests) {
     await db.paymentRequest.update({ batchId }, {
+      where: {
+        paymentRequestId: paymentRequest.paymentRequestId
+      },
+      transaction
+    })
+    await db.queue.update({ batchId }, {
       where: {
         paymentRequestId: paymentRequest.paymentRequestId
       },

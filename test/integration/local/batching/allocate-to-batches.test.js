@@ -7,6 +7,7 @@ let scheme
 let paymentRequest
 let invoiceLine
 let sequence
+let queue
 
 describe('allocate to batch', () => {
   beforeEach(async () => {
@@ -35,6 +36,10 @@ describe('allocate to batch', () => {
       nextAP: 5,
       nextAR: 3
     }
+
+    queue = {
+      paymentRequestId: 1
+    }
   })
 
   afterAll(async () => {
@@ -55,6 +60,7 @@ describe('allocate to batch', () => {
     await db.scheme.create(scheme)
     await db.sequence.create(sequence)
     await db.paymentRequest.create(paymentRequest)
+    await db.queue.create(queue)
     await allocateToBatch()
     const sequenceResult = await db.sequence.findByPk(sequence.schemeId)
     expect(sequenceResult.nextAP).toBe(5)
@@ -66,6 +72,7 @@ describe('allocate to batch', () => {
     await db.scheme.create(scheme)
     await db.sequence.create(sequence)
     await db.paymentRequest.create(paymentRequest)
+    await db.queue.create(queue)
     await allocateToBatch()
     const sequenceResult = await db.sequence.findByPk(sequence.schemeId)
     expect(sequenceResult.nextAP).toBe(5)
@@ -76,6 +83,7 @@ describe('allocate to batch', () => {
     await db.scheme.create(scheme)
     await db.sequence.create(sequence)
     await db.paymentRequest.create(paymentRequest)
+    await db.queue.create(queue)
     await allocateToBatch()
     const completedPaymentRequest = await db.sequence.findByPk(sequence.schemeId)
     expect(completedPaymentRequest.batchId).toBeUndefined()
@@ -86,6 +94,7 @@ describe('allocate to batch', () => {
     await db.scheme.create(scheme)
     await db.sequence.create(sequence)
     await db.paymentRequest.create(paymentRequest)
+    await db.queue.create(queue)
     await allocateToBatch()
     const completedPaymentRequest = await db.sequence.findByPk(sequence.schemeId)
     expect(completedPaymentRequest.batchId).toBeUndefined()
@@ -96,6 +105,7 @@ describe('allocate to batch', () => {
     await db.sequence.create(sequence)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
+    await db.queue.create(queue)
     await allocateToBatch()
     const batches = await db.batch.findAll({ where: { ledger: AP, sequence: sequence.nextAP } })
     expect(batches.length).toBe(1)
@@ -106,6 +116,7 @@ describe('allocate to batch', () => {
     await db.sequence.create(sequence)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
+    await db.queue.create(queue)
     await allocateToBatch()
     const completedPaymentRequest = await db.paymentRequest.findByPk(sequence.schemeId)
     const batch = await db.batch.findOne({ where: { ledger: AP, sequence: sequence.nextAP } })
@@ -118,6 +129,7 @@ describe('allocate to batch', () => {
     await db.sequence.create(sequence)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
+    await db.queue.create(queue)
     await allocateToBatch()
     const batches = await db.batch.findAll({ where: { ledger: AR, sequence: sequence.nextAR } })
     expect(batches.length).toBe(1)
@@ -129,6 +141,7 @@ describe('allocate to batch', () => {
     await db.sequence.create(sequence)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
+    await db.queue.create(queue)
     await allocateToBatch()
     const completedPaymentRequest = await db.paymentRequest.findByPk(sequence.schemeId)
     const batch = await db.batch.findOne({ where: { ledger: AR, sequence: sequence.nextAR } })
@@ -140,6 +153,7 @@ describe('allocate to batch', () => {
     await db.sequence.create(sequence)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
+    await db.queue.create(queue)
     await allocateToBatch()
     const sequenceResult = await db.sequence.findByPk(sequence.schemeId)
     expect(sequenceResult.nextAP).toBe(6)
@@ -152,6 +166,7 @@ describe('allocate to batch', () => {
     await db.sequence.create(sequence)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
+    await db.queue.create(queue)
     await allocateToBatch()
     const sequenceResult = await db.sequence.findByPk(sequence.schemeId)
     expect(sequenceResult.nextAP).toBe(5)
@@ -163,6 +178,7 @@ describe('allocate to batch', () => {
     await db.sequence.create(sequence)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
+    await db.queue.create(queue)
     await allocateToBatch()
     const batch = await db.batch.findOne({ where: { ledger: AP, sequence: sequence.nextAP } })
     expect(batch.created).toBeDefined()
@@ -176,6 +192,7 @@ describe('allocate to batch', () => {
     await db.sequence.create(sequence)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
+    await db.queue.create(queue)
     await allocateToBatch()
     const batch = await db.batch.findOne({ where: { ledger: AR, sequence: sequence.nextAR } })
     expect(batch.created).toBeDefined()
@@ -189,6 +206,7 @@ describe('allocate to batch', () => {
     await db.sequence.create(sequence)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
+    await db.queue.create(queue)
     await allocateToBatch()
     const sequenceResult = await db.sequence.findByPk(sequence.schemeId)
     expect(sequenceResult.nextAP).toBe(1)
@@ -201,6 +219,7 @@ describe('allocate to batch', () => {
     await db.sequence.create(sequence)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
+    await db.queue.create(queue)
     await allocateToBatch()
     const sequenceResult = await db.sequence.findByPk(sequence.schemeId)
     expect(sequenceResult.nextAR).toBe(1)
@@ -211,12 +230,15 @@ describe('allocate to batch', () => {
     await db.sequence.create(sequence)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
+    await db.queue.create(queue)
     paymentRequest.pillar = SFI
     paymentRequest.paymentRequestId = 2
     invoiceLine.paymentRequestId = 2
     invoiceLine.invoiceLineId = 2
+    queue.paymentRequestId = 2
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
+    await db.queue.create(queue)
     await allocateToBatch()
     await allocateToBatch()
     const batches = await db.batch.findAll({ where: { ledger: AP } })
@@ -229,12 +251,15 @@ describe('allocate to batch', () => {
     paymentRequest.pillar = SFI23
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
+    await db.queue.create(queue)
     paymentRequest.pillar = SFI
     paymentRequest.paymentRequestId = 2
     invoiceLine.paymentRequestId = 2
     invoiceLine.invoiceLineId = 2
+    queue.paymentRequestId = 2
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
+    await db.queue.create(queue)
     await allocateToBatch()
     await allocateToBatch()
     const batches = await db.batch.findAll({ where: { ledger: AP } })
@@ -247,11 +272,14 @@ describe('allocate to batch', () => {
     paymentRequest.pillar = SFI
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
+    await db.queue.create(queue)
     paymentRequest.paymentRequestId = 2
     invoiceLine.paymentRequestId = 2
     invoiceLine.invoiceLineId = 2
+    queue.paymentRequestId = 2
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
+    await db.queue.create(queue)
     await allocateToBatch()
     await allocateToBatch()
     const batches = await db.batch.findAll({ where: { ledger: AP, sequence: sequence.nextAP } })
@@ -263,14 +291,29 @@ describe('allocate to batch', () => {
     await db.sequence.create(sequence)
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
+    await db.queue.create(queue)
     paymentRequest.paymentRequestId = 2
     invoiceLine.paymentRequestId = 2
     invoiceLine.invoiceLineId = 2
+    queue.paymentRequestId = 2
     await db.paymentRequest.create(paymentRequest)
     await db.invoiceLine.create(invoiceLine)
+    await db.queue.create(queue)
     await allocateToBatch()
     await allocateToBatch()
     const batches = await db.batch.findAll({ where: { ledger: AP, sequence: sequence.nextAP } })
     expect(batches.length).toBe(1)
+  })
+
+  test('should update queue after allocation', async () => {
+    await db.scheme.create(scheme)
+    await db.sequence.create(sequence)
+    await db.paymentRequest.create(paymentRequest)
+    await db.invoiceLine.create(invoiceLine)
+    await db.queue.create(queue)
+    await allocateToBatch()
+    const completedQueue = await db.queue.findOne({ where: { paymentRequestId: paymentRequest.paymentRequestId } })
+    const batch = await db.batch.findOne({ where: { ledger: AP, sequence: sequence.nextAP } })
+    expect(completedQueue.batchId).toBe(batch.batchId)
   })
 })

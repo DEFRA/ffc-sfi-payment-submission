@@ -12,6 +12,7 @@ const savePaymentRequest = async (paymentRequest) => {
     } else {
       delete paymentRequest.paymentRequestId
       const savedPaymentRequest = await db.paymentRequest.create(paymentRequest, { transaction })
+      await db.queue.create({ paymentRequestId: savedPaymentRequest.paymentRequestId }, { transaction })
       await saveInvoiceLines(paymentRequest.invoiceLines, savedPaymentRequest.paymentRequestId, transaction)
       await transaction.commit()
     }
