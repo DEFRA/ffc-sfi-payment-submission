@@ -12,7 +12,7 @@ const mqSchema = joi.object({
   submitSubscription: {
     address: joi.string(),
     topic: joi.string(),
-    numberOfReceivers: joi.number().default(3)
+    numberOfReceivers: joi.number().default(1)
   },
   sendTopic: {
     address: joi.string()
