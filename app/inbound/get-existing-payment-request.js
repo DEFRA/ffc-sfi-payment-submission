@@ -4,6 +4,7 @@ const getExistingPaymentRequest = async (invoiceNumber, referenceId, transaction
   const where = referenceId ? { referenceId } : { invoiceNumber }
 
   return db.paymentRequest.findOne({
+    attributes: ['paymentRequestId'],
     transaction,
     where
   })
