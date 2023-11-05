@@ -9,42 +9,67 @@ const getBatches = async (transaction, started = new Date()) => {
 }
 
 const getPendingBatches = async (started, transaction) => {
-  const batches = await db.batch.findAll({
+  const batches = await db.sequelize.query(`
+    SELECT
+      batches.*
+    FROM
+      batches
+    INNER JOIN "paymentRequests" 
+      ON "paymentRequests"."batchId" = batches."batchId"
+    INNER JOIN "invoiceLines"
+      ON "invoiceLines"."paymentRequestId" = "paymentRequests"."paymentRequestId"
+    WHERE batches.published IS NULL
+      AND ("batches"."started" IS NULL OR "batches"."started" <= :delay)
+    ORDER BY batches.sequence
+    LIMIT :batchCap
+    FOR UPDATE OF batches SKIP LOCKED
+    `, {
+    replacements: {
+      delay: moment(started).subtract(5, 'minutes').toDate(),
+      batchCap: config.batchCap
+    },
     transaction,
-    lock: true,
-    skipLocked: true,
-    limit: config.batchCap,
-    order: ['sequence'],
+    raw: true,
+    type: db.Sequelize.QueryTypes.SELECT
+  })
+
+  if (!batches.length) {
+    return []
+  }
+
+  const paymentRequests = await db.paymentRequest.findAll({
+    transaction,
     include: [{
-      model: db.scheme,
-      as: 'scheme',
-      required: true,
-      include: [{
-        model: db.batchProperties,
-        as: 'batchProperties',
-        required: true
-      }]
-    }, {
-      model: db.paymentRequest,
-      as: 'paymentRequests',
-      required: true,
-      include: [{
-        model: db.invoiceLine,
-        as: 'invoiceLines',
-        required: true
-      }]
+      model: db.invoiceLine,
+      as: 'invoiceLines',
+      required: true
     }],
     where: {
-      published: null,
-      [db.Sequelize.Op.or]: [{
-        started: null
-      }, {
-        started: { [db.Sequelize.Op.lte]: moment(started).subtract(5, 'minutes').toDate() }
-      }]
+      batchId: {
+        [db.Sequelize.Op.in]: batches.map(x => x.batchId)
+      }
     }
   })
 
-  return batches.map(x => x.get({ plain: true }))
+  const schemes = await db.scheme.findAll({
+    transaction,
+    include: [{
+      model: db.batchProperties,
+      as: 'batchProperties',
+      required: true
+    }],
+    where: {
+      schemeId: {
+        [db.Sequelize.Op.in]: paymentRequests.map(x => x.schemeId)
+      }
+    }
+  })
+
+  return batches.map(x => ({
+    ...x,
+    paymentRequests: paymentRequests.filter(y => y.batchId === x.batchId).map(x => x.get({ plain: true })),
+    scheme: schemes.find(y => y.schemeId === x.schemeId).get({ plain: true })
+  }))
 }
 
 const updateStarted = async (batches, started, transaction) => {
