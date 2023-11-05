@@ -109,20 +109,23 @@ const createNewBatch = async (schemeId, ledger, sequence, created, transaction) 
 }
 
 const updatePaymentRequests = async (paymentRequests, batchId, transaction) => {
-  for (const paymentRequest of paymentRequests) {
-    await db.paymentRequest.update({ batchId }, {
-      where: {
-        paymentRequestId: paymentRequest.paymentRequestId
-      },
-      transaction
-    })
-    await db.queue.update({ batchId }, {
-      where: {
-        paymentRequestId: paymentRequest.paymentRequestId
-      },
-      transaction
-    })
-  }
+  const paymentRequestIds = paymentRequests.map(x => x.paymentRequestId)
+  await db.paymentRequest.update({ batchId }, {
+    where: {
+      paymentRequestId: {
+        [db.Sequelize.Op.in]: paymentRequestIds
+      }
+    },
+    transaction
+  })
+  await db.queue.update({ batchId }, {
+    where: {
+      paymentRequestId: {
+        [db.Sequelize.Op.in]: paymentRequests.map(x => x.paymentRequestId)
+      }
+    },
+    transaction
+  })
 }
 
 module.exports = allocateToBatches
