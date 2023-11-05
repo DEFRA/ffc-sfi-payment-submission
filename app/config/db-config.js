@@ -27,8 +27,7 @@ const dbConfig = {
   database: process.env.POSTGRES_DB || 'ffc_pay_submission',
   dialect: 'postgres',
   dialectOptions: {
-    ssl: isProd(),
-    statement_timeout: 360000
+    ssl: isProd()
   },
   hooks,
   host: process.env.POSTGRES_HOST || 'ffc-pay-submission-postgres',
