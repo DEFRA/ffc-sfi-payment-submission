@@ -129,4 +129,15 @@ describe('get ledger line for AR', () => {
     const result = getLedgerLineAR(invoiceLine, sfiPaymentRequest, lineId, source)
     expect(result[11]).toBe(NOT_APPLICABLE)
   })
+
+  test('should return original settlement date when present', () => {
+    sfiPaymentRequest.originalSettlementDate = '01/01/2023'
+    const result = getLedgerLineAR(invoiceLine, sfiPaymentRequest, lineId, source)
+    expect(result[5]).toBe(sfiPaymentRequest.originalSettlementDate)
+  })
+
+  test('should return due date when original settlement date not present', () => {
+    const result = getLedgerLineAR(invoiceLine, sfiPaymentRequest, lineId, source)
+    expect(result[5]).toBe(sfiPaymentRequest.dueDate)
+  })
 })

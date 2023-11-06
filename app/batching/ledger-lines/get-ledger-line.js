@@ -54,7 +54,7 @@ const getLedgerLineAR = (invoiceLine, paymentRequest, lineId, source) => {
     invoiceLine.accountCode,
     convertToPounds((invoiceLine.value * -1)),
     '',
-    paymentRequest.dueDate,
+    paymentRequest.originalSettlementDate ?? paymentRequest.dueDate,
     paymentRequest.recoveryDate,
     '',
     getLineId(paymentRequest.schemeId, lineId),
