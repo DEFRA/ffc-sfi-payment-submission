@@ -10,6 +10,7 @@ const { getBatchNumber } = require('./get-batch-number')
 const { getDueDate } = require('./get-due-date')
 const { getCurrency } = require('./get-currency')
 const { getSchedule } = require('./get-schedule')
+const { getLegacyIdentifier } = require('./get-legacy-identifier')
 const AGREEMENT_NUMBER_INDEX = 28
 
 const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
@@ -69,9 +70,9 @@ const getVendorLineAR = (paymentRequest, batch, lowestValueLine) => {
     paymentRequest.invoiceNumber,
     paymentRequest.invoiceNumber,
     'No',
+    getLegacyIdentifier(paymentRequest.schemeId, paymentRequest.frn),
     '',
-    '',
-    '',
+    getCurrency(paymentRequest.schemeId, ''),
     '',
     lowestValueLine.fundCode,
     lowestValueLine.schemeCode,
