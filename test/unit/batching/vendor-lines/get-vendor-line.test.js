@@ -310,9 +310,14 @@ describe('get AR vendor line', () => {
     expect(line[12]).toBe('No')
   })
 
-  test('should return item 14 as empty string', () => {
+  test('should return item 14 as empty string if not BPS', () => {
     const line = getVendorLineAR(paymentRequest, batch, lowestValueLine)
     expect(line[13]).toBe('')
+  })
+
+  test('should return item 14 as FRN if BPS', () => {
+    const line = getVendorLineAR(bpsPaymentRequest, batch, lowestValueLine)
+    expect(line[13]).toBe(bpsPaymentRequest.frn)
   })
 
   test('should return item 15 as empty string', () => {
@@ -320,9 +325,14 @@ describe('get AR vendor line', () => {
     expect(line[14]).toBe('')
   })
 
-  test('should return item 16 as empty string', () => {
+  test('should return item 16 as empty string if not BPS', () => {
     const line = getVendorLineAR(paymentRequest, batch, lowestValueLine)
     expect(line[15]).toBe('')
+  })
+
+  test('should return item 16 as EUR if BPS', () => {
+    const line = getVendorLineAR(bpsPaymentRequest, batch, lowestValueLine)
+    expect(line[15]).toBe(EUR)
   })
 
   test('should return item 17 as empty string', () => {
