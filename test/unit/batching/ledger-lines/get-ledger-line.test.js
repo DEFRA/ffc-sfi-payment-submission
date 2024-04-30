@@ -11,6 +11,7 @@ let csPaymentRequest
 let bpsPaymentRequest
 let fdmrPaymentRequest
 let sfi23PaymentRequest
+let delinkedPaymentRequest
 let lineId
 let source
 
@@ -24,6 +25,7 @@ beforeEach(() => {
   bpsPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/bps')))
   fdmrPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/fdmr')))
   sfi23PaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/sfi23')))
+  delinkedPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/delinked')))
 
   lineId = ''
   source = ''
@@ -85,6 +87,11 @@ describe('get ledger line for AP', () => {
 
   test('should not return substring of invoiceLine.description when schemeId is SFI23', () => {
     const result = getLedgerLineAP(invoiceLine, sfi23PaymentRequest, lineId, source)
+    expect(result[17]).toBe('G00 - Gross value of claim')
+  })
+
+  test('should not return substring of invoiceLine.description when schemeId is Delinked', () => {
+    const result = getLedgerLineAP(invoiceLine, delinkedPaymentRequest, lineId, source)
     expect(result[17]).toBe('G00 - Gross value of claim')
   })
 
