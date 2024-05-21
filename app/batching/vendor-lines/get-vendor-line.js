@@ -13,13 +13,13 @@ const { getSchedule } = require('./get-schedule')
 const { getLegacyIdentifier } = require('./get-legacy-identifier')
 const AGREEMENT_NUMBER_INDEX = 28
 
-const getVendorLineAP = (paymentRequest, batch, highestValueLine) => {
+const getVendorLineAP = (paymentRequest, batch, highestValueLine, hasDifferentFundCodes) => {
   const schedule = getSchedule(paymentRequest.schedule, paymentRequest.pillar)
   const line = [
     'Vendor',
     paymentRequest.frn,
     paymentRequest.claimDate ?? '',
-    highestValueLine.fundCode,
+    hasDifferentFundCodes ? 'XXXXX' : highestValueLine.fundCode,
     highestValueLine.schemeCode,
     paymentRequest.marketingYear ?? NOT_APPLICABLE,
     paymentRequest.deliveryBody,

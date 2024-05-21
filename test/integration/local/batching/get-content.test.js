@@ -3,8 +3,10 @@ const { SFI23, SFI } = require('../../../../app/constants/pillars')
 const { Q1 } = require('../../../../app/constants/schedules')
 
 const getContent = require('../../../../app/batching/get-content')
+const { CS, IMPS, ES, FC } = require('../../../../app/constants/schemes')
 
 const AGREEMENT_NUMBER_INDEX = 28
+const FUND_CODE_INDEX = 3
 
 let batch
 
@@ -515,6 +517,7 @@ describe('get content', () => {
         }
       },
       paymentRequests: [{
+        schemeId: SFI,
         frn: 1234567890,
         marketingYear: 2021,
         deliveryBody: 'RP00',
@@ -675,5 +678,43 @@ describe('get content', () => {
     batch.scheme.batchProperties.source = 'siti'
     const content = getContent(batch)
     expect(content.filter(x => x[0] === 'Ledger').every(x => x[AGREEMENT_NUMBER_INDEX] === '')).toBeTruthy()
+  })
+
+  test.each([
+    CS,
+    IMPS,
+    ES,
+    FC
+  ])('should have fund code as XXXXX on vendor line if multiple fund codes and scheme is CS, IMPS, ES, FC, and fund codes are different', (schemeId) => {
+    batch.paymentRequests[0].schemeId = schemeId
+    batch.paymentRequests[0].invoiceLines[0].fundCode = 'EXQ00'
+    const content = getContent(batch)
+    const vendor = content.find(x => x[0] === 'Vendor')
+    expect(vendor[FUND_CODE_INDEX]).toBe('XXXXX')
+  })
+
+  test.each([
+    CS,
+    IMPS,
+    ES,
+    FC
+  ])('should have fund code as not XXXXX on vendor line if multiple fund codes and scheme is CS, IMPS, ES, FC, and fund codes are all the same', (schemeId) => {
+    batch.paymentRequests[0].schemeId = schemeId
+    const content = getContent(batch)
+    const vendor = content.find(x => x[0] === 'Vendor')
+    expect(vendor[FUND_CODE_INDEX]).not.toBe('XXXXX')
+  })
+
+  test('should have fund code as not XXXXX on vendor line if scheme is not CS, IMPS, ES, FC, and fund codes are all the same', () => {
+    const content = getContent(batch)
+    const vendor = content.find(x => x[0] === 'Vendor')
+    expect(vendor[FUND_CODE_INDEX]).not.toBe('XXXXX')
+  })
+
+  test('should have fund code as not XXXXX on vendor line if scheme is not CS, IMPS, ES, FC, even if fund codes are different', () => {
+    batch.paymentRequests[0].invoiceLines[0].fundCode = 'EXQ00'
+    const content = getContent(batch)
+    const vendor = content.find(x => x[0] === 'Vendor')
+    expect(vendor[FUND_CODE_INDEX]).not.toBe('XXXXX')
   })
 })
