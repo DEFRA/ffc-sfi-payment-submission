@@ -1,4 +1,5 @@
 const { AP } = require('../constants/ledgers')
+const { IMPS, FC, ES, CS } = require('../constants/schemes')
 const { getLedgerLineAP, getLedgerLineAR } = require('./ledger-lines/get-ledger-line')
 const { getVendorLineAP, getVendorLineAR } = require('./vendor-lines/get-vendor-line')
 
@@ -13,8 +14,9 @@ const getContent = (batch) => {
 
 const getAPContent = (paymentRequest, batch) => {
   const highestValueLine = getHighestValueLine(paymentRequest.invoiceLines)
+  const hasDifferentFundCodes = checkForDifferentFundCodes(paymentRequest.schemeId, paymentRequest.invoiceLines)
   const rows = []
-  rows.push(getVendorLineAP(paymentRequest, batch, highestValueLine))
+  rows.push(getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes))
   for (const [lineId, invoiceLine] of paymentRequest.invoiceLines.entries()) {
     rows.push(getLedgerLineAP(invoiceLine, paymentRequest, lineId + 1, batch.scheme.batchProperties.source))
   }
@@ -37,6 +39,14 @@ const getHighestValueLine = (invoiceLines) => {
 
 const getLowestValueLine = (invoiceLines) => {
   return invoiceLines.reduce((prev, current) => (prev.value < current.value) ? prev : current)
+}
+
+const checkForDifferentFundCodes = (schemeId, invoiceLines) => {
+  if (![IMPS, FC, ES, CS].includes(schemeId)) {
+    return false
+  }
+  const firstFundCode = invoiceLines[0].fundCode
+  return !invoiceLines.every(line => line.fundCode === firstFundCode)
 }
 
 module.exports = getContent

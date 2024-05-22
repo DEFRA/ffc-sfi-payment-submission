@@ -10,6 +10,7 @@ let fdmrPaymentRequest
 let batch
 let highestValueLine
 let lowestValueLine
+let hasDifferentFundCodes
 
 beforeEach(() => {
   paymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/payment-request')))
@@ -32,204 +33,211 @@ beforeEach(() => {
     fundCode: '1234',
     schemeCode: '5678'
   }
+  hasDifferentFundCodes = false
 })
 
 describe('get AP vendor line', () => {
   test('should return an array of 30 elements if payment request has schedule', () => {
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line.length).toBe(30)
   })
 
   test('should return an array of 29 elements if payment request does not have schedule', () => {
     paymentRequest.schedule = null
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line.length).toBe(29)
   })
 
   test('should return item 1 as Vendor line', () => {
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[0]).toBe('Vendor')
   })
 
   test('should return item 2 as FRN', () => {
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[1]).toBe(paymentRequest.frn)
   })
 
   test('should return item 3 as empty string', () => {
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[2]).toBe('')
   })
 
-  test('should return item 4 as fund code', () => {
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+  test('should return item 4 as fund code if hasDifferentFundCodes is false', () => {
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[3]).toBe(highestValueLine.fundCode)
   })
 
+  test('should return item 4 as XXXXX if hasDifferentFundCodes is true', () => {
+    hasDifferentFundCodes = true
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
+    expect(line[3]).toBe('XXXXX')
+  })
+
   test('should return item 5 as scheme code', () => {
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[4]).toBe(highestValueLine.schemeCode)
   })
 
   test('should return item 6 as marketing year', () => {
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[5]).toBe(paymentRequest.marketingYear)
   })
 
   test('should return item 6 as not applicable if payment request does not have marketing year', () => {
     delete paymentRequest.marketingYear
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[5]).toBe(NOT_APPLICABLE)
   })
 
   test('should return item 7 as delivery body', () => {
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[6]).toBe(paymentRequest.deliveryBody)
   })
 
   test('should return item 8 as invoice number', () => {
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[7]).toBe(paymentRequest.invoiceNumber)
   })
 
   test('should return item 9 as inverted value in pounds', () => {
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[8]).toBe('-1.50')
   })
 
   test('should return item 10 as currency', () => {
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[9]).toBe(paymentRequest.currency)
   })
 
   test('should return item 11 as legacy', () => {
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[10]).toBe('legacy')
   })
 
   test('should return item 12 as empty string', () => {
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[11]).toBe('')
   })
 
   test('should return item 13 as contract number', () => {
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[12]).toBe(paymentRequest.contractNumber)
   })
 
   test('should return item 14 as 0 if not BPS or FDMR', () => {
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[13]).toBe(0)
   })
 
   test('should return item 14 as empty string if BPS', () => {
-    const line = getVendorLineAP(bpsPaymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(bpsPaymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[13]).toBe('')
   })
 
   test('should return item 14 as empty string if FDMR', () => {
-    const line = getVendorLineAP(fdmrPaymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(fdmrPaymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[13]).toBe('')
   })
 
   test('should return item 15 as empty string', () => {
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[14]).toBe('')
   })
 
   test('should return item 16 as 1 if not BPS or FDMR', () => {
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[15]).toBe(1)
   })
 
   test('should return item 16 as empty string if BPS', () => {
-    const line = getVendorLineAP(bpsPaymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(bpsPaymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[15]).toBe('')
   })
 
   test('should return item 16 as empty string if FDMR', () => {
-    const line = getVendorLineAP(fdmrPaymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(fdmrPaymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[15]).toBe('')
   })
 
   test('should return item 17 as empty string', () => {
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[16]).toBe('')
   })
 
   test('should return item 18 as empty string', () => {
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[17]).toBe('')
   })
 
   test('should return item 19 as empty string', () => {
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[18]).toBe('')
   })
 
   test('should return item 20 as BACS currency', () => {
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[19]).toBe('BACS_GBP')
   })
 
   test('should return item 21 as source', () => {
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[20]).toBe(batch.scheme.batchProperties.source)
   })
 
   test('should return item 22 as empty string', () => {
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[21]).toBe('')
   })
 
   test('should return item 23 as padded sequence', () => {
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[22]).toBe('0001')
   })
 
   test('should return item 24 as empty string', () => {
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[23]).toBe('')
   })
 
   test('should return item 25 as due date', () => {
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[24]).toBe(paymentRequest.dueDate)
   })
 
   test('should return item 26 as payment request currency if not BPS', () => {
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[25]).toBe(paymentRequest.currency)
   })
 
   test('should return item 26 as EUR if BPS', () => {
-    const line = getVendorLineAP(bpsPaymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(bpsPaymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[25]).toBe(EUR)
   })
 
   test('should return item 27 as empty string', () => {
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[26]).toBe('')
   })
 
   test('should return item 28 as empty string', () => {
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[27]).toBe('')
   })
 
   test('should return item 29 as schedule if schedule', () => {
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[28]).toBe(paymentRequest.schedule)
   })
 
   test('should return item 29 as END if no schedule', () => {
     paymentRequest.schedule = null
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[28]).toBe('END')
   })
 
   test('should return item 30 as END if schedule', () => {
-    const line = getVendorLineAP(paymentRequest, batch, highestValueLine)
+    const line = getVendorLineAP(paymentRequest, batch, highestValueLine, hasDifferentFundCodes)
     expect(line[29]).toBe('END')
   })
 })
