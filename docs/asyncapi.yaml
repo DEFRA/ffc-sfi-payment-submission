@@ -89,6 +89,9 @@ components:
           pillar:
             type: string
             description: Pillar of scheme for manual invoices
+          documentType:
+            type: string
+            description: Type of document to be created for manual invoices
           invoiceLines:
             type: array
             description: List of Invoice lines that make up request
