@@ -9,7 +9,7 @@
       <where>"schemeId" = 14</where>
     </update>
   </changeSet>
-  <changeSet author="Sam Plackett" id="2">
+  <changeSet author="Sam Plackett" id="3">
     <update tableName="batchProperties">
       <column name="suffix" value=" (SITI_ESFIO)" />
       <where>"schemeId" = 14</where>
