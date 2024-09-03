@@ -76,7 +76,7 @@ These configuration values should be set in the [docker-compose.yaml](docker-com
 Docker Compose can be used to build the container image.
 
 ```
-docker-compose build
+docker compose build
 ```
 
 The service will file watch application and test files so no need to rebuild the container unless a change to an npm package is made.
@@ -262,11 +262,11 @@ The service can be stopped in different ways:
 
 ### Bring the service down  
 ```
-docker-compose down
+docker compose down
 ```
 ### Bring the service down and clear its data  
 ```
-docker-compose down -v
+docker compose down -v
 ```
 
 ## How to test FFC Pay Submission
