@@ -30,7 +30,8 @@ const {
   ES,
   FC,
   IMPS,
-  SFI23
+  SFI23,
+  DP
 } = require('./pillars')
 
 module.exports = {
@@ -65,5 +66,6 @@ module.exports = {
   [ES]: 'NMAN_DA',
   [FC]: 'NMAN_DA',
   [IMPS]: 'NMAN_DA',
-  [SFI23]: 'PMAN_SFIA'
+  [SFI23]: 'PMAN_SFIA',
+  [DP]: 'PMAN_DP'
 }
