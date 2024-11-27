@@ -92,7 +92,7 @@ describe('get source', () => {
     { pillar: EA_PILLAR, expectedSource: EA_SOURCE },
     { pillar: RDTEXQ_PILLAR, expectedSource: RDTEXQ_SOURCE },
     { pillar: EXNRDPE_PILLAR, expectedSource: EXNRDPE_SOURCE },
-    { pillar: SFIP_PILLAR, expectedSource: SFIP_SOURCE },
+    { pillar: SFIP_PILLAR, expectedSource: SFIP_SOURCE }
   ])('should return mapped manual source when scheme is manual and pillar can be mapped', (testParams) => {
     const source = getSource(MANUAL, SOURCE, testParams.pillar)
     expect(source).toBe(testParams.expectedSource)
