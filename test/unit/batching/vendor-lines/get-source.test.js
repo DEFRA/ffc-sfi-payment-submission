@@ -21,7 +21,8 @@ const {
   P1: P1_PILLAR,
   EA: EA_PILLAR,
   RDTEXQ: RDTEXQ_PILLAR,
-  EXNRDPE: EXNRDPE_PILLAR
+  EXNRDPE: EXNRDPE_PILLAR,
+  SFIP: SFIP_PILLAR
 } = require('../../../../app/constants/pillars')
 
 const {
@@ -45,7 +46,8 @@ const {
   [P1_PILLAR]: P1_SOURCE,
   [EA_PILLAR]: EA_SOURCE,
   [RDTEXQ_PILLAR]: RDTEXQ_SOURCE,
-  [EXNRDPE_PILLAR]: EXNRDPE_SOURCE
+  [EXNRDPE_PILLAR]: EXNRDPE_SOURCE,
+  [SFIP_PILLAR]: SFIP_SOURCE
 } = require('../../../../app/constants/manual-sources')
 
 const { SFI, MANUAL } = require('../../../../app/constants/schemes')
@@ -89,7 +91,8 @@ describe('get source', () => {
     { pillar: P1_PILLAR, expectedSource: P1_SOURCE },
     { pillar: EA_PILLAR, expectedSource: EA_SOURCE },
     { pillar: RDTEXQ_PILLAR, expectedSource: RDTEXQ_SOURCE },
-    { pillar: EXNRDPE_PILLAR, expectedSource: EXNRDPE_SOURCE }
+    { pillar: EXNRDPE_PILLAR, expectedSource: EXNRDPE_SOURCE },
+    { pillar: SFIP_PILLAR, expectedSource: SFIP_SOURCE }
   ])('should return mapped manual source when scheme is manual and pillar can be mapped', (testParams) => {
     const source = getSource(MANUAL, SOURCE, testParams.pillar)
     expect(source).toBe(testParams.expectedSource)

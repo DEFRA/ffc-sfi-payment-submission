@@ -57,7 +57,7 @@ module.exports = {
   [RDTEXQ]: 'NMAN_RDT',
   [EXNRDPE]: 'NMAN_RDT',
   [SFI]: 'PMAN_SFI',
-  [SFIP]: 'NMAN_DA',
+  [SFIP]: 'PMAN_SFIP',
   [LSES]: 'NMAN_DA',
   [AHWR]: 'NMAN_DA',
   [CS]: 'NMAN_DA',
