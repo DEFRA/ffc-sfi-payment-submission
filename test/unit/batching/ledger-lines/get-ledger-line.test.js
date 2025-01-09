@@ -102,13 +102,8 @@ describe('get ledger line for AP', () => {
   })
 
   test('should return invoice line agreement number if exists when AP', () => {
-    const result = getLedgerLineAP(invoiceLine, bpsPaymentRequest, lineId, source)
-    expect(result[27]).toBe(invoiceLine.agreementNumber)
-  })
-
-  test('should return payment request agreement number if scheme is CS and when AP', () => {
     const result = getLedgerLineAP(invoiceLine, csPaymentRequest, lineId, source)
-    expect(result[27]).toBe(csPaymentRequest.agreementNumber)
+    expect(result[27]).toBe(invoiceLine.agreementNumber)
   })
 
   test('should return payment request agreement number if invoice line agreement number does not exist and when AP', () => {

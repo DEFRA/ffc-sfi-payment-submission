@@ -7,10 +7,6 @@ const { getAgreementReference } = require('../get-agreement-reference')
 const AGREEMENT_NUMBER_INDEX = 28
 
 const getLedgerLineAP = (invoiceLine, paymentRequest, lineId, source) => {
-  let agreementNumber = paymentRequest.agreementNumber
-  if (source !== 'SITICS' && invoiceLine.agreementNumber) {
-    agreementNumber = invoiceLine.agreementNumber
-  }
   const line = [
     'Ledger',
     invoiceLine.accountCode,
@@ -39,7 +35,7 @@ const getLedgerLineAP = (invoiceLine, paymentRequest, lineId, source) => {
     '',
     '',
     '',
-    getAgreementReference(source, agreementNumber),
+    getAgreementReference(source, invoiceLine.agreementNumber ?? paymentRequest.agreementNumber),
     '',
     'END'
   ]
