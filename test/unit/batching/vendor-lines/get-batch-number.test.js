@@ -1,4 +1,4 @@
-const { ES, SFI } = require('../../../../app/constants/schemes')
+const { ES, SFI, FC, IMPS } = require('../../../../app/constants/schemes')
 
 const { getBatchNumber } = require('../../../../app/batching/vendor-lines/get-batch-number')
 
@@ -26,5 +26,29 @@ describe('get batch number', () => {
   test('does not pad sequence number with leading zeros if sequence is 4 digits and scheme is not ES', () => {
     const sequence = 1000
     expect(getBatchNumber(SFI, sequence)).toBe('1000')
+  })
+
+  test('returns batch number from batch name for FC scheme', () => {
+    const sequence = 1
+    const batchName = 'FCAP_2023_001.dat'
+    expect(getBatchNumber(FC, sequence, batchName)).toBe('2023')
+  })
+
+  test('returns batch number from batch name for IMPS scheme', () => {
+    const sequence = 1
+    const batchName = 'FIN_IMPS_AP_123.INT'
+    expect(getBatchNumber(IMPS, sequence, batchName)).toBe('123')
+  })
+
+  test('returns padded sequence number if batch name does not match pattern for FC scheme', () => {
+    const sequence = 1
+    const batchName = 'INVALID_BATCH_NAME.dat'
+    expect(getBatchNumber(FC, sequence, batchName)).toBe('0001')
+  })
+
+  test('returns padded sequence number if batch name does not match pattern for IMPS scheme', () => {
+    const sequence = 1
+    const batchName = 'INVALID_BATCH_NAME.INT'
+    expect(getBatchNumber(IMPS, sequence, batchName)).toBe('0001')
   })
 })
