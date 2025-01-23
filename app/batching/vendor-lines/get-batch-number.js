@@ -14,7 +14,7 @@ const getBatchNumber = (schemeId, sequence, batchName) => {
     }
 
     const match = batchName.match(batchNamePattern)
-    if (match && match[1]) {
+    if (match?.[1]) {
       return match[1]
     }
   }
