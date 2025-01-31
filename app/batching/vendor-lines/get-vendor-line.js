@@ -38,7 +38,7 @@ const getVendorLineAP = (paymentRequest, batch, highestValueLine, hasDifferentFu
     `BACS_${paymentRequest.currency}`,
     getSource(paymentRequest.schemeId, batch.scheme.batchProperties.source, paymentRequest.pillar),
     paymentRequest.exchangeRate ?? '',
-    getBatchNumber(paymentRequest.schemeId, batch.sequence),
+    getBatchNumber(paymentRequest.schemeId, batch.sequence, paymentRequest.batch),
     paymentRequest.eventDate ?? '',
     getDueDate(paymentRequest.schemeId, paymentRequest.dueDate),
     getCurrency(paymentRequest.schemeId, paymentRequest.currency),
